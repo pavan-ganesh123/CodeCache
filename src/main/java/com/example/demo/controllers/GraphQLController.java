@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class GraphQLController {
     @QueryMapping
-    public String message(){
+    public String introduce(){
         return "This is GraphQl";
     }
 }
