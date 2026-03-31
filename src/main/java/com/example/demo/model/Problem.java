@@ -10,15 +10,17 @@ public class Problem {
 
     private String platformName;
     private String questionName;
-    private int questionId;
+    private Integer questionId;
     private String difficulty;
     private String link;
+    @Lob
     private String intuition;
+    @Lob
     private String code;
 
     public Problem(){}
 
-    public Problem(Long id,String platformName,String questionName,int questionID,String difficulty,String link,String intuition,String code){
+    public Problem(Long id,String platformName,String questionName,Integer questionID,String difficulty,String link,String intuition,String code){
         this.id=id;
         this.platformName=platformName;
         this.questionName=questionName;
@@ -41,7 +43,7 @@ public class Problem {
         return questionName;
     }
 
-    public int getQuestionId() {
+    public Integer getQuestionId() {
         return questionId;
     }
 
@@ -73,7 +75,7 @@ public class Problem {
         this.questionName = questionName;
     }
 
-    public void setQuestionId(int questionId) {
+    public void setQuestionId(Integer questionId) {
         this.questionId = questionId;
     }
 
