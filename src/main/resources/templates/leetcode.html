@@ -7,5 +7,36 @@
 </head>
 <body>
     <h1>LeetCode Questions</h1>
+    <div id="result"></div>
+    <button onclick="loadData()">Loading Leetcode</button>
+    <script>
+        function loadData(){
+            fetch('/graphql',{
+                method : 'POST',
+                headers : {
+                    'Content-Type': 'application/json',
+                },
+                body : JSON.stringify({
+                    query: `
+                        query{
+                            introduce
+                        }
+                    `
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Full Data",data);
+                if(data.data){
+                    document.getElementById("result").innerText = data.data.introduce;
+                }
+                else{
+                    document.getElementById("result").innerText = "Error Occured";
+                    console.error("GraphQL Error",data.errors);
+                }
+            })
+            .catch(err => console.error("Fetched Erorr",err));
+        }
+    </script>
 </body>
 </html>
