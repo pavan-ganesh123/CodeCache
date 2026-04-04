@@ -1,3 +1,25 @@
+type Problem{
+    id:ID
+    platformName: String
+    questionName: String
+    questionId: Int
+    difficulty: String
+    link: String
+    intuition: String
+    code: String
+}
 type Query {
-    introduce: String
+    getAllProblems: [Problem]
+}
+
+type Mutation{
+    addProblem(
+        platformName: String
+        questionName: String
+        questionId: Int
+        difficulty: String
+        link: String
+        intuition: String
+        code: String
+    ): Problem
 }
