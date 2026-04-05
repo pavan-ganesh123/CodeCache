@@ -21,6 +21,14 @@ public class ProblemService {
         return repo.findAll();
     }
 
+    public List<Problem> getLeetcode(){
+        return repo.findByPlatformName("Leetcode");
+    }
+
+    public List<Problem> getCodechef(){
+        return repo.findByPlatformName("Codechef");
+    }
+    
     public Problem getById(Long id){
         return repo.findById(id).orElse(null);
     }

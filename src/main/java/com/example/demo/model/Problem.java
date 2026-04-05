@@ -7,7 +7,7 @@ public class Problem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "platform_name")
     private String platformName;
     private String questionName;
     private Integer questionId;
