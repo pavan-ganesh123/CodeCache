@@ -19,6 +19,16 @@ public class GraphQLController {
         return service.getAll();
     }
 
+    @QueryMapping
+    public List<Problem> getLeetcode(){
+        return service.getLeetcode();
+    }
+
+    @QueryMapping
+    public List<Problem> getCodechef(){
+        return service.getCodechef();
+    }
+    
     @MutationMapping
     public Problem addProblem(@Argument String platformName,@Argument String questionName,@Argument Integer questionId,@Argument String difficulty, @Argument String link,@Argument String intuition,@Argument String code){
         Problem p = new Problem();

@@ -10,6 +10,10 @@ type Problem{
 }
 type Query {
     getAllProblems: [Problem]
+    getLeetcode: [Problem]
+    getCodechef: [Problem]
+    getCSES: [Problem]
+    getCodeforces: [Problem]
 }
 
 type Mutation{
