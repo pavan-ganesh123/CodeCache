@@ -28,7 +28,17 @@ public class GraphQLController {
     public List<Problem> getCodechef(){
         return service.getCodechef();
     }
-    
+
+    @QueryMapping
+    public List<Problem> getCSES(){
+        return service.getCSES();
+    }
+
+    @QueryMapping
+    public List<Problem> getCodeforces(){
+        return service.getCodeforces();
+    }
+
     @MutationMapping
     public Problem addProblem(@Argument String platformName,@Argument String questionName,@Argument Integer questionId,@Argument String difficulty, @Argument String link,@Argument String intuition,@Argument String code){
         Problem p = new Problem();
