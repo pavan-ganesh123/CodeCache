@@ -28,7 +28,14 @@ public class ProblemService {
     public List<Problem> getCodechef(){
         return repo.findByPlatformName("Codechef");
     }
-    
+
+    public List<Problem> getCSES(){
+        return repo.findByPlatformName("CSES");
+    }
+
+    public List<Problem> getCodeforces(){
+        return repo.findByPlatformName("Codeforces");
+    }
     public Problem getById(Long id){
         return repo.findById(id).orElse(null);
     }
