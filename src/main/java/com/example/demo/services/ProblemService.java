@@ -40,4 +40,11 @@ public class ProblemService {
         return repo.findById(id).orElse(null);
     }
     
+    public List<Problem> getByquestionName(String questionName){
+        return repo.findByquestionNameContainingIgnoreCase(questionName);
+    }
+
+    public List<Problem> search(String questionName, String platformName){
+        return repo.findByquestionNameContainingIgnoreCaseAndPlatformNameContainingIgnoreCase(questionName, platformName);
+    }
 }

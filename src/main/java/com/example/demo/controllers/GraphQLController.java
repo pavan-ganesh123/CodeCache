@@ -39,6 +39,16 @@ public class GraphQLController {
         return service.getCodeforces();
     }
 
+    @QueryMapping
+    public List<Problem> getByquestionName(@Argument String questionName){
+        return service.getByquestionName(questionName);
+    }
+
+    @QueryMapping
+    public List<Problem> searchProblems(@Argument String questionName, @Argument String platformName){
+        return service.search(questionName, platformName);
+    }
+
     @MutationMapping
     public Problem addProblem(@Argument String platformName,@Argument String questionName,@Argument Integer questionId,@Argument String difficulty, @Argument String link,@Argument String intuition,@Argument String code){
         Problem p = new Problem();

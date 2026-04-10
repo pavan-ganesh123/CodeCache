@@ -14,6 +14,8 @@ type Query {
     getCodechef: [Problem]
     getCSES: [Problem]
     getCodeforces: [Problem]
+    getByquestionName(questionName: String!): [Problem]
+    searchProblems(questionName: String, platformName: String): [Problem]
 }
 
 type Mutation{

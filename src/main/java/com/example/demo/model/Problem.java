@@ -9,6 +9,7 @@ public class Problem {
     private Long id;
     @Column(name = "platform_name")
     private String platformName;
+    @Column(name = "question_name")
     private String questionName;
     private Integer questionId;
     private String difficulty;
