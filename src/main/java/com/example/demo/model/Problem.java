@@ -17,7 +17,15 @@ public class Problem {
     @Lob
     private String intuition;
     @Lob
+    private String keyIdea;
+    @Lob
+    private String approach;
+    @Lob
+    private String mistakes;
+    @Lob
     private String code;
+    private String timeComplexity;
+    private String spaceComplexity;
 
     public Problem(){}
 
@@ -59,7 +67,26 @@ public class Problem {
     public String getIntuition() {
         return intuition;
     }
+    public String getKeyIdea() {
+        return keyIdea;
+    }
+    public String getApproach() {
+        return approach;
+    }
+    public String getMistakes() {
+        return mistakes;
+    }
 
+    public String getTimeComplexity() {
+        return timeComplexity;
+    }
+
+    public String getSpaceComplexity() {
+        
+        return spaceComplexity;
+    }
+    
+    
     public String getCode() {
         return code;
     }
@@ -75,7 +102,7 @@ public class Problem {
     public void setQuestionName(String questionName) {
         this.questionName = questionName;
     }
-
+    
     public void setQuestionId(Integer questionId) {
         this.questionId = questionId;
     }
@@ -83,7 +110,7 @@ public class Problem {
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
     }
-
+    
     public void setLink(String link) {
         this.link = link;
     }
@@ -94,6 +121,25 @@ public class Problem {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public void setKeyIdea(String keyIdea) {
+        this.keyIdea = keyIdea;
+    }
+    
+    public void setApproach(String approach) {
+        this.approach = approach;
+    }
+    
+    public void setMistakes(String mistakes) {
+        this.mistakes = mistakes;
+    }
+    
+    public void setTimeComplexity(String timeComplexity) {
+        this.timeComplexity = timeComplexity;
+    }
+    public void setSpaceComplexity(String spaceComplexity) {
+        this.spaceComplexity = spaceComplexity;
     }
     
 }
