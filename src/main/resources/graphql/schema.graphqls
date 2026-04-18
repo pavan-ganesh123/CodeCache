@@ -6,7 +6,12 @@ type Problem{
     difficulty: String
     link: String
     intuition: String
+    keyIdea: String
+    approach: String
+    mistakes: String
     code: String
+    timeComplexity: String
+    spaceComplexity: String
 }
 type Query {
     getAllProblems: [Problem]
@@ -26,6 +31,11 @@ type Mutation{
         difficulty: String
         link: String
         intuition: String
+        keyIdea: String
+        approach: String
+        mistakes: String
         code: String
+        timeComplexity: String
+        spaceComplexity: String
     ): Problem
 }

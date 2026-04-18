@@ -50,15 +50,20 @@ public class GraphQLController {
     }
 
     @MutationMapping
-    public Problem addProblem(@Argument String platformName,@Argument String questionName,@Argument Integer questionId,@Argument String difficulty, @Argument String link,@Argument String intuition,@Argument String code){
+    public Problem addProblem(@Argument String platformName,@Argument String questionName,@Argument Integer questionId,@Argument String difficulty, @Argument String link,@Argument String intuition,@Argument String keyIdea, @Argument String approach, @Argument String mistakes, @Argument String code, @Argument String timeComplexity, @Argument String spaceComplexity){
         Problem p = new Problem();
         p.setPlatformName(platformName);
         p.setQuestionName(questionName);
         p.setQuestionId(questionId);
         p.setDifficulty(difficulty);
         p.setIntuition(intuition);
+        p.setKeyIdea(keyIdea);
+        p.setApproach(approach);
+        p.setMistakes(mistakes);
         p.setCode(code);
         p.setLink(link);
+        p.setTimeComplexity(timeComplexity);
+        p.setSpaceComplexity(spaceComplexity);
         System.out.println("questionId = " + questionId);
         return service.save(p);
     }
