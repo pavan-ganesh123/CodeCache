@@ -144,3 +144,9 @@ public class LoginResponse {
         return accessToken;
     }
 }
+
+=============================================================
+
+Will be moving from sql to postgres 
+I want to use kafka for chat communication between present and we will use json objects 
+and we will use "Neon" as cloud database storage for free and try testing
