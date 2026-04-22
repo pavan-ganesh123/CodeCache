@@ -14,17 +14,19 @@ public class Problem {
     private Integer questionId;
     private String difficulty;
     private String link;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String intuition;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String keyIdea;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String approach;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String mistakes;
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String code;
+    @Column(columnDefinition = "TEXT")
     private String timeComplexity;
+    @Column(columnDefinition = "TEXT")
     private String spaceComplexity;
 
     public Problem(){}
