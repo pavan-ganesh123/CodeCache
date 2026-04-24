@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import org.springframework.graphql.data.method.annotation.*;
 import org.springframework.stereotype.Controller;
 
+import com.example.demo.dto.AuthResponse;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
 import com.example.demo.services.ProblemService;
@@ -81,5 +82,12 @@ public class GraphQLController {
         u.setPassword(password);
 
         return userservice.save(u);
+    }
+
+    @MutationMapping
+    public AuthResponse login(@Argument String email, @Argument String password){
+        String token= userservice.login(email, password);
+        
+        return new AuthResponse(token);
     }
 }
