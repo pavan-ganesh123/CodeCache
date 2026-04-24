@@ -22,6 +22,9 @@ type User{
     createdAt: String
 }
 
+type AuthResponse {
+    token: String
+}
 type Query {
     getAllProblems: [Problem]
     getLeetcode: [Problem]
@@ -55,4 +58,9 @@ extend type Mutation {
         email: String!
         password: String!
     ): User
+    
+    login(
+        email: String!
+        password: String!
+    ): AuthResponse
 }
