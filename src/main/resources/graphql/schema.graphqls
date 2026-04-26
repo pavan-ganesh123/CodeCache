@@ -22,6 +22,21 @@ type User{
     createdAt: String
 }
 
+enum FriendStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
+    BLOCKED
+}
+
+type Friend {
+    id: ID
+    user: User
+    friend: User
+    status: FriendStatus
+    createdAt: String
+}
+
 type AuthResponse {
     token: String
 }
@@ -63,4 +78,19 @@ extend type Mutation {
         email: String!
         password: String!
     ): AuthResponse
+}
+
+extend type Mutation {
+    sendFriendRequest(userId: ID!, friendId: ID!): Friend
+
+    acceptFriendRequest(requestId: ID!): Friend
+
+    blockUser(userId: ID!, targetUserId: ID!): Friend
+}
+
+extend type Query {
+    getCurrentUser: User
+    getFriends(userId: ID!): [Friend]
+    getAllUsers: [User]
+    getAllFriends(userId: ID!): [Friend]
 }

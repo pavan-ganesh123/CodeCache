@@ -26,6 +26,11 @@ public class GraphQLController {
     }
 
     @QueryMapping
+    public List<User> getAllUsers(){
+        return userservice.getAll();
+    }
+
+    @QueryMapping
     public List<Problem> getLeetcode(){
         return problemservice.getLeetcode();
     }

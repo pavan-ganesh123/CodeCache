@@ -11,13 +11,16 @@ public class JwtUtil {
     private static final SecretKey key = Keys.hmacShaKeyFor(
         "mysecretkeymysecretkeymysecretkey".getBytes()
     );
-
-    public static String generateToken(String email) {
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
-                .signWith(key)
-                .compact();
+    public static SecretKey getKey() {
+        return key;
+    }
+    public static String generateToken(Long userId, String email) {
+    return Jwts.builder()
+            .setSubject(email)
+            .claim("userId", userId)   
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + 3600000))
+            .signWith(key)
+            .compact();
     }
 }

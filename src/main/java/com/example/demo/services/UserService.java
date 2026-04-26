@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.management.RuntimeErrorException;
@@ -19,7 +20,9 @@ public class UserService {
     public User save(User p){
         return repo.save(p);
     }
-
+    public List<User> getAll(){
+        return repo.findAll();
+    }
     public String login(String email, String password) {
         System.out.println("LOGIN API HIT");
 
@@ -40,6 +43,6 @@ public class UserService {
 
         System.out.println("LOGIN SUCCESS");
 
-        return JwtUtil.generateToken(email);
+        return JwtUtil.generateToken(user.getId(),email);
     }
 }
