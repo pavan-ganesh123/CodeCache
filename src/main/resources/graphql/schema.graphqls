@@ -13,6 +13,33 @@ type Problem{
     timeComplexity: String
     spaceComplexity: String
 }
+
+type User{
+    id: ID!
+    userName: String!
+    email: String!
+    password: String!
+    createdAt: String
+}
+
+enum FriendStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
+    BLOCKED
+}
+
+type Friend {
+    id: ID
+    user: User
+    friend: User
+    status: FriendStatus
+    createdAt: String
+}
+
+type AuthResponse {
+    token: String
+}
 type Query {
     getAllProblems: [Problem]
     getLeetcode: [Problem]
@@ -38,4 +65,32 @@ type Mutation{
         timeComplexity: String
         spaceComplexity: String
     ): Problem
+}
+
+extend type Mutation {
+    addUser(
+        userName: String!
+        email: String!
+        password: String!
+    ): User
+    
+    login(
+        email: String!
+        password: String!
+    ): AuthResponse
+}
+
+extend type Mutation {
+    sendFriendRequest(userId: ID!, friendId: ID!): Friend
+
+    acceptFriendRequest(requestId: ID!): Friend
+
+    blockUser(userId: ID!, targetUserId: ID!): Friend
+}
+
+extend type Query {
+    getCurrentUser: User
+    getFriends(userId: ID!): [Friend]
+    getAllUsers: [User]
+    getAllFriends(userId: ID!): [Friend]
 }

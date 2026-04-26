@@ -3,8 +3,11 @@ package com.example.demo.controllers;
 import org.springframework.graphql.data.method.annotation.*;
 import org.springframework.stereotype.Controller;
 
+import com.example.demo.dto.AuthResponse;
 import com.example.demo.model.Problem;
+import com.example.demo.model.User;
 import com.example.demo.services.ProblemService;
+import com.example.demo.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -12,41 +15,49 @@ import java.util.List;
 @Controller
 public class GraphQLController {
     @Autowired
-    private ProblemService service;
+    private ProblemService problemservice;
+
+    @Autowired
+    private UserService userservice;
 
     @QueryMapping
     public List<Problem> getAllProblems(){
-        return service.getAll();
+        return problemservice.getAll();
+    }
+
+    @QueryMapping
+    public List<User> getAllUsers(){
+        return userservice.getAll();
     }
 
     @QueryMapping
     public List<Problem> getLeetcode(){
-        return service.getLeetcode();
+        return problemservice.getLeetcode();
     }
 
     @QueryMapping
     public List<Problem> getCodechef(){
-        return service.getCodechef();
+        return problemservice.getCodechef();
     }
 
     @QueryMapping
     public List<Problem> getCSES(){
-        return service.getCSES();
+        return problemservice.getCSES();
     }
 
     @QueryMapping
     public List<Problem> getCodeforces(){
-        return service.getCodeforces();
+        return problemservice.getCodeforces();
     }
 
     @QueryMapping
     public List<Problem> getByquestionName(@Argument String questionName){
-        return service.getByquestionName(questionName);
+        return problemservice.getByquestionName(questionName);
     }
 
     @QueryMapping
     public List<Problem> searchProblems(@Argument String questionName, @Argument String platformName){
-        return service.search(questionName, platformName);
+        return problemservice.search(questionName, platformName);
     }
 
     @MutationMapping
@@ -65,7 +76,23 @@ public class GraphQLController {
         p.setTimeComplexity(timeComplexity);
         p.setSpaceComplexity(spaceComplexity);
         System.out.println("questionId = " + questionId);
-        return service.save(p);
+        return problemservice.save(p);
     }
 
+    @MutationMapping
+    public User addUser(@Argument String userName, @Argument String email, @Argument String password){
+        User u = new User();
+        u.setUserName(userName);
+        u.setEmail(email);
+        u.setPassword(password);
+
+        return userservice.save(u);
+    }
+
+    @MutationMapping
+    public AuthResponse login(@Argument String email, @Argument String password){
+        String token= userservice.login(email, password);
+        
+        return new AuthResponse(token);
+    }
 }
