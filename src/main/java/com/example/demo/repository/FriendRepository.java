@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.demo.model.Friend;
 import com.example.demo.model.enums.FriendStatus;
@@ -23,4 +24,17 @@ public interface FriendRepository extends JpaRepository<Friend, Long>{
 
     @Query("SELECT f FROM Friend f WHERE f.user.id = :userId OR f.friend.id = :userId")
     List<Friend> findAllRelations(Long userId);
+
+    @Query("""
+    SELECT f
+    FROM Friend f
+    WHERE
+    (f.user.id = :userId AND f.friend.id = :targetUserId)
+    OR
+    (f.user.id = :targetUserId AND f.friend.id = :userId)
+    """)
+    Optional<Friend> findRelation(
+        @Param("userId") Long userId,
+        @Param("targetUserId") Long targetUserId
+    );
 }

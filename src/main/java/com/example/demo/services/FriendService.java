@@ -62,9 +62,9 @@ public class FriendService {
         }
 
         Optional<Friend> existing =
-            friendRepo.findByUserIdAndFriendIdOrUserIdAndFriendId(
-                userId, targetUserId,
-                targetUserId, userId
+            friendRepo.findRelation(
+                userId,
+                targetUserId
             );
 
         Friend relation;
@@ -81,6 +81,25 @@ public class FriendService {
         }
 
         relation.setStatus(FriendStatus.BLOCKED);
+
+        return friendRepo.save(relation);
+    }
+
+    public Friend unblockUser(Long userId, Long targetUserId) {
+
+        Friend relation = friendRepo.findRelation(
+                userId,
+                targetUserId
+            )
+            .orElseThrow(() ->
+                new RuntimeException("Relation not found")
+            );
+
+        if (relation.getStatus() != FriendStatus.BLOCKED) {
+            throw new RuntimeException("User is not blocked");
+        }
+
+        relation.setStatus(FriendStatus.ACCEPTED);
 
         return friendRepo.save(relation);
     }

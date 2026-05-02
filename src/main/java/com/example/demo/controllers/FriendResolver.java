@@ -31,6 +31,10 @@ public class FriendResolver {
         return friendService.blockUser(userId, targetUserId);
     }
 
+    @MutationMapping
+    public Friend unblockUser(@Argument Long userId, @Argument Long targetUserId){
+        return friendService.unblockUser(userId, targetUserId);
+    }
     @QueryMapping
     public List<Long> getFriends(@Argument Long userId) {
         return friendService.getFriendIds(userId);

@@ -86,6 +86,7 @@ extend type Mutation {
     acceptFriendRequest(requestId: ID!): Friend
 
     blockUser(userId: ID!, targetUserId: ID!): Friend
+    unblockUser(userId: ID!, targetUserId: ID!): Friend
 }
 
 extend type Query {
