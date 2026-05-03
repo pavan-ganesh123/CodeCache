@@ -1,0 +1,32 @@
+type Message {
+    id: ID
+    messageId: String
+    senderId: ID
+    receiverId: ID
+    content: String
+    replyToMessageId: String
+    starred: Boolean
+    expiresAt: String
+    deletedBySender: Boolean
+    deletedByReceiver: Boolean
+    createdAt: String
+    updatedAt: String
+}
+
+extend type Query {
+    messages(senderId: ID!, receiverId: ID!): [Message]
+}
+
+extend type Mutation {
+    saveMessage(
+        messageId: String!,
+        senderId: ID!,
+        receiverId: ID!,
+        content: String!,
+        replyToMessageId: String
+    ): Message
+
+    starMessage(messageId: String!): Message
+
+    unstarMessage(messageId: String!): Message
+}
