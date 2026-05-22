@@ -43,3 +43,7 @@ Ex: Finetuning BERT and sentimental analysis on twitter comments
 15) train() to train
 16) evaluate() to validate in test data which we didn't use for training
 17) we use classification_report() to get detailed metrics per class
+
+------------------------------------------------------------------------------------------------
+
+Codeforces- CP31 https://www.kaggle.com/datasets/ankit07chy/codeforces-d-questions
