@@ -6,12 +6,15 @@ import java.util.Optional;
 
 import javax.management.RuntimeErrorException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Friend;
+import com.example.demo.model.Problem;
 import com.example.demo.model.User;
 import com.example.demo.model.enums.FriendStatus;
 import com.example.demo.repository.FriendRepository;
+import com.example.demo.repository.UserProblemRepository;
 import com.example.demo.repository.UserRepository;
 
 @Service
@@ -19,6 +22,8 @@ public class FriendService {
     private final FriendRepository friendRepo;
     private final UserRepository userRepo;
 
+    @Autowired
+    private UserProblemRepository userProblemRepository;
     public FriendService(FriendRepository friendRepo, UserRepository userRepo){
         this.friendRepo=friendRepo;
         this.userRepo=userRepo;
@@ -121,5 +126,22 @@ public class FriendService {
 
     public List<Friend> getAllRelations(Long userId) {
         return friendRepo.findAllRelations(userId);
+    }
+
+        public boolean areUsersFriends(Long userId, Long targetUserId) {
+        return friendRepo.findRelation(userId, targetUserId)
+            .map(friend -> friend.getStatus() == FriendStatus.ACCEPTED)
+            .orElse(false);
+    }
+    public List<Problem> getFriendsSolvedProblems(Long userId) {
+        // Get all accepted friend IDs (bidirectional: user is either user_id or friend_id)
+        List<Long> friendIds = friendRepo.getAcceptedFriendIds(userId, FriendStatus.ACCEPTED);
+        
+        if (friendIds.isEmpty()) {
+            return List.of();
+        }
+        
+        // Get problems solved by those friend IDs
+        return userProblemRepository.findSolvedProblemsByFriendIds(friendIds);
     }
 }

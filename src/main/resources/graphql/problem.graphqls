@@ -1,0 +1,28 @@
+type UserProblem {
+  id: ID!
+  user: User!
+  problem: Problem!
+  solutionCode: String!
+  solvedAt: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+extend type Query {
+  getQuestion(problemId: ID!): Problem
+  
+  getMySolvedProblems(userId: ID!): [Problem!]!
+
+  getFriendsSolvedProblems(userId: ID!): [Problem!]!
+  getEveryoneSolvedProblems: [Problem!]!
+}
+
+
+extend type Mutation {
+    markProblemAsSolved(
+    userId: ID!,
+    problemId: ID!,
+    solutionCode: String,
+    timeTaken: Int
+  ): UserProblem!
+}

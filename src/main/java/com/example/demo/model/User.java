@@ -6,7 +6,10 @@ import java.time.Instant;
 @Entity
 @Table(name = "users")
 public class User {
-
+    public User(Long id) {
+        this.id = id;
+    }
+    public User() {}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
