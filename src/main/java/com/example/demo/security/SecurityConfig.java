@@ -24,10 +24,12 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/**").permitAll()
+                .requestMatchers("/api/problems/everyone/**").permitAll()
+                .requestMatchers("/api/auth/login").permitAll()
                 .requestMatchers("/graphql").permitAll()
                 .requestMatchers("/graphql/**").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
+                .requestMatchers("/api/problems/**").authenticated()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(

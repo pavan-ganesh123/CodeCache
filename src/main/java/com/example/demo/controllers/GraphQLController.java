@@ -17,6 +17,7 @@ import com.example.demo.dto.AuthResponse;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
 import com.example.demo.model.UserProblem;
+import com.example.demo.security.SecurityUtil;
 import com.example.demo.services.ProblemService;
 import com.example.demo.services.UserService;
 
@@ -29,6 +30,10 @@ import java.util.Map;
 public class GraphQLController {
     @Autowired
     private ProblemService problemservice;
+
+    @Autowired
+    private SecurityUtil securityUtil;
+
     @Autowired
     private UserService userservice;
 
@@ -118,22 +123,32 @@ public class GraphQLController {
     // ============ SPECIFIC ROUTES FIRST (before {problemId}) ============
     
     @GetMapping("/my/solved")
-    public List<Problem> getMySolvedProblems(@RequestParam Long userId) {
+    public List<Problem> getMySolvedProblems() {
+        Long userId = securityUtil.getCurrentUserId();
+        if (userId == null) {
+            throw new RuntimeException("User not authenticated");
+        }
         return problemservice.getMySolvedProblems(userId);
     }
 
     @GetMapping("/my/solved/count")
-    public long getMySolvedProblemCount(@RequestParam Long userId) {
+    public long getMySolvedProblemCount() {
+        Long userId = securityUtil.getCurrentUserId();
+        if (userId == null) {
+            throw new RuntimeException("User not authenticated");
+        }
         return problemservice.getMySolvedProblemCount(userId);
     }
 
     @PostMapping("/my/solve")
     public ResponseEntity<UserProblem> markProblemAsSolved(
-        @RequestParam Long userId,
         @RequestParam Long problemId,
         @RequestBody Map<String, Object> payload
     ) {
-        
+        Long userId = securityUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseEntity.status(401).body(null);
+        }
         try {
             String solutionCode = (String) payload.get("solutionCode");
             Integer timeTaken = payload.get("timeTaken") != null 
@@ -159,19 +174,30 @@ public class GraphQLController {
 
     @GetMapping("/check/solved")
     public boolean hasUserSolvedProblem(
-        @RequestParam Long userId,
         @RequestParam Long problemId
     ) {
+        Long userId = securityUtil.getCurrentUserId();
+        if (userId == null) {
+            throw new RuntimeException("User not authenticated");
+        }
         return problemservice.hasUserSolvedProblem(userId, problemId);
     }
 
     @GetMapping("/friends/solved")
-    public List<Problem> getFriendsSolvedProblems(@RequestParam Long userId) {
+    public List<Problem> getFriendsSolvedProblems() {
+        Long userId = securityUtil.getCurrentUserId();
+        if (userId == null) {
+            throw new RuntimeException("User not authenticated");
+        }
         return problemservice.getFriendsSolvedProblems(userId);
     }
 
     @GetMapping("/friends/solved/details")
-    public List<UserProblem> getFriendsSolvedProblemsWithDetails(@RequestParam Long userId) {
+    public List<UserProblem> getFriendsSolvedProblemsWithDetails() {
+        Long userId = securityUtil.getCurrentUserId();
+        if (userId == null) {
+            throw new RuntimeException("User not authenticated");
+        }
         return problemservice.getFriendsSolvedProblemsWithDetails(userId);
     }
 
