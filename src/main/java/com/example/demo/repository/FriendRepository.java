@@ -10,7 +10,9 @@ import org.springframework.data.repository.query.Param;
 import com.example.demo.model.Friend;
 import com.example.demo.model.enums.FriendStatus;
 
-public interface FriendRepository extends JpaRepository<Friend, Long>{
+public interface FriendRepository extends JpaRepository<Friend, Long> {
+    
+    // Existing methods (kept as-is)
     Optional<Friend> findByUserIdAndFriendId(Long userId, Long friendId);
 
     Optional<Friend> findByUserIdAndFriendIdOrUserIdAndFriendId(
@@ -26,15 +28,38 @@ public interface FriendRepository extends JpaRepository<Friend, Long>{
     List<Friend> findAllRelations(Long userId);
 
     @Query("""
-    SELECT f
-    FROM Friend f
-    WHERE
-    (f.user.id = :userId AND f.friend.id = :targetUserId)
-    OR
-    (f.user.id = :targetUserId AND f.friend.id = :userId)
-    """)
+        SELECT f
+        FROM Friend f
+        WHERE
+        (f.user.id = :userId AND f.friend.id = :targetUserId)
+        OR
+        (f.user.id = :targetUserId AND f.friend.id = :userId)
+        """)
     Optional<Friend> findRelation(
         @Param("userId") Long userId,
         @Param("targetUserId") Long targetUserId
+    );
+    
+    // New method: Get all accepted friend IDs for a user (bidirectional)
+    @Query("""
+        SELECT CASE WHEN f.user.id = :userId THEN f.friend.id ELSE f.user.id END
+        FROM Friend f
+        WHERE (f.user.id = :userId OR f.friend.id = :userId)
+        AND f.status = :status
+        """)
+    List<Long> getAcceptedFriendIds(
+        @Param("userId") Long userId,
+        @Param("status") FriendStatus status
+    );
+    
+    // New method: Find all accepted friend relations for a user (bidirectional)
+    @Query("""
+        SELECT f FROM Friend f
+        WHERE (f.user.id = :userId OR f.friend.id = :userId)
+        AND f.status = :status
+        """)
+    List<Friend> findAllAcceptedFriends(
+        @Param("userId") Long userId,
+        @Param("status") FriendStatus status
     );
 }
