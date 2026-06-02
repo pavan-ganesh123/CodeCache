@@ -25,11 +25,11 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/problems/everyone/**").permitAll()
-                .requestMatchers("/api/auth/login").permitAll()
                 .requestMatchers("/graphql").permitAll()
                 .requestMatchers("/graphql/**").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
                 .requestMatchers("/api/problems/**").authenticated()
+                .requestMatchers("/api/users/**").authenticated()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(

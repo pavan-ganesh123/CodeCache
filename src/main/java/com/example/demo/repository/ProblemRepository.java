@@ -20,5 +20,8 @@ public interface ProblemRepository extends JpaRepository<Problem,Long> {
 
     List<Problem> findByDifficultyOrderByDifficultyAsc(String difficulty);
 
+    boolean existsByQuestionNameIgnoreCase(String questionName);
+
+    Optional<Problem> findByQuestionNameIgnoreCase(String questionName);
 
 }

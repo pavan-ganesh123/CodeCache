@@ -32,7 +32,6 @@ public class JwtFilter extends OncePerRequestFilter {
         // SKIP JWT for /api/** routes
         String requestPath = request.getRequestURI();
         if (requestPath.startsWith("/api/problems/everyone") ||
-            requestPath.equals("/api/auth/login") || 
             requestPath.equals("/graphql") ||
             requestPath.startsWith("/graphql/")) {
             filterChain.doFilter(request, response);

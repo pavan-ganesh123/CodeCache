@@ -68,6 +68,13 @@ public class ProblemService {
 
     @Transactional
     public Problem saveProblem(Problem problem) {
+        String normalizedName = problem.getQuestionName().trim();
+        boolean exists = repo.existsByQuestionNameIgnoreCase(normalizedName);
+
+        if (exists) {
+            return repo.findByQuestionNameIgnoreCase(normalizedName).get();
+        }
+
         return repo.save(problem);
     }
 
@@ -156,6 +163,10 @@ public class ProblemService {
         return uprepo.save(userProblem);
     }
 
+    public long countFriends(Long userId){
+        List<Long> friendIds = frepo.getAcceptedFriendIds(userId, FriendStatus.ACCEPTED);
+        return friendIds.size();
+    }
     public List<Problem> getFriendsSolvedProblems(Long userId) {
         // Get all accepted friend IDs
         List<Long> friendIds = frepo.getAcceptedFriendIds(userId, FriendStatus.ACCEPTED);
@@ -185,5 +196,23 @@ public class ProblemService {
 
     public Optional<Problem> getProblemById(Long problemId) {
         return repo.findById(problemId);
+    }
+
+
+    public boolean checkWithProblemName(String questionName) {
+        String normalizedName = questionName.trim();
+        return repo.existsByQuestionNameIgnoreCase(normalizedName);
+    }
+
+    public List<UserProblem> getMyProblems(
+        Long userId,
+        String platform,
+        String difficulty
+    ) {
+        return uprepo.findUserProblems(
+                userId,
+                platform,
+                difficulty
+        );
     }
 }
