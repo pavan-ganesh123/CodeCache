@@ -109,4 +109,18 @@ public class PostService {
     public List<Post> getFeed() {
         return postRepository.findAllByOrderByCreatedAtDesc();
     }
+
+    public List<Post> getPostsByUser(Long userId) {
+
+        return postRepository
+                .findByUserIdOrderByCreatedAtDesc(userId);
+    }
+
+    public Post getPost(Long postId) {
+        return postRepository
+                .findById(postId)
+                .orElseThrow(
+                    () -> new RuntimeException("Post not found")
+                );
+    }
 }

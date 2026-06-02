@@ -68,4 +68,19 @@ public class PageController {
     public List<Post> getFeed() {
         return postService.getFeed();
     }
+
+    @GetMapping("/mine")
+    public List<Post> getMyPosts() {
+
+        Long userId = securityUtil.getCurrentUserId();
+
+        return postService.getPostsByUser(userId);
+    }
+
+    @GetMapping("/{postId}")
+    public Post getPost(
+            @PathVariable Long postId) {
+
+        return postService.getPost(postId);
+    }
 }
