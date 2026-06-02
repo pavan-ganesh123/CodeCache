@@ -1,28 +1,61 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dto.ProfileResponse;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.stereotype.Controller;
-import org.springframework.security.core.Authentication;
+import com.example.demo.security.SecurityUtil;
+import com.example.demo.services.ProblemService;
 
-@Controller
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
     private UserRepository userRepo;
 
-    @QueryMapping
-    public User getCurrentUser(Authentication auth) {
+    @Autowired
+    private ProblemService problemservice;
+    @Autowired
+    private SecurityUtil securityUtil;
+    
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileResponse> getProfile() {
 
-        if (auth == null) {
-            throw new RuntimeException("User not authenticated");
+        Long userId = securityUtil.getCurrentUserId();
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String email = auth.getName();
-        // System.out.println("AUTH NAME: " + auth.getName());
-        return userRepo.findByEmail(email)
+        User user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        ProfileResponse response =
+                new ProfileResponse(
+                        user.getId(),
+                        user.getUserName(),
+                        user.getEmail()
+                );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/countFriends")
+    public ResponseEntity<Long> getFriendNumber() {
+
+        Long userId = securityUtil.getCurrentUserId();
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(0L);
+        }
+
+        return ResponseEntity.ok(problemservice.countFriends(userId));
     }
 }
