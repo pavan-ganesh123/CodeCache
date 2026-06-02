@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import org.springframework.graphql.data.method.annotation.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -120,15 +121,33 @@ public class GraphQLController {
         return problemservice.saveProblem(problem);
     }
 
+    @GetMapping("/countFriends")
+    public ResponseEntity<Long> getFriendNumber() {
+
+        Long userId = securityUtil.getCurrentUserId();
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(0L);
+        }
+
+        return ResponseEntity.ok(problemservice.countFriends(userId));
+    }
     // ============ SPECIFIC ROUTES FIRST (before {problemId}) ============
     
-    @GetMapping("/my/solved")
-    public List<Problem> getMySolvedProblems() {
+    @GetMapping("/my/problems")
+    public List<UserProblem> getMyProblems(
+            @RequestParam(required = false) String platform,
+            @RequestParam(required = false) String difficulty
+    ) {
+
+        System.out.println("Hit Endpoint to get my problems------------------------");
         Long userId = securityUtil.getCurrentUserId();
-        if (userId == null) {
-            throw new RuntimeException("User not authenticated");
-        }
-        return problemservice.getMySolvedProblems(userId);
+
+        return problemservice.getMyProblems(
+                userId,
+                platform,
+                difficulty
+        );
     }
 
     @GetMapping("/my/solved/count")

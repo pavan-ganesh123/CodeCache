@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +31,7 @@ public class UserProblem {
     @JoinColumn(name = "problem_id", nullable = false)
     private Problem problem;
 
-
+    @Column(columnDefinition = "TEXT")
     private String solutionCode;
     
     private LocalDateTime solvedAt;
