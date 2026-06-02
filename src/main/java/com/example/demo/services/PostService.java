@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import com.example.demo.repository.PostLikeRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.security.SecurityUtil;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -48,6 +50,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    @Transactional
     public void likePost(Long postId) {
 
         Long userId = securityUtil.getCurrentUserId();
@@ -69,34 +72,46 @@ public class PostService {
         like.setUserId(userId);
         like.setLikedAt(LocalDateTime.now());
 
+        postRepository.incrementLikesCount(postId);
         postLikeRepository.save(like);
     }
 
+    @Transactional
     public void unlikePost(Long postId) {
-
         Long userId = securityUtil.getCurrentUserId();
+        if (userId == null) {
+            return;
+        }
 
-        postLikeRepository
-                .findByPostIdAndUserId(postId, userId)
-                .ifPresent(postLikeRepository::delete);
+        Optional<PostLike> likeOpt = postLikeRepository
+                .findByPostIdAndUserId(postId, userId);
+
+        if (likeOpt.isPresent()) {
+            postLikeRepository.delete(likeOpt.get());
+            postRepository.decrementLikesCount(postId);
+        }
     }
 
+    @Transactional
     public PostComment addComment(
             Long postId,
             String username,
             String text,
             Long userId) {
 
-        PostComment comment =
-                new PostComment();
-
+        PostComment comment = new PostComment();
         comment.setPostId(postId);
         comment.setUserId(userId);
         comment.setUsername(username);
         comment.setComment(text);
         comment.setCreatedAt(LocalDateTime.now());
 
-        return postCommentRepository.save(comment);
+        PostComment saved = postCommentRepository.save(comment);
+
+        // Increment comments count on the post
+        postRepository.incrementCommentsCount(postId);
+
+        return saved;
     }
 
     public List<PostComment> getComments(
