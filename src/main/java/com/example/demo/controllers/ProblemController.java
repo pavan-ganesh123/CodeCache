@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Problem;
 import com.example.demo.model.UserProblem;
 import com.example.demo.security.SecurityUtil;
+import com.example.demo.services.PostService;
 import com.example.demo.services.ProblemService;
 
 @RestController
@@ -28,14 +30,28 @@ public class ProblemController {
     private ProblemService problemservice;
     @Autowired
     private SecurityUtil securityUtil;
+    
+    @Autowired
+    private PostService postService;
 
     @GetMapping("")
     public List<Problem> getAllProblems(){
         return problemservice.getAll();
     }
     @PostMapping("")
-    public Problem createProblem(@RequestBody Problem problem) {
-        return problemservice.saveProblem(problem);
+    public ResponseEntity<Problem> createProblem(@RequestBody Problem problem, Authentication auth) {
+
+        Long userId = securityUtil.getCurrentUserId();
+        if(userId ==null){
+            return ResponseEntity.status(401).build();
+        }
+        Problem savedProb = problemservice.saveProblem(problem);
+        String userName = auth.getName();
+        postService.createProblemPost(
+                userId,
+                userName,
+                savedProb);
+        return ResponseEntity.ok(savedProb);
     }
     @GetMapping("/{problemId}")
     public ResponseEntity<Problem> getProblemById(@PathVariable Long problemId) {
