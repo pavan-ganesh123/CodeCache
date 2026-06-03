@@ -6,11 +6,14 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.security.SecurityUtil;
 import com.example.demo.services.ProblemService;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -58,4 +61,20 @@ public class UserController {
 
         return ResponseEntity.ok(problemservice.countFriends(userId));
     }
+
+
+    @GetMapping("/all")
+    public ResponseEntity<List<User>> getAllUsers() {
+        System.out.println("✓ getAllUsers API HIT!");
+        
+        List<User> users = userRepo.findAll();
+        System.out.println("✓ Returned " + (users != null ? users.size() : "null") + " users");
+        
+        if (users == null) {
+            return ResponseEntity.ok(java.util.Collections.emptyList());
+        }
+        
+        return ResponseEntity.ok(users);
+    }
+
 }
