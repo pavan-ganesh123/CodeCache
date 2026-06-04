@@ -70,6 +70,14 @@ public class GraphQLController {
 
     @MutationMapping
     public User addUser(@Argument String userName, @Argument String email, @Argument String password){
+        if (userName == null || !userName.matches("^[a-zA-Z0-9_-]+$")) {
+            throw new IllegalArgumentException(
+                "User name is invalid. It must contain only letters, numbers, '-' and '_'."
+            );
+        }
+        if (userservice.existsByUserName(userName)) {
+            throw new IllegalArgumentException("User name already exists: " + userName);
+        }
         User u = new User();
         u.setUserName(userName);
         u.setEmail(email);
