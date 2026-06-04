@@ -1,8 +1,10 @@
 package com.example.demo.services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.management.RuntimeErrorException;
 
@@ -110,10 +112,10 @@ public class FriendService {
     }
 
     public List<Long> getFriendIds(Long userId) {
+        Set<Long> ids = new HashSet<>();
         List<Friend> sent = friendRepo.findByUserIdAndStatus(userId, FriendStatus.ACCEPTED);
         List<Friend> received = friendRepo.findByFriendIdAndStatus(userId, FriendStatus.ACCEPTED);
 
-        List<Long> ids = new ArrayList<>();
         for(Friend f: sent){
             ids.add(f.getFriend().getId());
         }
@@ -121,14 +123,14 @@ public class FriendService {
         for(Friend f: received){
             ids.add(f.getUser().getId());
         }
-        return ids;
+        return new ArrayList<>(ids);
     }
 
     public List<Friend> getAllRelations(Long userId) {
         return friendRepo.findAllRelations(userId);
     }
 
-        public boolean areUsersFriends(Long userId, Long targetUserId) {
+    public boolean areUsersFriends(Long userId, Long targetUserId) {
         return friendRepo.findRelation(userId, targetUserId)
             .map(friend -> friend.getStatus() == FriendStatus.ACCEPTED)
             .orElse(false);

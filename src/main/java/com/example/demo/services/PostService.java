@@ -33,6 +33,9 @@ public class PostService {
     @Autowired
     private SecurityUtil securityUtil;
 
+    @Autowired
+    private FriendService friendService;
+
     public Post createProblemPost(
             Long userId,
             String username,
@@ -121,10 +124,6 @@ public class PostService {
                 .findByPostIdOrderByCreatedAtDesc(postId);
     }
 
-    public List<Post> getFeed() {
-        return postRepository.findAllByOrderByCreatedAtDesc();
-    }
-
     public List<Post> getPostsByUser(Long userId) {
 
         return postRepository
@@ -137,5 +136,15 @@ public class PostService {
                 .orElseThrow(
                     () -> new RuntimeException("Post not found")
                 );
+    }
+
+    public List<Post> getFeed(Long userId) {
+
+        List<Long> userIds = friendService.getFriendIds(userId);
+
+        // include my own posts
+        userIds.add(userId);
+
+        return postRepository.findByUserIdInOrderByCreatedAtDesc(userIds);
     }
 }
