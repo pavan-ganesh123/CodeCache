@@ -45,4 +45,9 @@ public class UserService {
 
         return JwtUtil.generateToken(user.getId(),email);
     }
+
+    public boolean existsByUserName(String userName) {
+        return repo.existsByUserName(userName);
+    }
+
 }
