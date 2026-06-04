@@ -2,7 +2,12 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 
+import com.example.demo.model.enums.PostVisibility;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,6 +45,10 @@ public class Post {
     private Integer commentsCount = 0;
 
     private LocalDateTime createdAt;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PostVisibility visibility=PostVisibility.FRIENDS;
     
     public Long getId() {
         return id;
@@ -111,6 +120,14 @@ public class Post {
 
     public void setCommentsCount(Integer commentsCount) {
         this.commentsCount = commentsCount;
+    }
+
+    public PostVisibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(PostVisibility visibility) {
+        this.visibility = visibility;
     }
 
     
