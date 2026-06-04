@@ -16,6 +16,7 @@ import com.example.demo.dto.CommentRequest;
 import com.example.demo.model.Post;
 import com.example.demo.model.PostComment;
 import com.example.demo.security.SecurityUtil;
+import com.example.demo.services.FeedService;
 import com.example.demo.services.PostService;
 
 @RestController
@@ -26,6 +27,9 @@ public class PageController {
 
     @Autowired
     private SecurityUtil securityUtil;
+
+    @Autowired
+    private FeedService feedService;
 
     @PostMapping("/{postId}/like")
     public void likePost(
@@ -68,7 +72,7 @@ public class PageController {
     public List<Post> getFeed() {
         Long userId =
                 securityUtil.getCurrentUserId();
-        return postService.getFeed(userId);
+        return feedService.getFeed(userId);
     }
 
     @GetMapping("/mine")

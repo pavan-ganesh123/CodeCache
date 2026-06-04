@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.CreateProblemRequest;
 import com.example.demo.model.Problem;
+import com.example.demo.model.User;
 import com.example.demo.model.UserProblem;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.security.SecurityUtil;
 import com.example.demo.services.PostService;
 import com.example.demo.services.ProblemService;
@@ -34,23 +37,30 @@ public class ProblemController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("")
     public List<Problem> getAllProblems(){
         return problemservice.getAll();
     }
     @PostMapping("")
-    public ResponseEntity<Problem> createProblem(@RequestBody Problem problem, Authentication auth) {
+    public ResponseEntity<Problem> createProblem(@RequestBody CreateProblemRequest request, Authentication auth) {
 
         Long userId = securityUtil.getCurrentUserId();
         if(userId ==null){
             return ResponseEntity.status(401).build();
         }
-        Problem savedProb = problemservice.saveProblem(problem);
-        String userName = auth.getName();
+        User user = userRepository.findById(userId)
+        .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Problem savedProb = problemservice.saveProblem(request.getProblem());
+        String userName = user.getUserName();
         postService.createProblemPost(
                 userId,
                 userName,
-                savedProb);
+                savedProb,
+                request.getVisibility());
         return ResponseEntity.ok(savedProb);
     }
     @GetMapping("/{problemId}")

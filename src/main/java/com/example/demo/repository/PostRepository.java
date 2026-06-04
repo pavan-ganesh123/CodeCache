@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Post;
+import com.example.demo.model.enums.PostVisibility;
 
 import java.util.List;
 
@@ -25,4 +26,23 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Modifying
     @Query("UPDATE Post p SET p.commentsCount = p.commentsCount + 1 WHERE p.id = :postId")
     void incrementCommentsCount(@Param("postId") Long postId);
+
+
+   @Query("""
+    SELECT p
+    FROM Post p
+    WHERE
+        p.visibility = :publicVisibility
+        OR (
+            p.visibility = :friendsVisibility
+            AND p.userId IN :friendIds
+        )
+        OR p.userId = :currentUserId
+    ORDER BY p.createdAt DESC
+    """)
+    List<Post> getFeed(
+            Long currentUserId,
+            List<Long> friendIds,
+            PostVisibility publicVisibility,
+            PostVisibility friendsVisibility);
 }

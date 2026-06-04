@@ -11,6 +11,7 @@ import com.example.demo.model.Post;
 import com.example.demo.model.PostComment;
 import com.example.demo.model.PostLike;
 import com.example.demo.model.Problem;
+import com.example.demo.model.enums.PostVisibility;
 import com.example.demo.repository.PostCommentRepository;
 import com.example.demo.repository.PostLikeRepository;
 import com.example.demo.repository.PostRepository;
@@ -39,7 +40,8 @@ public class PostService {
     public Post createProblemPost(
             Long userId,
             String username,
-            Problem problem) {
+            Problem problem,
+            PostVisibility visibility) {
 
         Post post = new Post();
 
@@ -49,6 +51,7 @@ public class PostService {
         post.setQuestionTitle(problem.getQuestionName());
         post.setDifficulty(problem.getDifficulty());
         post.setCreatedAt(LocalDateTime.now());
+        post.setVisibility(visibility);
 
         return postRepository.save(post);
     }
