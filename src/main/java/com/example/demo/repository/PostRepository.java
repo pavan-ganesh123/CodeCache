@@ -12,7 +12,8 @@ import org.springframework.data.repository.query.Param;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByOrderByCreatedAtDesc();
     List<Post> findByUserIdOrderByCreatedAtDesc(Long userId);
-
+    List<Post> findByUserIdInOrderByCreatedAtDesc(List<Long> userIds);
+    
     @Modifying
     @Query("UPDATE Post p SET p.likesCount = p.likesCount + 1 WHERE p.id = :postId")
     void incrementLikesCount(@Param("postId") Long postId);
