@@ -15,6 +15,7 @@ import com.example.demo.model.enums.PostVisibility;
 import com.example.demo.repository.PostCommentRepository;
 import com.example.demo.repository.PostLikeRepository;
 import com.example.demo.repository.PostRepository;
+import com.example.demo.repository.UserProblemRepository;
 import com.example.demo.security.SecurityUtil;
 
 import jakarta.transaction.Transactional;
@@ -35,14 +36,19 @@ public class PostService {
     private SecurityUtil securityUtil;
 
     @Autowired
-    private FriendService friendService;
+    private FriendService friendService;    
 
+    @Autowired
+    private UserProblemRepository upRepo;
     public Post createProblemPost(
             Long userId,
             String username,
             Problem problem,
             PostVisibility visibility) {
 
+        if (upRepo.existsByUserIdAndProblemId(userId, problem.getId())) {
+            throw new RuntimeException("Problem already solved by this user");
+        }
         Post post = new Post();
 
         post.setUserId(userId);

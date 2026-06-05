@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.CommentRequest;
 import com.example.demo.model.Post;
 import com.example.demo.model.PostComment;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.security.SecurityUtil;
 import com.example.demo.services.FeedService;
 import com.example.demo.services.PostService;
@@ -30,6 +32,9 @@ public class PageController {
 
     @Autowired
     private FeedService feedService;
+
+    @Autowired
+    private UserRepository userRepo;
 
     @PostMapping("/{postId}/like")
     public void likePost(
@@ -53,10 +58,12 @@ public class PageController {
 
         Long userId =
                 securityUtil.getCurrentUserId();
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         return postService.addComment(
                 postId,
-                authentication.getName(),
+                user.getUserName(),
                 request.getComment(),
                 userId);
     }
