@@ -5,11 +5,17 @@ public class ProfileResponse {
     private Long id;
     private String userName;
     private String email;
-
-    public ProfileResponse(Long id, String userName, String email) {
+    private String profilePicture;
+    
+    public ProfileResponse(Long id, String userName, String email, String profilePicture) {
         this.id = id;
         this.userName = userName;
         this.email = email;
+        this.profilePicture = profilePicture;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
     }
 
     public Long getId() {
