@@ -28,6 +28,9 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
+    @Column(columnDefinition = "TEXT")
+    private String profilePicture;
+    
     @PrePersist
     protected void onCreate() {
         createdAt = Instant.now();
@@ -71,6 +74,12 @@ public class User {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     
