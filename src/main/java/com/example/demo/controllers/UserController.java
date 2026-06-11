@@ -5,6 +5,7 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.SecurityUtil;
 import com.example.demo.services.ProblemService;
+import com.example.demo.services.UserService;
 
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,9 @@ public class UserController {
     @Autowired
     private SecurityUtil securityUtil;
     
+    @Autowired
+    private UserService uservice;
+
     @GetMapping("/profile")
     public ResponseEntity<ProfileResponse> getProfile() {
 
@@ -57,6 +61,16 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<User>> searchUsers(
+        @RequestParam String query,
+        @RequestHeader("Authorization") String token) {
+        
+        // Exclude current user and already-friends/pending users
+        Long userId = securityUtil.getCurrentUserId();
+        List<User> users = uservice.searchUsersByUsername(query,userId);
+        return ResponseEntity.ok(users);
+    }
     @GetMapping("/countFriends")
     public ResponseEntity<Long> getFriendNumber() {
 

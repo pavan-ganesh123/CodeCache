@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -62,4 +63,12 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
         @Param("userId") Long userId,
         @Param("status") FriendStatus status
     );
+
+    @Query("SELECT DISTINCT " +
+           "CASE WHEN f.user.id = :userId THEN f.friend.id " +
+           "ELSE f.user.id END " +
+           "FROM Friend f " +
+           "WHERE (f.user.id = :userId OR f.friend.id = :userId) " +
+           "AND (f.status = 'ACCEPTED' OR f.status = 'PENDING')")
+    Set<Long> getExcludedFriendIds(@Param("userId") Long userId);
 }
