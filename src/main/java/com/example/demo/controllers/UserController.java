@@ -5,6 +5,7 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.SecurityUtil;
 import com.example.demo.services.ProblemService;
+import com.example.demo.services.UserService;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,21 @@ public class UserController {
     @Autowired
     private SecurityUtil securityUtil;
     
+    @Autowired
+    private UserService uservice;
+    
+    @GetMapping("/me")
+    public User getCurrentUser(Authentication auth) {
+
+        if (auth == null) {
+            throw new RuntimeException("User not authenticated");
+        }
+
+        String email = auth.getName();
+        // System.out.println("AUTH NAME: " + auth.getName());
+        return userRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
     @GetMapping("/profile")
     public ResponseEntity<ProfileResponse> getProfile() {
 
@@ -57,6 +74,16 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<User>> searchUsers(
+        @RequestParam String query,
+        @RequestHeader("Authorization") String token) {
+        
+        // Exclude current user and already-friends/pending users
+        Long userId = securityUtil.getCurrentUserId();
+        List<User> users = uservice.searchUsersByUsername(query,userId);
+        return ResponseEntity.ok(users);
+    }
     @GetMapping("/countFriends")
     public ResponseEntity<Long> getFriendNumber() {
 

@@ -64,7 +64,6 @@ public class GraphQLController {
         p.setLink(link);
         p.setTimeComplexity(timeComplexity);
         p.setSpaceComplexity(spaceComplexity);
-        System.out.println("questionId = " + questionId);
         return problemservice.save(p);
     }
 

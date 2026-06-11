@@ -1,14 +1,20 @@
 package com.example.demo.services;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.Friend;
 import com.example.demo.model.User;
+import com.example.demo.model.enums.FriendStatus;
+import com.example.demo.repository.FriendRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtUtil;
 
@@ -16,7 +22,10 @@ import com.example.demo.security.JwtUtil;
 public class UserService {
     @Autowired
     private UserRepository repo;
-    
+
+    @Autowired
+    private FriendRepository fRepo;
+
     public User save(User p){
         return repo.save(p);
     }
@@ -50,4 +59,18 @@ public class UserService {
         return repo.existsByUserName(userName);
     }
 
+    public List<User> searchUsersByUsername(String query, Long currentUserId) {
+        // Get all users matching username
+        List<User> matchingUsers = repo.findByUserNameContaining(query);
+        
+        // Get all friend relations for current user
+        Set<Long> excludedIds = fRepo.getExcludedFriendIds(currentUserId);
+    excludedIds.add(currentUserId);
+        
+        
+        // Filter out excluded users
+        return matchingUsers.stream()
+            .filter(user -> !excludedIds.contains(user.getId()))
+            .collect(Collectors.toList());
+    }
 }

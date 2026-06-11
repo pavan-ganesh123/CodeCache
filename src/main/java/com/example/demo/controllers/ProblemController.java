@@ -98,7 +98,6 @@ public class ProblemController {
             @RequestParam(required = false) String difficulty
     ) {
 
-        System.out.println("Hit Endpoint to get my problems------------------------");
         Long userId = securityUtil.getCurrentUserId();
 
         return problemservice.getMyProblems(
@@ -132,17 +131,9 @@ public class ProblemController {
                 ? Integer.valueOf(payload.get("timeTaken").toString()) 
                 : null;
             
-            System.out.println("=== MARK SOLVED CALLED ===");
-            System.out.println("userId: " + userId);
-            System.out.println("problemId: " + problemId);
-            System.out.println("solutionCode: " + solutionCode);
-            System.out.println("timeTaken: " + timeTaken);
             UserProblem userProblem = problemservice.markProblemAsSolved(userId, problemId, solutionCode, timeTaken);
             return ResponseEntity.ok(userProblem);
         } catch (RuntimeException e) {
-            System.out.println("=== ERROR IN MARK SOLVED ===");
-            System.out.println("ERROR MESSAGE: " + e.getMessage());
-            System.out.println("ERROR CLASS: " + e.getClass().getName());
             e.printStackTrace();
 
             return ResponseEntity.badRequest().build();
