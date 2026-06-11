@@ -13,6 +13,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,19 @@ public class UserController {
     
     @Autowired
     private UserService uservice;
+    
+    @GetMapping("/me")
+    public User getCurrentUser(Authentication auth) {
 
+        if (auth == null) {
+            throw new RuntimeException("User not authenticated");
+        }
+
+        String email = auth.getName();
+        // System.out.println("AUTH NAME: " + auth.getName());
+        return userRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
     @GetMapping("/profile")
     public ResponseEntity<ProfileResponse> getProfile() {
 

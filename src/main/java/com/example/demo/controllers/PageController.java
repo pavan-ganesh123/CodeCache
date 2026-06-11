@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.CommentRequest;
+import com.example.demo.dto.FeedPostDTO;
 import com.example.demo.model.Post;
 import com.example.demo.model.PostComment;
 import com.example.demo.model.User;
@@ -76,7 +77,7 @@ public class PageController {
     }
 
     @GetMapping("/feed")
-    public List<Post> getFeed() {
+    public List<FeedPostDTO> getFeed() {
         Long userId =
                 securityUtil.getCurrentUserId();
         return feedService.getFeed(userId);
