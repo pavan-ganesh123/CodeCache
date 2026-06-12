@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dto.FriendsChatDTO;
 import com.example.demo.model.Friend;
 import com.example.demo.services.FriendService;
 import org.springframework.graphql.data.method.annotation.*;
@@ -41,7 +42,7 @@ public class FriendResolver {
     }
 
     @QueryMapping
-    public List<Friend> getAllFriends(@Argument Long userId) {
+    public List<FriendsChatDTO> getAllFriends(@Argument Long userId) {
         return friendService.getAllRelations(userId);
     }
 }

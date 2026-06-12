@@ -11,6 +11,7 @@ import javax.management.RuntimeErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.FriendsChatDTO;
 import com.example.demo.model.Friend;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
@@ -113,6 +114,7 @@ public class FriendService {
 
     public List<Long> getFriendIds(Long userId) {
         Set<Long> ids = new HashSet<>();
+        
         List<Friend> sent = friendRepo.findByUserIdAndStatus(userId, FriendStatus.ACCEPTED);
         List<Friend> received = friendRepo.findByFriendIdAndStatus(userId, FriendStatus.ACCEPTED);
 
@@ -126,8 +128,11 @@ public class FriendService {
         return new ArrayList<>(ids);
     }
 
-    public List<Friend> getAllRelations(Long userId) {
-        return friendRepo.findAllRelations(userId);
+    public List<FriendsChatDTO> getAllRelations(Long userId) {
+        List<Friend> friends= friendRepo.findAllRelations(userId);
+        return friends.stream()
+                .map(f -> tofriendDTO(f,userId))
+                .toList();
     }
 
     public boolean areUsersFriends(Long userId, Long targetUserId) {
@@ -145,5 +150,22 @@ public class FriendService {
         
         // Get problems solved by those friend IDs
         return userProblemRepository.findSolvedProblemsByFriendIds(friendIds);
+    }
+
+    public FriendsChatDTO tofriendDTO(Friend f, Long userId){
+        FriendsChatDTO fDTO  = new FriendsChatDTO();
+        fDTO.setId(f.getId());
+        fDTO.setStatus(f.getStatus());
+        if(f.getUser().getId() == userId){
+            fDTO.setUser(f.getUser());
+            fDTO.setFriend(f.getFriend());
+            fDTO.setProfileImage(f.getFriend().getProfilePicture());
+        }
+        else {
+            fDTO.setFriend(f.getUser());
+            fDTO.setUser(f.getFriend());
+            fDTO.setProfileImage(f.getUser().getProfilePicture());
+        }
+        return fDTO;
     }
 }
