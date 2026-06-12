@@ -7,12 +7,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
 import com.example.demo.model.UserProblem;
+import com.example.demo.model.UserStats;
+import com.example.demo.model.UserSubmission;
 import com.example.demo.model.enums.FriendStatus;
 import com.example.demo.repository.FriendRepository;
 import com.example.demo.repository.ProblemRepository;
 import com.example.demo.repository.UserProblemRepository;
+import com.example.demo.repository.UserStatsRepository;
+import com.example.demo.repository.UserSubmissionRepository;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,6 +34,12 @@ public class ProblemService {
 
     @Autowired
     private FriendRepository frepo;
+
+    @Autowired
+    private UserSubmissionRepository submissionRepo;
+
+    @Autowired
+    private UserStatsRepository statsRepository;
 
     public Problem save(Problem p){
         return repo.save(p);
@@ -159,10 +172,61 @@ public class ProblemService {
         userProblem.setSolvedAt(java.time.LocalDateTime.now());
         userProblem.setCreatedAt(java.time.LocalDateTime.now());
         userProblem.setUpdatedAt(java.time.LocalDateTime.now());
-        
+        trackSubmission(userId, 1);
         return uprepo.save(userProblem);
     }
 
+    public void trackSubmission(Long userId, int questionCnt){
+        LocalDate today = LocalDate.now();
+
+        UserSubmission subm = submissionRepo.findByUserIdAndSubmissionDate(userId, today);
+        if (subm == null){
+            subm = new UserSubmission();
+            subm.setUserId(userId);
+            subm.setSubmissionDate(today);
+            subm.setQuestionCount(questionCnt);
+        } else{
+            subm.setQuestionCount(subm.getQuestionCount() + questionCnt);
+        }
+
+        submissionRepo.save(subm);
+
+        UserStats st = statsRepository.findByUserId(userId);
+
+        if(st == null){
+            st =new UserStats();
+            st.setUserId(userId);
+        }
+        LocalDate yesterday = today.minusDays(1);
+        UserSubmission yesterdaySubmission = submissionRepo.findByUserIdAndSubmissionDate(userId, yesterday);
+
+        if(yesterdaySubmission != null){
+            st.setCurrentStreak(st.getCurrentStreak() + 1);
+        } else {
+            st.setCurrentStreak(1);
+        }
+
+        if (st.getCurrentStreak() > st.getLongestStreak()) {
+            st.setLongestStreak(st.getCurrentStreak());
+        }
+
+        st.setTotalPoints(st.getTotalPoints() + questionCnt * 5);
+        st.setLastSubmissionDate(today);
+        statsRepository.save(st);
+    }
+
+    public Map<String, Integer> getYearlySubmissions(Long userID) {
+         LocalDate start = LocalDate.now().minusYears(1);
+         LocalDate end = LocalDate.now();
+
+         List<UserSubmission> submissions = submissionRepo.findByUserIdAndSubmissionDateBetween(userID, start, end);
+         Map<String, Integer> dailySubmissions = new HashMap<>();
+         for(UserSubmission s : submissions){
+            String dateKey = s.getSubmissionDate().toString();
+            dailySubmissions.put(dateKey, s.getQuestionCount());
+         }
+         return dailySubmissions;
+    }
     public long countFriends(Long userId){
         List<Long> friendIds = frepo.getAcceptedFriendIds(userId, FriendStatus.ACCEPTED);
         return friendIds.size();

@@ -35,6 +35,7 @@ type Friend {
     friend: User
     status: FriendStatus
     createdAt: String
+    profileImage: String
 }
 
 type AuthResponse {
