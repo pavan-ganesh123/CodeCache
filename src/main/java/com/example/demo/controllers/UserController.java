@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.dto.ProfileResponse;
 import com.example.demo.model.User;
+import com.example.demo.model.UserStats;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.SecurityUtil;
 import com.example.demo.services.ProblemService;
@@ -170,4 +171,18 @@ public class UserController {
                     .body("Failed to fetch profile picture");
         }
     }
+
+    @GetMapping("my-stats")
+    public ResponseEntity<UserStats> getUserStats() {
+        Long userId = securityUtil.getCurrentUserId();
+        return ResponseEntity.ok(uservice.getUserStats(userId)); 
+    }
+
+    @GetMapping("/my-yearly-submissions")
+    public ResponseEntity<Map<String, Integer>> getYearlySubmissions() {
+        Long userId = securityUtil.getCurrentUserId();
+        return ResponseEntity.ok(problemservice.getYearlySubmissions(userId));
+    }
+    
+    
 }
