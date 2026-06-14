@@ -21,19 +21,27 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
         FROM Message m
         WHERE
         (
-            (m.senderId = :senderId AND m.receiverId = :receiverId)
+            (m.senderId = :currentUserId AND m.receiverId = :otherUserId)
             OR
-            (m.senderId = :receiverId AND m.receiverId = :senderId)
+            (m.senderId = :otherUserId AND m.receiverId = :currentUserId)
         )
         AND
         (
             m.expiresAt IS NULL
             OR m.expiresAt > CURRENT_TIMESTAMP
         )
-        ORDER BY m.createdAt ASC
-    """)
-    List<Message> getConversation(@Param("senderId") Long senderId,@Param("receiverId") Long receiverId);
-
+        AND
+        (
+            (m.senderId = :currentUserId AND m.deletedBySender = false)
+            OR
+            (m.receiverId = :currentUserId AND m.deletedByReceiver = false)
+        )
+        ORDER BY m.createdAt
+        """)
+        List<Message> getConversation(
+            @Param("currentUserId") Long currentUserId,
+            @Param("otherUserId") Long otherUserId
+        );
     @Modifying
     @Transactional
     @Query("""

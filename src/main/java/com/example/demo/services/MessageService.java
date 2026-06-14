@@ -181,4 +181,23 @@ public class MessageService {
                         + LocalDateTime.now()
         );
     }
+
+    public Message deleteForEveryone(
+        String messageId
+        ) {
+
+        Message message =
+                repository.findByMessageId(messageId)
+                .orElseThrow(
+                        () -> new RuntimeException("Not found")
+                );
+
+        message.setDeletedForEveryone(true);
+
+        message.setUpdatedAt(
+                LocalDateTime.now()
+        );
+
+        return repository.save(message);
+        }
 }

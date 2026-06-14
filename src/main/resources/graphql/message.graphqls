@@ -9,6 +9,7 @@ type Message {
     expiresAt: String
     deletedBySender: Boolean
     deletedByReceiver: Boolean
+    deletedForEveryone: Boolean
     createdAt: String
     updatedAt: String
 }
@@ -29,4 +30,12 @@ extend type Mutation {
     starMessage(messageId: String!): Message
 
     unstarMessage(messageId: String!): Message
+}
+
+extend type Mutation {
+
+    deleteForEveryone(
+        messageId: String!
+    ): Message
+
 }
