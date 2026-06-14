@@ -38,6 +38,8 @@ public class Message {
 
     @Column(name = "deleted_by_receiver", nullable = false)
     private boolean deletedByReceiver = false;
+    @Column(name = "deleted_for_everyone", nullable = false)
+    private boolean deletedForEveryone = false;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -71,6 +73,14 @@ public class Message {
 
     public Long getReceiverId() {
         return receiverId;
+    }
+
+    public boolean isDeletedForEveryone() {
+        return deletedForEveryone;
+    }
+
+    public void setDeletedForEveryone(boolean deletedForEveryone) {
+        this.deletedForEveryone = deletedForEveryone;
     }
 
     public void setReceiverId(Long receiverId) {

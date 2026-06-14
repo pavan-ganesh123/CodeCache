@@ -72,4 +72,12 @@ public class MessageResolver {
     ) {
         return service.unstarMessage(messageId);
     }
+    @MutationMapping
+    public Message deleteForEveryone(
+            @Argument String messageId
+    ) {
+
+        return service
+                .deleteForEveryone(messageId);
+    }
 }
