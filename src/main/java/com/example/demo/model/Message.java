@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,7 +33,7 @@ public class Message {
     private boolean starred = false;
 
     @Column(name = "expires_at")
-    private LocalDateTime expiresAt;
+    private Instant expiresAt;
 
     @Column(name = "deleted_by_sender", nullable = false)
     private boolean deletedBySender = false;
@@ -111,11 +113,11 @@ public class Message {
         this.starred = starred;
     }
 
-    public LocalDateTime getExpiresAt() {
+    public Instant getExpiresAt() {
         return expiresAt;
     }
 
-    public void setExpiresAt(LocalDateTime expiresAt) {
+    public void setExpiresAt(Instant expiresAt) {
         this.expiresAt = expiresAt;
     }
 
@@ -163,7 +165,7 @@ public class Message {
         updatedAt = LocalDateTime.now();
 
         if (expiresAt == null && !starred) {
-            expiresAt = LocalDateTime.now().plusHours(1);
+            expiresAt = Instant.now().plus(Duration.ofHours(1));
         }
     }
 }
