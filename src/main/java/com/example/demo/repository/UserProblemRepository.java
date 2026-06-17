@@ -99,4 +99,5 @@ public interface UserProblemRepository extends JpaRepository<UserProblem, Long> 
         @Param("platform") String platform,
         @Param("difficulty") String difficulty
     );
+
 }

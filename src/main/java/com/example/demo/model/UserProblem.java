@@ -34,6 +34,15 @@ public class UserProblem {
     @Column(columnDefinition = "TEXT")
     private String solutionCode;
     
+    @Column(columnDefinition = "TEXT")
+    private String intuition;
+
+    @Column(columnDefinition = "TEXT")
+    private String timeComplexity;
+    
+    @Column(columnDefinition = "TEXT")
+    private String spaceComplexity;
+    
     private LocalDateTime solvedAt;
     
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -43,6 +52,30 @@ public class UserProblem {
     // Getters and Setters
     public Long getId() {
         return id;
+    }
+
+    public String getIntuition() {
+        return intuition;
+    }
+
+    public void setIntuition(String intuition) {
+        this.intuition = intuition;
+    }
+
+    public String getTimeComplexity() {
+        return timeComplexity;
+    }
+
+    public void setTimeComplexity(String timeComplexity) {
+        this.timeComplexity = timeComplexity;
+    }
+
+    public String getSpaceComplexity() {
+        return spaceComplexity;
+    }
+
+    public void setSpaceComplexity(String spaceComplexity) {
+        this.spaceComplexity = spaceComplexity;
     }
 
     public void setId(Long id) {

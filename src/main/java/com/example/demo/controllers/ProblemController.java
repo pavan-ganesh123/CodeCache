@@ -20,6 +20,7 @@ import com.example.demo.dto.CreateProblemRequest;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
 import com.example.demo.model.UserProblem;
+import com.example.demo.repository.UserProblemRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.SecurityUtil;
 import com.example.demo.services.PostService;
@@ -39,6 +40,9 @@ public class ProblemController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserProblemRepository uprepo;
 
     @GetMapping("")
     public List<Problem> getAllProblems(){
@@ -70,6 +74,13 @@ public class ProblemController {
             .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/{userId}/{problemId}")
+    public ResponseEntity<UserProblem> getUserProblemById(@PathVariable Long userId, @PathVariable Long problemId) {
+        return uprepo.findByUserIdAndProblemId(userId, problemId)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+    }
+    
     @PutMapping("/{problemId}")
     public ResponseEntity<Problem> updateProblem(
         @PathVariable Long problemId,
@@ -127,11 +138,14 @@ public class ProblemController {
         }
         try {
             String solutionCode = (String) payload.get("solutionCode");
+            String intuition = (String)payload.get("intuition");
+            String timeComplexity = (String)payload.get("timeComplexity");
+            String spaceComplexity = (String)payload.get("spaceComplexity");
             Integer timeTaken = payload.get("timeTaken") != null 
                 ? Integer.valueOf(payload.get("timeTaken").toString()) 
                 : null;
             
-            UserProblem userProblem = problemservice.markProblemAsSolved(userId, problemId, solutionCode, timeTaken);
+            UserProblem userProblem = problemservice.markProblemAsSolved(userId, problemId, solutionCode, intuition, timeComplexity, spaceComplexity, timeTaken);
             return ResponseEntity.ok(userProblem);
         } catch (RuntimeException e) {
             e.printStackTrace();

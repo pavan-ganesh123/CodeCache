@@ -154,7 +154,7 @@ public class ProblemService {
     }
 
     @Transactional
-    public UserProblem markProblemAsSolved(Long userId, Long problemId, String solutionCode, Integer timeTaken) {
+    public UserProblem markProblemAsSolved(Long userId, Long problemId, String solutionCode, String intuition, String timeComplexity, String spaceComplexity, Integer timeTaken) {
         // Check if problem exists
         Problem problem = repo.findById(problemId)
             .orElseThrow(() -> new RuntimeException("Problem not found with id: " + problemId));
@@ -169,6 +169,9 @@ public class ProblemService {
         userProblem.setUser(new User(userId)); // You may want to fetch full user object
         userProblem.setProblem(problem);
         userProblem.setSolutionCode(solutionCode);
+        userProblem.setIntuition(intuition);
+        userProblem.setTimeComplexity(timeComplexity);
+        userProblem.setSpaceComplexity(spaceComplexity);
         userProblem.setSolvedAt(java.time.LocalDateTime.now());
         userProblem.setCreatedAt(java.time.LocalDateTime.now());
         userProblem.setUpdatedAt(java.time.LocalDateTime.now());
