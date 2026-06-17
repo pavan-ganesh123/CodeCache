@@ -25,16 +25,14 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 
     List<Friend> findByFriendIdAndStatus(Long friendId, FriendStatus status);
 
-    @Query("SELECT f FROM Friend f WHERE f.user.id = :userId OR f.friend.id = :userId")
+    @Query("SELECT f FROM Friend f WHERE f.user.id = :userId")
     List<Friend> findAllRelations(Long userId);
 
     @Query("""
         SELECT f
         FROM Friend f
         WHERE
-        (f.user.id = :userId AND f.friend.id = :targetUserId)
-        OR
-        (f.user.id = :targetUserId AND f.friend.id = :userId)
+        f.user.id = :userId AND f.friend.id = :targetUserId
         """)
     Optional<Friend> findRelation(
         @Param("userId") Long userId,
@@ -45,7 +43,7 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
     @Query("""
         SELECT CASE WHEN f.user.id = :userId THEN f.friend.id ELSE f.user.id END
         FROM Friend f
-        WHERE (f.user.id = :userId OR f.friend.id = :userId)
+        WHERE (f.user.id = :userId)
         AND f.status = :status
         """)
     List<Long> getAcceptedFriendIds(
@@ -59,7 +57,7 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
         WHERE (f.user.id = :userId OR f.friend.id = :userId)
         AND f.status = :status
         """)
-    List<Friend> findAllAcceptedFriends(
+    List<Friend> findAllPendingFriends(
         @Param("userId") Long userId,
         @Param("status") FriendStatus status
     );
@@ -68,7 +66,7 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
            "CASE WHEN f.user.id = :userId THEN f.friend.id " +
            "ELSE f.user.id END " +
            "FROM Friend f " +
-           "WHERE (f.user.id = :userId OR f.friend.id = :userId) " +
+           "WHERE (f.user.id = :userId) " +
            "AND (f.status = 'ACCEPTED' OR f.status = 'PENDING')")
     Set<Long> getExcludedFriendIds(@Param("userId") Long userId);
 }

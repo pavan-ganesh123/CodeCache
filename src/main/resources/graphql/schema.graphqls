@@ -95,4 +95,6 @@ extend type Query {
     getFriends(userId: ID!): [Friend]
     getAllUsers: [User]
     getAllFriends(userId: ID!): [Friend]
+    getBlockedFriends(userId: ID!): [Friend]
+    getPendingFriends(userId: ID!): [Friend]
 }

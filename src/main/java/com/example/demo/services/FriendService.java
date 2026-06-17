@@ -37,9 +37,8 @@ public class FriendService {
             throw new RuntimeErrorException(null, "Cannot Send request to yourself");
         }
 
-        Optional<Friend> existing = friendRepo.findByUserIdAndFriendIdOrUserIdAndFriendId(
-            userId, friendId, 
-            friendId, userId);
+        Optional<Friend> existing = friendRepo.findByUserIdAndFriendId(
+            userId, friendId);
         
         if(existing.isPresent()){
             throw new RuntimeErrorException(null,"Friend Request already Exists");
@@ -58,8 +57,13 @@ public class FriendService {
 
     public Friend acceptRequest(Long requestId){
         Friend f =friendRepo.findById(requestId).orElseThrow();
-
+        // Friends are 2 mutual
+        Friend p = new Friend();
+        p.setUser(f.getFriend());
+        p.setFriend(f.getUser());
         f.setStatus(FriendStatus.ACCEPTED);
+        p.setStatus(FriendStatus.ACCEPTED);
+        friendRepo.save(p);
         return friendRepo.save(f);
     }
 
@@ -87,7 +91,7 @@ public class FriendService {
             relation.setUser(user);
             relation.setFriend(target);
         }
-
+System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().getUserName() + "Blocked");
         relation.setStatus(FriendStatus.BLOCKED);
 
         return friendRepo.save(relation);
@@ -102,7 +106,8 @@ public class FriendService {
             .orElseThrow(() ->
                 new RuntimeException("Relation not found")
             );
-
+        
+        System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().getUserName());
         if (relation.getStatus() != FriendStatus.BLOCKED) {
             throw new RuntimeException("User is not blocked");
         }
@@ -127,7 +132,12 @@ public class FriendService {
         }
         return new ArrayList<>(ids);
     }
-
+    public List<Friend> getBlockedUsers(Long userId){
+        return friendRepo.findByUserIdAndStatus(userId, FriendStatus.BLOCKED);
+    }
+    public List<Friend> getPendingFriends(Long userId){
+        return friendRepo.findByFriendIdAndStatus(userId, FriendStatus.PENDING);
+    }
     public List<FriendsChatDTO> getAllRelations(Long userId) {
         List<Friend> friends= friendRepo.findAllRelations(userId);
         return friends.stream()
