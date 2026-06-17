@@ -5,6 +5,8 @@ import com.example.demo.repository.MessageRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class MessageService {
 
         // expires after 1 hour
         message.setExpiresAt(
-                LocalDateTime.now().plusHours(1)
+                Instant.now().plus(Duration.ofHours(1))
         );
 
         // delete flags
@@ -123,7 +125,7 @@ public class MessageService {
 
         // expires again after 1 hour
         message.setExpiresAt(
-                LocalDateTime.now().plusHours(1)
+                Instant.now().plus(Duration.ofHours(1))
         );
 
         message.setUpdatedAt(LocalDateTime.now());
