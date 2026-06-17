@@ -40,9 +40,18 @@ public class FriendResolver {
     public List<Long> getFriends(@Argument Long userId) {
         return friendService.getFriendIds(userId);
     }
-
     @QueryMapping
     public List<FriendsChatDTO> getAllFriends(@Argument Long userId) {
         return friendService.getAllRelations(userId);
+    }
+
+    @QueryMapping
+    public List<Friend> getBlockedFriends(@Argument Long userId) {
+        return friendService.getBlockedUsers(userId);
+    }
+
+    @QueryMapping
+    public List<Friend> getPendingFriends(@Argument Long userId) {
+        return friendService.getPendingFriends(userId);
     }
 }
