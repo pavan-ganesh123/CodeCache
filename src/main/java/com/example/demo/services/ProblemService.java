@@ -4,19 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.ProblemMetadata;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
 import com.example.demo.model.UserProblem;
 import com.example.demo.model.UserStats;
 import com.example.demo.model.UserSubmission;
 import com.example.demo.model.enums.FriendStatus;
+import com.example.demo.model.enums.PostVisibility;
+import com.example.demo.model.enums.SubmissionStatus;
 import com.example.demo.repository.FriendRepository;
 import com.example.demo.repository.ProblemRepository;
 import com.example.demo.repository.UserProblemRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.UserStatsRepository;
 import com.example.demo.repository.UserSubmissionRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +45,15 @@ public class ProblemService {
 
     @Autowired
     private UserStatsRepository statsRepository;
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private PythonService pythonService;
+
+    @Autowired
+    private PostService postService;
 
     public Problem save(Problem p){
         return repo.save(p);
@@ -79,6 +93,34 @@ public class ProblemService {
         return repo.findByDifficulty(difficulty);
     }
 
+    @Transactional
+    public Problem createProblem(
+            Long userId,
+            Problem problem,
+            PostVisibility visibility) {
+
+        String normalizedName = problem.getQuestionName().trim();
+
+        Optional<Problem> existing =
+                repo.findByQuestionNameIgnoreCase(normalizedName);
+
+        if (existing.isPresent()) {
+            return existing.get();
+        }
+
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Problem savedProblem = repo.save(problem);
+
+        postService.createProblemPost(
+                userId,
+                user.getUserName(),
+                savedProblem,
+                visibility);
+
+        return savedProblem;
+    }
     @Transactional
     public Problem saveProblem(Problem problem) {
         String normalizedName = problem.getQuestionName().trim();
@@ -153,32 +195,77 @@ public class ProblemService {
         return uprepo.countByUserId(userId);
     }
 
+
     @Transactional
-    public UserProblem markProblemAsSolved(Long userId, Long problemId, String solutionCode, String intuition, String timeComplexity, String spaceComplexity, Integer timeTaken) {
-        // Check if problem exists
-        Problem problem = repo.findById(problemId)
-            .orElseThrow(() -> new RuntimeException("Problem not found with id: " + problemId));
-        
-        // Check if user already solved this problem
+    public UserProblem markProblemAsSolved(
+            Long userId,
+            String link,
+            String intuition,
+            String timeComplexity,
+            String spaceComplexity,
+            Integer timeTaken,
+            PostVisibility visibility) {
+
+        // 1. Call Python backend
+        ProblemMetadata metadata = pythonService.fetchProblemDetails(link);
+
+        Problem p = new Problem();
+
+        p.setQuestionName(metadata.getQuestionName());
+        p.setQuestionId(metadata.getQuestionId());
+        p.setDifficulty(metadata.getDifficulty());
+        p.setCode(metadata.getSolutionCode());
+        p.setIntuition(intuition);
+        p.setTimeComplexity(timeComplexity);
+        p.setSpaceComplexity(spaceComplexity);
+        p.setPlatformName(metadata.getPlatformName());
+        p.setLink(link);
+
+        Problem problem =
+                createProblem(
+                        userId,
+                        p,
+                        visibility); 
+        Long problemId = problem.getId();
+
+        // 3. Check if already solved
         if (uprepo.existsByUserIdAndProblemId(userId, problemId)) {
             throw new RuntimeException("Problem already solved by this user");
         }
-        
-        // Create new UserProblem record
+
+        // 4. Fetch user
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // 5. Create UserProblem
         UserProblem userProblem = new UserProblem();
-        userProblem.setUser(new User(userId)); // You may want to fetch full user object
+
+        userProblem.setUser(user);
         userProblem.setProblem(problem);
-        userProblem.setSolutionCode(solutionCode);
+
+        userProblem.setSolutionCode(metadata.getSolutionCode());
         userProblem.setIntuition(intuition);
         userProblem.setTimeComplexity(timeComplexity);
         userProblem.setSpaceComplexity(spaceComplexity);
-        userProblem.setSolvedAt(java.time.LocalDateTime.now());
-        userProblem.setCreatedAt(java.time.LocalDateTime.now());
-        userProblem.setUpdatedAt(java.time.LocalDateTime.now());
-        trackSubmission(userId, 1);
-        return uprepo.save(userProblem);
-    }
 
+        userProblem.setSolvedAt(LocalDateTime.now());
+        userProblem.setCreatedAt(LocalDateTime.now());
+        userProblem.setUpdatedAt(LocalDateTime.now());
+
+        // 6. Save UserProblem
+        UserProblem saved = uprepo.save(userProblem);
+
+        // 8. Track daily points
+        trackSubmission(userId, 1);
+
+        // 9. Update user_problem counters
+        // userProblemStatsService.update(...)
+
+        // 10. Update user_stats
+        // userStatsService.update(...)
+
+        return saved;
+    }
     public void trackSubmission(Long userId, int questionCnt){
         LocalDate today = LocalDate.now();
 
