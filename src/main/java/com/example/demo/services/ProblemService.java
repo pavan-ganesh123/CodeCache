@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.AIAnalysis;
 import com.example.demo.dto.ProblemMetadata;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
@@ -58,13 +59,18 @@ public class ProblemService {
     @Autowired
     private ProblemTopicService ptService;
 
+    @Autowired
+    private AIService aiService;
+    
     public Problem save(Problem p){
         return repo.save(p);
     }
     public List<Problem> getAll(){
         return repo.findAll();
     }
-
+    private boolean isBlank(String s) {
+        return s == null || s.trim().isEmpty();
+    }
     public List<Problem> getLeetcode(){
         return repo.findByPlatformName("Leetcode");
     }
@@ -211,9 +217,28 @@ public class ProblemService {
 
         // 1. Call Python backend
         ProblemMetadata metadata = pythonService.fetchProblemDetails(link);
+        if (isBlank(intuition)
+        || isBlank(timeComplexity)
+        || isBlank(spaceComplexity)) {
 
+    AIAnalysis analysis =
+            aiService.analyzeCode(
+                    metadata.getSolutionCode()
+            );
+
+    if (isBlank(intuition)) {
+        intuition = analysis.getIntuition();
+    }
+
+    if (isBlank(timeComplexity)) {
+        timeComplexity = analysis.getTimeComplexity();
+    }
+
+    if (isBlank(spaceComplexity)) {
+        spaceComplexity = analysis.getSpaceComplexity();
+    }
+}
         Problem p = new Problem();
-
         p.setQuestionName(metadata.getQuestionName());
         p.setQuestionId(metadata.getQuestionId());
         p.setDifficulty(metadata.getDifficulty());
