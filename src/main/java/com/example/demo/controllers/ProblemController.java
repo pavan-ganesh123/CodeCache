@@ -20,6 +20,7 @@ import com.example.demo.dto.CreateProblemRequest;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
 import com.example.demo.model.UserProblem;
+import com.example.demo.model.enums.PostVisibility;
 import com.example.demo.repository.UserProblemRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.SecurityUtil;
@@ -49,23 +50,22 @@ public class ProblemController {
         return problemservice.getAll();
     }
     @PostMapping("")
-    public ResponseEntity<Problem> createProblem(@RequestBody CreateProblemRequest request, Authentication auth) {
+    public ResponseEntity<Problem> createProblem(
+            @RequestBody CreateProblemRequest request) {
 
         Long userId = securityUtil.getCurrentUserId();
-        if(userId ==null){
+
+        if (userId == null) {
             return ResponseEntity.status(401).build();
         }
-        User user = userRepository.findById(userId)
-        .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Problem savedProb = problemservice.saveProblem(request.getProblem());
-        String userName = user.getUserName();
-        postService.createProblemPost(
-                userId,
-                userName,
-                savedProb,
-                request.getVisibility());
-        return ResponseEntity.ok(savedProb);
+        Problem savedProblem =
+                problemservice.createProblem(
+                        userId,
+                        request.getProblem(),
+                        request.getVisibility());
+
+        return ResponseEntity.ok(savedProblem);
     }
     @GetMapping("/{problemId}")
     public ResponseEntity<Problem> getProblemById(@PathVariable Long problemId) {
@@ -129,31 +129,55 @@ public class ProblemController {
 
     @PostMapping("/my/solve")
     public ResponseEntity<UserProblem> markProblemAsSolved(
-        @RequestParam Long problemId,
-        @RequestBody Map<String, Object> payload
-    ) {
+            @RequestBody Map<String, Object> payload) {
+
         Long userId = securityUtil.getCurrentUserId();
+
         if (userId == null) {
             return ResponseEntity.status(401).body(null);
         }
+
         try {
-            String solutionCode = (String) payload.get("solutionCode");
-            String intuition = (String)payload.get("intuition");
-            String timeComplexity = (String)payload.get("timeComplexity");
-            String spaceComplexity = (String)payload.get("spaceComplexity");
-            Integer timeTaken = payload.get("timeTaken") != null 
-                ? Integer.valueOf(payload.get("timeTaken").toString()) 
-                : null;
-            
-            UserProblem userProblem = problemservice.markProblemAsSolved(userId, problemId, solutionCode, intuition, timeComplexity, spaceComplexity, timeTaken);
+
+            String link = (String) payload.get("link");
+
+            String intuition =
+                    (String) payload.get("intuition");
+
+            String timeComplexity =
+                    (String) payload.get("timeComplexity");
+
+            String spaceComplexity =
+                    (String) payload.get("spaceComplexity");
+
+            Integer timeTaken =
+                    payload.get("timeTaken") != null
+                            ? Integer.valueOf(payload.get("timeTaken").toString())
+                            : null;
+
+            PostVisibility visibility =
+                    PostVisibility.valueOf(
+                            payload.get("visibility").toString()
+                    );
+
+            UserProblem userProblem =
+                    problemservice.markProblemAsSolved(
+                            userId,
+                            link,
+                            intuition,
+                            timeComplexity,
+                            spaceComplexity,
+                            timeTaken,
+                            visibility);
+
             return ResponseEntity.ok(userProblem);
+
         } catch (RuntimeException e) {
             e.printStackTrace();
 
             return ResponseEntity.badRequest().build();
         }
     }
-
     @GetMapping("/check/solved")
     public boolean hasUserSolvedProblem(
         @RequestParam Long problemId
