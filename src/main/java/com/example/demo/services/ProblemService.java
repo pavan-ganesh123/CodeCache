@@ -55,6 +55,9 @@ public class ProblemService {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private ProblemTopicService ptService;
+
     public Problem save(Problem p){
         return repo.save(p);
     }
@@ -227,7 +230,8 @@ public class ProblemService {
                         p,
                         visibility); 
         Long problemId = problem.getId();
-
+        // Adding Topics
+        ptService.addTopics(problemId, metadata.getTopics());
         // 3. Check if already solved
         if (uprepo.existsByUserIdAndProblemId(userId, problemId)) {
             throw new RuntimeException("Problem already solved by this user");
