@@ -4,6 +4,9 @@ type Message {
     senderId: ID
     receiverId: ID
     content: String
+    messageType: String
+    sharedPostId: ID
+    sharedPost: Post
     replyToMessageId: String
     starred: Boolean
     expiresAt: String
@@ -36,6 +39,18 @@ extend type Mutation {
 
     deleteForEveryone(
         messageId: String!
+    ): Message
+
+}
+
+extend type Mutation {
+
+    saveSharedPost(
+        messageId: String!,
+        senderId: ID!,
+        receiverId: ID!,
+        sharedPostId: ID!,
+        content: String
     ): Message
 
 }

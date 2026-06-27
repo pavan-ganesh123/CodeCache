@@ -1,7 +1,11 @@
 package com.example.demo.services;
 
 import com.example.demo.model.Message;
+import com.example.demo.model.Post;
 import com.example.demo.repository.MessageRepository;
+import com.example.demo.repository.PostRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,8 @@ public class MessageService {
 
     private final MessageRepository repository;
 
+    @Autowired
+    private PostRepository postRepository;
     public MessageService(MessageRepository repository) {
         this.repository = repository;
     }
@@ -201,5 +207,26 @@ public class MessageService {
         );
 
         return repository.save(message);
+        }
+
+        public Message saveSharedPost(
+                String messageId,
+                Long senderId,
+                Long receiverId,
+                Long sharedPostId,
+                String content
+        ) {
+                Post post = postRepository.findById(sharedPostId)
+                        .orElseThrow(() -> new RuntimeException("Post not found: " + sharedPostId));
+
+                Message message = new Message();
+                message.setMessageId(messageId);
+                message.setSenderId(senderId);
+                message.setReceiverId(receiverId);
+                message.setContent(content);
+                message.setMessageType("POST_SHARE");
+                message.setSharedPost(post);
+
+                return repository.save(message);
         }
 }

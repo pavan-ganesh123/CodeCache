@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.CommentRequest;
 import com.example.demo.dto.FeedPostDTO;
+import com.example.demo.dto.PostDetailDTO;
 import com.example.demo.model.Post;
 import com.example.demo.model.PostComment;
 import com.example.demo.model.User;
@@ -91,10 +92,9 @@ public class PageController {
         return postService.getPostsByUser(userId);
     }
 
+    // controller
     @GetMapping("/{postId}")
-    public Post getPost(
-            @PathVariable Long postId) {
-
+    public PostDetailDTO getPost(@PathVariable Long postId) {
         return postService.getPost(postId);
     }
 }

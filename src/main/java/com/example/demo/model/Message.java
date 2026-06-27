@@ -23,9 +23,15 @@ public class Message {
     @Column(name = "receiver_id", nullable = false)
     private Long receiverId;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String content;
+    @Column(name = "message_type", nullable = false)
+    private String messageType = "TEXT";
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shared_post_id")
+    private Post sharedPost;
     @Column(name = "reply_to_message_id")
     private String replyToMessageId;
 
@@ -152,7 +158,25 @@ public class Message {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+    public String getMessageType() {
+        return messageType;
+    }
 
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
+    public Post getSharedPost() {
+        return sharedPost;
+    }
+
+    public void setSharedPost(Post sharedPost) {
+        this.sharedPost = sharedPost;
+    }
+
+    public Long getSharedPostId() {
+        return sharedPost != null ? sharedPost.getId() : null;
+    }
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
