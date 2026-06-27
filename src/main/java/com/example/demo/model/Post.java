@@ -137,5 +137,12 @@ public class Post {
         this.visibility = visibility;
     }
 
-    
+    public List<PostImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<PostImage> images) {
+        this.images = images;
+    }
+
 }

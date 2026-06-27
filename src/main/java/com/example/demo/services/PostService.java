@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.PostDetailDTO;
 import com.example.demo.model.Post;
 import com.example.demo.model.PostComment;
 import com.example.demo.model.PostLike;
@@ -17,8 +18,7 @@ import com.example.demo.repository.PostLikeRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserProblemRepository;
 import com.example.demo.security.SecurityUtil;
-
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -139,12 +139,14 @@ public class PostService {
                 .findByUserIdOrderByCreatedAtDesc(userId);
     }
 
-    public Post getPost(Long postId) {
-        return postRepository
+    
+    @Transactional(readOnly = true)
+    public PostDetailDTO getPost(Long postId) {
+        Post post = postRepository
                 .findById(postId)
-                .orElseThrow(
-                    () -> new RuntimeException("Post not found")
-                );
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        return PostDetailDTO.from(post);
     }
 
     public List<Post> getFeed(Long userId) {

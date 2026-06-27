@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.model.Message;
+import com.example.demo.model.Post;
+import com.example.demo.model.PostImage;
 import com.example.demo.services.MessageService;
 import org.springframework.graphql.data.method.annotation.*;
 
@@ -80,4 +82,36 @@ public class MessageResolver {
         return service
                 .deleteForEveryone(messageId);
     }
+
+        @MutationMapping
+        public Message saveSharedPost(
+                @Argument String messageId,
+                @Argument Long senderId,
+                @Argument Long receiverId,
+                @Argument Long sharedPostId,
+                @Argument String content
+        ) {
+        return service.saveSharedPost(
+                messageId,
+                senderId,
+                receiverId,
+                sharedPostId,
+                content
+        );
+        }
+
+        @SchemaMapping(typeName = "Post", field = "primaryImageUrl")
+        public String primaryImageUrl(Post post) {
+        return post.getImages().stream()
+                .filter(img -> Boolean.TRUE.equals(img.getIsPrimary()))
+                .filter(img -> "PUBLISHED".equals(img.getStatus()))
+                .map(PostImage::getImageUrl)
+                .findFirst()
+                .orElseGet(() -> post.getImages().stream()
+                        .filter(img -> "PUBLISHED".equals(img.getStatus()))
+                        .map(PostImage::getImageUrl)
+                        .findFirst()
+                        .orElse(null));
+        }
+        
 }
