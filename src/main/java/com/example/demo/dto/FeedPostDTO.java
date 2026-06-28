@@ -18,7 +18,8 @@ public class FeedPostDTO {
     private LocalDateTime solvedAt;
     private PostVisibility visibility;
     private String imageUrl;
-
+    private String profilePicture;
+    
     public FeedPostDTO() {}
 
     public Long getId() { return id; }
@@ -56,4 +57,12 @@ public class FeedPostDTO {
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
 }
