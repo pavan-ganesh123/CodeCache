@@ -3,13 +3,18 @@ package com.example.demo.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.FeedPostDTO;
 import com.example.demo.model.Post;
 import com.example.demo.model.PostImage;
+import com.example.demo.model.User;
 import com.example.demo.model.enums.PostVisibility;
 import com.example.demo.repository.PostRepository;
+import com.example.demo.repository.UserRepository;
 
 @Service
 public class FeedService {
@@ -17,30 +22,38 @@ public class FeedService {
     private final PostRepository postRepository;
     private final FriendService friendService;
     private final PostImageService postImageService;
+    private final UserRepository userRepository;
 
     public FeedService(
             PostRepository postRepository,
             FriendService friendService, 
-            PostImageService postImageService) {
+            PostImageService postImageService, UserRepository userRepository) {
 
         this.postRepository = postRepository;
         this.friendService = friendService;
         this.postImageService = postImageService;
+        this.userRepository = userRepository;
     }
 
-    public List<FeedPostDTO> getFeed(Long currentUserId) {
-        List<Long> friendIds = friendService.getFriendIds(currentUserId);
+    public Page<FeedPostDTO> getFeed(
+            Long currentUserId,
+            int page,
+            int size
+    ) {
 
-        List<Post> posts = postRepository.getFeed(
+        List<Long> friendIds =
+                friendService.getFriendIds(currentUserId);
+
+        Pageable pageable =
+                PageRequest.of(page, size);
+
+        return postRepository.getFeed(
                 currentUserId,
                 friendIds,
                 PostVisibility.PUBLIC,
-                PostVisibility.FRIENDS
-        );
-
-        return posts.stream()
-                .map(this::toDto)
-                .toList();
+                PostVisibility.FRIENDS,
+                pageable
+        ).map(this::toDto);
     }
     private FeedPostDTO toDto(Post post) {
         FeedPostDTO dto = new FeedPostDTO();
@@ -60,7 +73,10 @@ public class FeedService {
         if (primary != null) {
             dto.setImageUrl(primary.getImageUrl());
         }
-
+        User postUser = userRepository.findById(post.getUserId())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        dto.setProfilePicture(postUser.getProfilePicture());
         return dto;
     }
 }
