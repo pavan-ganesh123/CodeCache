@@ -38,7 +38,8 @@ public class FeedService {
     public Page<FeedPostDTO> getFeed(
             Long currentUserId,
             int page,
-            int size
+            int size,
+            Long seed
     ) {
 
         List<Long> friendIds =
@@ -52,6 +53,7 @@ public class FeedService {
                 friendIds,
                 PostVisibility.PUBLIC,
                 PostVisibility.FRIENDS,
+                seed,
                 pageable
         ).map(this::toDto);
     }

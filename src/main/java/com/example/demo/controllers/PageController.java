@@ -82,7 +82,8 @@ public class PageController {
     @GetMapping("/feed")
     public Page<FeedPostDTO> getFeed(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam Long seed
     ) {
 
         Long userId =
@@ -91,7 +92,8 @@ public class PageController {
         return feedService.getFeed(
                 userId,
                 page,
-                size
+                size,
+                seed
         );
     }
     
