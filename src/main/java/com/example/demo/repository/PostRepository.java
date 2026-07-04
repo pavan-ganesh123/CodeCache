@@ -30,23 +30,55 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     void incrementCommentsCount(@Param("postId") Long postId);
 
 
-    @Query("""
-        SELECT p
-        FROM Post p
+    @Query(
+    value = """
+        SELECT *
+        FROM post p
         WHERE
             p.visibility = :publicVisibility
             OR (
                 p.visibility = :friendsVisibility
-                AND p.userId IN :friendIds
+                AND p.user_id IN (:friendIds)
             )
-            OR p.userId = :currentUserId
-        ORDER BY p.createdAt DESC
-    """)
-    Page<Post> getFeed(
-            Long currentUserId,
-            List<Long> friendIds,
-            PostVisibility publicVisibility,
-            PostVisibility friendsVisibility,
+            OR p.user_id = :currentUserId
+        ORDER BY MD5(CONCAT(CAST(p.id AS TEXT), CAST(:seed AS TEXT)))
+        """,
+        countQuery = """
+            SELECT COUNT(*)
+            FROM post p
+            WHERE
+                p.visibility = :publicVisibility
+                OR (
+                    p.visibility = :friendsVisibility
+                    AND p.user_id IN (:friendIds)
+                )
+                OR p.user_id = :currentUserId
+            """,
+        nativeQuery = true
+    )
+    Page<Post> getFeedInternal(
+            @Param("currentUserId") Long currentUserId,
+            @Param("friendIds") List<Long> friendIds,
+            @Param("publicVisibility") String publicVisibility,
+            @Param("friendsVisibility") String friendsVisibility,
+            @Param("seed") Long seed,
             Pageable pageable
     );
+    default Page<Post> getFeed(
+        Long currentUserId,
+        List<Long> friendIds,
+        PostVisibility publicVisibility,
+        PostVisibility friendsVisibility,
+        Long seed,
+        Pageable pageable
+    ) {
+        return getFeedInternal(
+                currentUserId,
+                friendIds,
+                publicVisibility.name(),
+                friendsVisibility.name(),
+                seed,
+                pageable
+        );
+    }
 }
