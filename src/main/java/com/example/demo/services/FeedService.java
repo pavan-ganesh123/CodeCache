@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class FeedService {
 
         List<Long> friendIds =
                 friendService.getFriendIds(currentUserId);
-
+System.out.println(friendIds);
         Pageable pageable =
                 PageRequest.of(page, size);
 
@@ -56,6 +57,16 @@ public class FeedService {
                 seed,
                 pageable
         ).map(this::toDto);
+    }
+    public List<FeedPostDTO> getPostsByUser(Long userId) {
+
+        List<Post> posts = postRepository
+                .findByUserIdOrderByCreatedAtDesc(userId);
+        List<FeedPostDTO> res = new ArrayList<>();
+        for(Post x:posts){
+            res.add(toDto(x));
+        }
+        return res;
     }
     private FeedPostDTO toDto(Post post) {
         FeedPostDTO dto = new FeedPostDTO();

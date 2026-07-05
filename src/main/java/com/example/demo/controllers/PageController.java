@@ -98,11 +98,11 @@ public class PageController {
     }
     
     @GetMapping("/mine")
-    public List<Post> getMyPosts() {
+    public List<FeedPostDTO> getMyPosts() {
 
         Long userId = securityUtil.getCurrentUserId();
 
-        return postService.getPostsByUser(userId);
+        return feedService.getPostsByUser(userId);
     }
 
     // controller
