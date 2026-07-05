@@ -82,12 +82,13 @@ public class ProblemController {
     }
     
     @PutMapping("/{problemId}")
-    public ResponseEntity<Problem> updateProblem(
+    public ResponseEntity<UserProblem> updateMyProblem(
         @PathVariable Long problemId,
         @RequestBody Problem problem
     ) {
+        Long userId = securityUtil.getCurrentUserId();
         try {
-            return ResponseEntity.ok(problemservice.updateProblem(problemId, problem));
+            return ResponseEntity.ok(problemservice.updateProblem(problemId, userId, problem));
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
