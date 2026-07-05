@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.FeedPostDTO;
 import com.example.demo.dto.PostDetailDTO;
 import com.example.demo.model.Post;
 import com.example.demo.model.PostComment;
@@ -131,12 +132,6 @@ public class PostService {
 
         return postCommentRepository
                 .findByPostIdOrderByCreatedAtDesc(postId);
-    }
-
-    public List<Post> getPostsByUser(Long userId) {
-
-        return postRepository
-                .findByUserIdOrderByCreatedAtDesc(userId);
     }
 
     

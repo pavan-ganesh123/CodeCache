@@ -43,12 +43,23 @@ public class PostImageController {
         Long userId = securityUtil.getCurrentUserId();
         try {
             String imageUrl = uploadService.uploadImage(file);
-            return imageService.uploadImage(postId, imageUrl, userId, true); // require moderation
+            return imageService.uploadImage(postId, imageUrl, userId, true); 
         } catch (IOException e) {
             throw new RuntimeException("Image upload failed: " + e.getMessage(), e);
         }
     }
-
+    @PostMapping("/{postId}/updateimages")
+    public PostImageDTO updateImage(
+        @PathVariable Long postId,
+        @RequestParam MultipartFile file) {
+        Long userId = securityUtil.getCurrentUserId();
+        try {
+            String imageUrl = uploadService.uploadImage(file);
+            return imageService.updatePostImage(postId, imageUrl, userId, false); 
+        } catch (IOException e) {
+            throw new RuntimeException("Image update failed: " + e.getMessage(), e);
+        }
+    }
     // Set primary image
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{postId}/images/{imageId}/primary")

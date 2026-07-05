@@ -143,42 +143,27 @@ public class ProblemService {
     }
 
     @Transactional
-    public Problem updateProblem(Long problemId, Problem problemDetails) {
-        return repo.findById(problemId)
-            .map(problem -> {
-                if (problemDetails.getQuestionName() != null) {
-                    problem.setQuestionName(problemDetails.getQuestionName());
-                }
-                if (problemDetails.getDifficulty() != null) {
-                    problem.setDifficulty(problemDetails.getDifficulty());
-                }
-                if (problemDetails.getLink() != null) {
-                    problem.setLink(problemDetails.getLink());
-                }
-                if (problemDetails.getIntuition() != null) {
-                    problem.setIntuition(problemDetails.getIntuition());
-                }
-                if (problemDetails.getKeyIdea() != null) {
-                    problem.setKeyIdea(problemDetails.getKeyIdea());
-                }
-                if (problemDetails.getApproach() != null) {
-                    problem.setApproach(problemDetails.getApproach());
-                }
-                if (problemDetails.getMistakes() != null) {
-                    problem.setMistakes(problemDetails.getMistakes());
-                }
-                if (problemDetails.getCode() != null) {
-                    problem.setCode(problemDetails.getCode());
-                }
-                if (problemDetails.getTimeComplexity() != null) {
-                    problem.setTimeComplexity(problemDetails.getTimeComplexity());
-                }
-                if (problemDetails.getSpaceComplexity() != null) {
-                    problem.setSpaceComplexity(problemDetails.getSpaceComplexity());
-                }
-                return repo.save(problem);
-            })
-            .orElseThrow(() -> new RuntimeException("Problem not found with id: " + problemId));
+    public UserProblem updateProblem(Long problemId, Long userId, Problem problemDetails) {
+
+        UserProblem userProblem = uprepo.findByUserIdAndProblemId(userId, problemId)
+                .orElseThrow(() -> new RuntimeException("Problem not found with id: " + problemId));
+
+        if (problemDetails.getIntuition() != null) {
+            userProblem.setIntuition(problemDetails.getIntuition());
+        }
+        if (problemDetails.getTimeComplexity() != null) {
+            userProblem.setTimeComplexity(problemDetails.getTimeComplexity());
+        }
+        if (problemDetails.getSpaceComplexity() != null) {
+            userProblem.setSpaceComplexity(problemDetails.getSpaceComplexity());
+        }
+        if (problemDetails.getCode() != null) {
+            userProblem.setSolutionCode(problemDetails.getCode());
+        }
+
+        userProblem.setUpdatedAt(LocalDateTime.now());
+
+        return uprepo.save(userProblem);
     }
 
     @Transactional

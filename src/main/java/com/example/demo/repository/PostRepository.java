@@ -35,24 +35,30 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         SELECT *
         FROM post p
         WHERE
+        (
             p.visibility = :publicVisibility
             OR (
                 p.visibility = :friendsVisibility
                 AND p.user_id IN (:friendIds)
             )
-            OR p.user_id = :currentUserId
+        )
+        AND
+        p.user_id != :currentUserId
         ORDER BY MD5(CONCAT(CAST(p.id AS TEXT), CAST(:seed AS TEXT)))
         """,
         countQuery = """
             SELECT COUNT(*)
             FROM post p
             WHERE
+            (
                 p.visibility = :publicVisibility
                 OR (
                     p.visibility = :friendsVisibility
                     AND p.user_id IN (:friendIds)
                 )
-                OR p.user_id = :currentUserId
+            )
+            AND
+            p.user_id != :currentUserId
             """,
         nativeQuery = true
     )
