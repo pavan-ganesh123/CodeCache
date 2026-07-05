@@ -96,4 +96,21 @@ public class PostImageService {
         return postImageRepo.findFirstByPostIdAndIsPrimaryTrue(postId).orElse(null);
     }
 
+    public PostImageDTO updatePostImage(Long postId, String imageUrl, Long userId, boolean requireModeration){
+        Post post = postRepository.findById(postId)
+                .orElseThrow(()-> new RuntimeException("Post not found with id: "+ postId));
+        
+        if (!post.getUserId().equals(userId)){
+            throw new RuntimeException("You are not allowed to upload image for this post");
+        }
+        PostImage img = postImageRepo.findByPostId(postId).get(0);
+        img.setPost(post);
+        img.setImageUrl(imageUrl);
+        img.setUploadedBy(userId);
+        img.setCaption(null);
+        img.setIsPrimary(true);
+        img.setStatus(requireModeration ? "PENDING" : "PUBLISHED");
+        PostImage saved = postImageRepo.save(img);
+        return toDto(saved);
+    }
 }
