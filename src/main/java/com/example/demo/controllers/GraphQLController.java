@@ -10,6 +10,8 @@ import com.example.demo.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
+import java.util.Set;
+
 import com.example.demo.exceptions.UserInputException;
 @Controller
 public class GraphQLController {
@@ -68,15 +70,57 @@ public class GraphQLController {
     }
 
     @MutationMapping
-    public User addUser(@Argument String userName, @Argument String email, @Argument String password){
-        if (userName == null || !userName.matches("^[a-zA-Z0-9_-]+$")) {
+    public User addUser(
+            @Argument String userName,
+            @Argument String email,
+            @Argument String password
+    ) {
+
+        if (userName == null || userName.isBlank()) {
+            throw new UserInputException("Username cannot be empty.");
+        }
+
+        if (userName.length() < 3 || userName.length() > 20) {
             throw new UserInputException(
-                "User name is invalid. It must contain only letters, numbers, '-' and '_'."
+                "Username must be between 3 and 20 characters."
             );
         }
-        if (userservice.existsByUserName(userName)) {
-            throw new UserInputException("User name already exists: " + userName);
+
+        if (!userName.matches("^[a-zA-Z0-9](?:[a-zA-Z0-9_-]*[a-zA-Z0-9])?$")) {
+            throw new UserInputException(
+                "Username must start and end with a letter or number and can contain only letters, numbers, '-' and '_'."
+            );
         }
+
+        if (userName.matches(".*[_-]{2,}.*")) {
+            throw new UserInputException(
+                "Username cannot contain consecutive special characters."
+            );
+        }
+
+        Set<String> reservedNames = Set.of(
+            "admin",
+            "administrator",
+            "root",
+            "system",
+            "support",
+            "user",
+            "null",
+            "undefined"
+        );
+
+        if (reservedNames.contains(userName.toLowerCase())) {
+            throw new UserInputException(
+                "This username is not allowed."
+            );
+        }
+
+        if (userservice.existsByUserName(userName)) {
+            throw new UserInputException(
+                "Username already exists: " + userName
+            );
+        }
+
         User u = new User();
         u.setUserName(userName);
         u.setEmail(email);
