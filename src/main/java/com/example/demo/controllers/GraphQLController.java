@@ -85,16 +85,30 @@ public class GraphQLController {
                 "Username must be between 3 and 20 characters."
             );
         }
+        if (password == null || password.isBlank()) {
+            throw new UserInputException(
+                "Password cannot be empty."
+            );
+        }
+        if (password.length() < 5){
+            throw new UserInputException("Password should be greater than 5 characters");
+        }
 
         if (!userName.matches("^[a-zA-Z0-9](?:[a-zA-Z0-9_-]*[a-zA-Z0-9])?$")) {
             throw new UserInputException(
                 "Username must start and end with a letter or number and can contain only letters, numbers, '-' and '_'."
             );
         }
-
-        if (userName.matches(".*[_-]{2,}.*")) {
+        if (email == null || email.isBlank()) {
             throw new UserInputException(
-                "Username cannot contain consecutive special characters."
+                "Email cannot be empty."
+            );
+        }
+        
+
+        if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.(com|in|org)$")) {
+            throw new UserInputException(
+                "Invalid email"
             );
         }
 
@@ -135,7 +149,4 @@ public class GraphQLController {
         
         return new AuthResponse(token);
     }
-
-    
-    // CREATE problem first (POST before GET)
 }
