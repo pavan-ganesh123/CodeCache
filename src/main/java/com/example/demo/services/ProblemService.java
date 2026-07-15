@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.AIAnalysis;
 import com.example.demo.dto.ProblemMetadata;
+import com.example.demo.dto.UserProblemDTO;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
 import com.example.demo.model.UserProblem;
@@ -372,15 +373,34 @@ public class ProblemService {
         return repo.existsByQuestionNameIgnoreCase(normalizedName);
     }
 
-    public List<UserProblem> getMyProblems(
+    public List<UserProblemDTO> getMyProblems(
         Long userId,
         String platform,
         String difficulty
     ) {
-        return uprepo.findUserProblems(
-                userId,
-                platform,
-                difficulty
-        );
+        return uprepo.findUserProblems(userId, platform, difficulty)
+                .stream()
+                .map(this::toDTO)
+                .toList();
+    }
+    public UserProblemDTO toDTO(UserProblem up) {
+
+        UserProblemDTO dto = new UserProblemDTO();
+
+        dto.setId(up.getId());
+
+        dto.setProblemId(up.getProblem().getId());
+        dto.setQuestionName(up.getProblem().getQuestionName());
+        dto.setDifficulty(up.getProblem().getDifficulty());
+        dto.setPlatformName(up.getProblem().getPlatformName());
+        dto.setLink(up.getProblem().getLink());
+
+        dto.setSolutionCode(up.getSolutionCode());
+        dto.setIntuition(up.getIntuition());
+        dto.setTimeComplexity(up.getTimeComplexity());
+        dto.setSpaceComplexity(up.getSpaceComplexity());
+        dto.setSolvedAt(up.getSolvedAt());
+
+        return dto;
     }
 }

@@ -90,9 +90,10 @@ public interface UserProblemRepository extends JpaRepository<UserProblem, Long> 
     @Query("""
         SELECT up
         FROM UserProblem up
+        JOIN FETCH up.problem p
         WHERE up.user.id = :userId
-        AND (:platform IS NULL OR up.problem.platformName = :platform)
-        AND (:difficulty IS NULL OR up.problem.difficulty = :difficulty)
+        AND (:platform IS NULL OR p.platformName = :platform)
+        AND (:difficulty IS NULL OR p.difficulty = :difficulty)
         """)
     List<UserProblem> findUserProblems(
         @Param("userId") Long userId,

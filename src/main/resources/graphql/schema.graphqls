@@ -37,7 +37,19 @@ type Friend {
     createdAt: String
     profileImage: String
 }
+type UserSummary {
+    id: ID!
+    userName: String!
+    profilePicture: String
+}
 
+type FriendsChatDTO {
+    id: ID!
+    status: FriendStatus!
+    profileImage: String
+    user: UserSummary
+    friend: UserSummary
+}
 type AuthResponse {
     token: String
 }
@@ -94,7 +106,7 @@ extend type Query {
     getCurrentUser: User
     getFriends(userId: ID!): [Friend]
     getAllUsers: [User]
-    getAllFriends(userId: ID!): [Friend]
+    getAllFriends(userId: ID!): [FriendsChatDTO]
     getBlockedFriends(userId: ID!): [Friend]
     getPendingFriends(userId: ID!): [Friend]
 }

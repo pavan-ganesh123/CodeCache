@@ -10,8 +10,10 @@ import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.FriendsChatDTO;
+import com.example.demo.dto.UserSummaryDTO;
 import com.example.demo.model.Friend;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
@@ -138,6 +140,7 @@ System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().
     public List<Friend> getPendingFriends(Long userId){
         return friendRepo.findByFriendIdAndStatus(userId, FriendStatus.PENDING);
     }
+    @Transactional(readOnly = true)
     public List<FriendsChatDTO> getAllRelations(Long userId) {
         List<Friend> friends= friendRepo.findAllRelations(userId);
         return friends.stream()
@@ -167,13 +170,33 @@ System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().
         fDTO.setId(f.getId());
         fDTO.setStatus(f.getStatus());
         if(f.getUser().getId() == userId){
-            fDTO.setUser(f.getUser());
-            fDTO.setFriend(f.getFriend());
+            UserSummaryDTO userDto = new UserSummaryDTO();
+            userDto.setId(f.getUser().getId());
+            userDto.setUserName(f.getUser().getUserName());
+            userDto.setProfilePicture(f.getUser().getProfilePicture());
+
+            UserSummaryDTO friendDto = new UserSummaryDTO();
+            friendDto.setId(f.getFriend().getId());
+            friendDto.setUserName(f.getFriend().getUserName());
+            friendDto.setProfilePicture(f.getFriend().getProfilePicture());
+
+            fDTO.setUser(userDto);
+            fDTO.setFriend(friendDto);
             fDTO.setProfileImage(f.getFriend().getProfilePicture());
         }
         else {
-            fDTO.setFriend(f.getUser());
-            fDTO.setUser(f.getFriend());
+            UserSummaryDTO userDto = new UserSummaryDTO();
+            userDto.setId(f.getUser().getId());
+            userDto.setUserName(f.getUser().getUserName());
+            userDto.setProfilePicture(f.getUser().getProfilePicture());
+
+            UserSummaryDTO friendDto = new UserSummaryDTO();
+            friendDto.setId(f.getFriend().getId());
+            friendDto.setUserName(f.getFriend().getUserName());
+            friendDto.setProfilePicture(f.getFriend().getProfilePicture());
+
+            fDTO.setUser(userDto);
+            fDTO.setFriend(friendDto);
             fDTO.setProfileImage(f.getUser().getProfilePicture());
         }
         return fDTO;

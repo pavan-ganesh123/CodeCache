@@ -17,31 +17,32 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     Optional<Message> findByMessageId(String messageId);
 
     @Query("""
-        SELECT m
-        FROM Message m
-        WHERE
-        (
-            (m.senderId = :currentUserId AND m.receiverId = :otherUserId)
-            OR
-            (m.senderId = :otherUserId AND m.receiverId = :currentUserId)
-        )
-        AND
-        (
-            m.expiresAt IS NULL
-            OR m.expiresAt > CURRENT_TIMESTAMP
-        )
-        AND
-        (
-            (m.senderId = :currentUserId AND m.deletedBySender = false)
-            OR
-            (m.receiverId = :currentUserId AND m.deletedByReceiver = false)
-        )
-        ORDER BY m.createdAt
-        """)
-        List<Message> getConversation(
-            @Param("currentUserId") Long currentUserId,
-            @Param("otherUserId") Long otherUserId
-        );
+    SELECT m
+    FROM Message m
+    LEFT JOIN FETCH m.sharedPost sp
+    WHERE
+    (
+        (m.senderId = :currentUserId AND m.receiverId = :otherUserId)
+        OR
+        (m.senderId = :otherUserId AND m.receiverId = :currentUserId)
+    )
+    AND
+    (
+        m.expiresAt IS NULL
+        OR m.expiresAt > CURRENT_TIMESTAMP
+    )
+    AND
+    (
+        (m.senderId = :currentUserId AND m.deletedBySender = false)
+        OR
+        (m.receiverId = :currentUserId AND m.deletedByReceiver = false)
+    )
+    ORDER BY m.createdAt
+    """)
+    List<Message> getConversation(
+        @Param("currentUserId") Long currentUserId,
+        @Param("otherUserId") Long otherUserId
+    );
     @Modifying
     @Transactional
     @Query("""

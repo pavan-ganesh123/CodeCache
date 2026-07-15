@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.CreateProblemRequest;
+import com.example.demo.dto.UserProblemDTO;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
 import com.example.demo.model.UserProblem;
@@ -105,18 +106,14 @@ public class ProblemController {
     }
 
     @GetMapping("/my/problems")
-    public List<UserProblem> getMyProblems(
+    public List<UserProblemDTO> getMyProblems(
             @RequestParam(required = false) String platform,
             @RequestParam(required = false) String difficulty
     ) {
 
         Long userId = securityUtil.getCurrentUserId();
 
-        return problemservice.getMyProblems(
-                userId,
-                platform,
-                difficulty
-        );
+        return problemservice.getMyProblems(userId, platform, difficulty);
     }
 
     @GetMapping("/my/solved/count")

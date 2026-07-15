@@ -3,7 +3,10 @@ package com.example.demo.controllers;
 import com.example.demo.model.Message;
 import com.example.demo.model.Post;
 import com.example.demo.model.PostImage;
+import com.example.demo.repository.PostImageRepository;
 import com.example.demo.services.MessageService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.*;
 
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,8 @@ public class MessageResolver {
 
     private final MessageService service;
 
+    @Autowired
+    private PostImageRepository postImageRepo;
     public MessageResolver(MessageService service) {
         this.service = service;
     }
@@ -102,16 +107,10 @@ public class MessageResolver {
 
         @SchemaMapping(typeName = "Post", field = "primaryImageUrl")
         public String primaryImageUrl(Post post) {
-        return post.getImages().stream()
-                .filter(img -> Boolean.TRUE.equals(img.getIsPrimary()))
-                .filter(img -> "PUBLISHED".equals(img.getStatus()))
+
+        return postImageRepo.findFirstByPostIdAndIsPrimaryTrue(post.getId())
                 .map(PostImage::getImageUrl)
-                .findFirst()
-                .orElseGet(() -> post.getImages().stream()
-                        .filter(img -> "PUBLISHED".equals(img.getStatus()))
-                        .map(PostImage::getImageUrl)
-                        .findFirst()
-                        .orElse(null));
+                .orElse(null);
         }
         
 }

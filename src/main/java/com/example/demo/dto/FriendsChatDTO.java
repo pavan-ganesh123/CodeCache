@@ -7,12 +7,12 @@ import com.example.demo.model.enums.FriendStatus;
 public class FriendsChatDTO {
     private Long id;
     private FriendStatus status;
-    private User friend;
-    private User user; 
+    private UserSummaryDTO friend;
+    private UserSummaryDTO user; 
     private String profileImage;
 
     public FriendsChatDTO() {}
-    public FriendsChatDTO(Long id, FriendStatus status , User user,User friend, String profileImage){
+    public FriendsChatDTO(Long id, FriendStatus status , UserSummaryDTO user,UserSummaryDTO friend, String profileImage){
         this.id =id;
         this.status=status;
         this.friend = friend;
@@ -31,10 +31,10 @@ public class FriendsChatDTO {
     public void setStatus(FriendStatus status) {
         this.status = status;
     }
-    public User getFriend() {
+    public UserSummaryDTO getFriend() {
         return friend;
     }
-    public void setFriend(User friend) {
+    public void setFriend(UserSummaryDTO friend) {
         this.friend = friend;
     }
     public String getProfileImage() {
@@ -43,10 +43,10 @@ public class FriendsChatDTO {
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
-    public User getUser() {
+    public UserSummaryDTO getUser() {
         return user;
     }
-    public void setUser(User user) {
+    public void setUser(UserSummaryDTO user) {
         this.user = user;
     }
     
