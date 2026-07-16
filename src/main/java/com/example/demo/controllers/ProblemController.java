@@ -76,14 +76,31 @@ public class ProblemController {
     }
 
     @GetMapping("/{userId}/{problemId}")
-    public ResponseEntity<UserProblem> getUserProblemById(@PathVariable Long userId, @PathVariable Long problemId) {
+    public ResponseEntity<UserProblemDTO> getUserProblemById(
+            @PathVariable Long userId, @PathVariable Long problemId) {
         return uprepo.findByUserIdAndProblemId(userId, problemId)
+            .map(this::toDto)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }
+    private UserProblemDTO toDto(UserProblem up) {
+        UserProblemDTO dto = new UserProblemDTO();
+        dto.setId(up.getId());
+        dto.setProblemId(up.getProblem().getId());
+        dto.setQuestionName(up.getProblem().getQuestionName());
+        dto.setDifficulty(up.getProblem().getDifficulty());
+        dto.setPlatformName(up.getProblem().getPlatformName());
+        dto.setLink(up.getProblem().getLink());
+        dto.setSolutionCode(up.getSolutionCode());
+        dto.setIntuition(up.getIntuition());
+        dto.setTimeComplexity(up.getTimeComplexity());
+        dto.setSpaceComplexity(up.getSpaceComplexity());
+        dto.setSolvedAt(up.getSolvedAt());
+        return dto;
+    }
     
     @PutMapping("/{problemId}")
-    public ResponseEntity<UserProblem> updateMyProblem(
+    public ResponseEntity<UserProblemDTO> updateMyProblem(
         @PathVariable Long problemId,
         @RequestBody Problem problem
     ) {

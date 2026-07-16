@@ -45,7 +45,7 @@ public class FeedService {
 
         List<Long> friendIds =
                 friendService.getFriendIds(currentUserId);
-System.out.println(friendIds);
+// System.out.println(friendIds);
         Pageable pageable =
                 PageRequest.of(page, size);
 

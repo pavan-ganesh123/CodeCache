@@ -100,10 +100,10 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
-        System.out.println("✓ getAllUsers API HIT!");
+        // System.out.println("✓ getAllUsers API HIT!");
         
         List<User> users = userRepo.findAll();
-        System.out.println("✓ Returned " + (users != null ? users.size() : "null") + " users");
+        // System.out.println("✓ Returned " + (users != null ? users.size() : "null") + " users");
         
         if (users == null) {
             return ResponseEntity.ok(java.util.Collections.emptyList());

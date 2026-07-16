@@ -144,7 +144,7 @@ public class ProblemService {
     }
 
     @Transactional
-    public UserProblem updateProblem(Long problemId, Long userId, Problem problemDetails) {
+    public UserProblemDTO updateProblem(Long problemId, Long userId, Problem problemDetails) {
 
         UserProblem userProblem = uprepo.findByUserIdAndProblemId(userId, problemId)
                 .orElseThrow(() -> new RuntimeException("Problem not found with id: " + problemId));
@@ -164,7 +164,9 @@ public class ProblemService {
 
         userProblem.setUpdatedAt(LocalDateTime.now());
 
-        return uprepo.save(userProblem);
+        UserProblem saved = uprepo.save(userProblem);
+
+        return toDTO(saved);
     }
 
     @Transactional

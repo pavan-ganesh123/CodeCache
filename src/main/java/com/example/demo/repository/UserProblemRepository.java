@@ -13,7 +13,8 @@ import com.example.demo.model.UserProblem;
 public interface UserProblemRepository extends JpaRepository<UserProblem, Long> {
     
     // Find specific user-problem resolution
-    Optional<UserProblem> findByUserIdAndProblemId(Long userId, Long problemId);
+    @Query("SELECT up FROM UserProblem up JOIN FETCH up.problem WHERE up.user.id = :userId AND up.problem.id = :problemId")
+    Optional<UserProblem> findByUserIdAndProblemId(@Param("userId") Long userId, @Param("problemId") Long problemId);
     
     // Check if user solved a problem
     boolean existsByUserIdAndProblemId(Long userId, Long problemId);

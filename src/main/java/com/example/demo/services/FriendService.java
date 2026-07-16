@@ -93,7 +93,7 @@ public class FriendService {
             relation.setUser(user);
             relation.setFriend(target);
         }
-System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().getUserName() + "Blocked");
+// System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().getUserName() + "Blocked");
         relation.setStatus(FriendStatus.BLOCKED);
 
         return friendRepo.save(relation);
@@ -109,7 +109,7 @@ System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().
                 new RuntimeException("Relation not found")
             );
         
-        System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().getUserName());
+        // System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().getUserName());
         if (relation.getStatus() != FriendStatus.BLOCKED) {
             throw new RuntimeException("User is not blocked");
         }

@@ -5,6 +5,9 @@ import com.example.demo.model.Post;
 import com.example.demo.model.PostImage;
 import com.example.demo.repository.PostImageRepository;
 import com.example.demo.repository.PostRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,9 +52,9 @@ public class PostImageService {
         img.setIsPrimary(false);
         img.setStatus(requireModeration ? "PENDING" : "PUBLISHED");
         PostImage saved = postImageRepo.save(img);
-        return toDto(saved);
+        return toDto(saved,post);
     }
-    private PostImageDTO toDto(PostImage img) {
+    private PostImageDTO toDto(PostImage img, Post post) {
         PostImageDTO dto = new PostImageDTO();
         dto.setId(img.getId());
         dto.setImageUrl(img.getImageUrl());
@@ -60,13 +63,9 @@ public class PostImageService {
         dto.setStatus(img.getStatus());
         dto.setUploadedBy(img.getUploadedBy());
         dto.setCreatedAt(img.getCreatedAt());
-
-        if (img.getPost() != null) {
-            dto.setPostId(img.getPost().getId());
-            dto.setPostQuestionTitle(img.getPost().getQuestionTitle());
-            dto.setPostUserName(img.getPost().getUserName());
-        }
-
+        dto.setPostId(post.getId());
+        dto.setPostQuestionTitle(post.getQuestionTitle());
+        dto.setPostUserName(post.getUserName());
         return dto;
     }
 
@@ -96,21 +95,28 @@ public class PostImageService {
         return postImageRepo.findFirstByPostIdAndIsPrimaryTrue(postId).orElse(null);
     }
 
-    public PostImageDTO updatePostImage(Long postId, String imageUrl, Long userId, boolean requireModeration){
+    @Transactional
+    public PostImageDTO updatePostImage(Long postId, String imageUrl, Long userId, boolean requireModeration) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(()-> new RuntimeException("Post not found with id: "+ postId));
-        
-        if (!post.getUserId().equals(userId)){
+                .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
+
+        if (!post.getUserId().equals(userId)) {
             throw new RuntimeException("You are not allowed to upload image for this post");
         }
-        PostImage img = postImageRepo.findByPostId(postId).get(0);
+
+        PostImage img = postImageRepo.findByPostId(postId).stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No existing image found for post: " + postId));
+
         img.setPost(post);
         img.setImageUrl(imageUrl);
         img.setUploadedBy(userId);
         img.setCaption(null);
         img.setIsPrimary(true);
         img.setStatus(requireModeration ? "PENDING" : "PUBLISHED");
+
         PostImage saved = postImageRepo.save(img);
-        return toDto(saved);
+
+        return toDto(saved, post); // pass the fully-loaded post explicitly, don't rely on saved.getPost()
     }
 }

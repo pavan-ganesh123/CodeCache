@@ -80,7 +80,7 @@ public class UserService {
         if (alreadyLogged != null) return;
         
         UserLogin ul= new UserLogin();
-        System.out.println("Loginned in User to track "+ userId);
+        // System.out.println("Loginned in User to track "+ userId);
         ul.setUserId(userId);
         ul.setLoginDate(today);
         loginRepo.save(ul);
