@@ -1,5 +1,8 @@
 package com.example.demo.services;
 
+import com.example.demo.events.MessageEvent;
+import com.example.demo.kafka.KafkaProducerService;
+import com.example.demo.kafka.KafkaTopics;
 import com.example.demo.model.Message;
 import com.example.demo.model.Post;
 import com.example.demo.repository.MessageRepository;
@@ -18,11 +21,12 @@ import java.util.List;
 public class MessageService {
 
     private final MessageRepository repository;
-
+    private final KafkaProducerService ks;
     @Autowired
     private PostRepository postRepository;
-    public MessageService(MessageRepository repository) {
+    public MessageService(MessageRepository repository, KafkaProducerService ks) {
         this.repository = repository;
+        this.ks=ks;
     }
 
     // =====================================================
@@ -75,7 +79,16 @@ public class MessageService {
         message.setCreatedAt(LocalDateTime.now());
         message.setUpdatedAt(LocalDateTime.now());
 
-        return repository.save(message);
+        Message res= repository.save(message);
+        try {
+                System.out.println("Publishing Message...");
+                ks.publish(KafkaTopics.MESSAGE, new MessageEvent(senderId, receiverId, messageId, Instant.now()));
+                System.out.println("Message Published!!");
+        }
+        catch(Exception e){
+                e.printStackTrace();
+        }
+        return res;
     }
 
     // =====================================================
@@ -227,6 +240,15 @@ public class MessageService {
                 message.setMessageType("POST_SHARE");
                 message.setSharedPost(post);
 
-                return repository.save(message);
+                Message res= repository.save(message);
+                try{
+                        System.out.println("Publishing Message..");
+                        ks.publish(KafkaTopics.MESSAGE, new MessageEvent(senderId, receiverId, messageId,Instant.now()));
+                        System.out.println("Message Published!!!!");
+                }
+                catch(Exception e){
+                        e.printStackTrace();
+                }
+                return res;
         }
 }

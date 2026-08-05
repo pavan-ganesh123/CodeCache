@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.FeedPostDTO;
 import com.example.demo.dto.PostDetailDTO;
+import com.example.demo.events.PostLikeEvent;
+import com.example.demo.events.CommentEvent;
+import com.example.demo.kafka.KafkaProducerService;
+import com.example.demo.kafka.KafkaTopics;
 import com.example.demo.model.Post;
 import com.example.demo.model.PostComment;
 import com.example.demo.model.PostLike;
@@ -20,6 +25,7 @@ import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserProblemRepository;
 import com.example.demo.security.SecurityUtil;
 import org.springframework.transaction.annotation.Transactional;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,8 +33,11 @@ import lombok.RequiredArgsConstructor;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final KafkaProducerService producer;
+
     @Autowired
     private PostLikeRepository postLikeRepository;
+
 
     @Autowired
     private PostCommentRepository postCommentRepository;
@@ -87,6 +96,20 @@ public class PostService {
 
         postRepository.incrementLikesCount(postId);
         postLikeRepository.save(like);
+        Post likedPost = postRepository.getReferenceById(postId);
+        try {
+            System.out.println("Publishing...");
+
+            producer.publish(
+                KafkaTopics.POST_LIKE,  
+                new PostLikeEvent(postId, likedPost.getUserId(), userId, Instant.now())
+            );
+
+            System.out.println("Published!");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Transactional
@@ -123,7 +146,16 @@ public class PostService {
 
         // Increment comments count on the post
         postRepository.incrementCommentsCount(postId);
+        Post commentedPost=postRepository.getReferenceById(postId);
+        try {
+            System.out.println("Publishing Comment...");
 
+            producer.publish(KafkaTopics.COMMENT, new CommentEvent(postId, commentedPost.getUserId(),userId, text, Instant.now()));
+            System.out.println("Comment Published!!!");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
         return saved;
     }
 
