@@ -8,6 +8,7 @@ import com.example.demo.events.FriendRequestEvent;
 import com.example.demo.events.MessageEvent;
 import com.example.demo.events.NotificationType;
 import com.example.demo.events.PostLikeEvent;
+import com.example.demo.events.PostShareEvent;
 import com.example.demo.model.Notification;
 import com.example.demo.repository.NotificationRepository;
 
@@ -81,4 +82,19 @@ public class NotificationService {
 
         notificationRepo.save(notification);
     }
+
+    public void create(PostShareEvent event){
+        System.out.println("Saving Post Share in DB");
+        Notification notification = Notification.builder()
+                    .receiverId(event.receiverId())
+                    .senderId(event.senderId())
+                    .type(NotificationType.POST_SHARE)
+                    .referenceId(event.messageId())
+                    .read(false)
+                    .createdAt(event.sentAt())
+                    .build();
+        notificationRepo.save(notification);
+        System.out.println("Done Saving post notification in DB");
+    }
+    
 }

@@ -86,7 +86,7 @@ public class FriendService {
         Friend res= friendRepo.save(f);
         try {
             System.out.println("Publishing Friend Accep...");
-            producer.publish(KafkaTopics.FRIEND_ACCEPTED, new FriendAcceptedEvent(f.getUser().getId(), f.getFriend().getId(), Instant.now()));
+            producer.publish(KafkaTopics.FRIEND_ACCEPTED, new FriendAcceptedEvent(f.getFriend().getId(), f.getUser().getId(),Instant.now()));
             System.out.println("Published Friend Acceptence");
         }
         catch(Exception e){

@@ -8,6 +8,7 @@ import com.example.demo.events.FriendAcceptedEvent;
 import com.example.demo.events.FriendRequestEvent;
 import com.example.demo.events.MessageEvent;
 import com.example.demo.events.PostLikeEvent;
+import com.example.demo.events.PostShareEvent;
 import com.example.demo.services.NotificationService;
 
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,12 @@ public class KafkaConsumerService {
     @KafkaListener(topics = KafkaTopics.MESSAGE)
     public void consume(MessageEvent event) {
         System.out.println("Received MessageEvent : " + event);
+        notificationService.create(event);
+    }
+
+    @KafkaListener(topics = KafkaTopics.POST_SHARE)
+    public void consume(PostShareEvent event){
+        System.out.println("Received PostShare event : "+event);
         notificationService.create(event);
     }
 }

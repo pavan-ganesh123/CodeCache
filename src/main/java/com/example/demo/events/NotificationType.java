@@ -7,6 +7,8 @@ public enum NotificationType {
 
     MESSAGE,
 
+    POST_SHARE,
+    
     POST_LIKE,
 
     POST_COMMENT,

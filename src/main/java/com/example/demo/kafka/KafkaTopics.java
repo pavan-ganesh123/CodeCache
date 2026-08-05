@@ -9,4 +9,5 @@ public final class KafkaTopics {
     public static final String FRIEND_REQUEST = "friend-request";
     public static final String FRIEND_ACCEPTED = "friend-accepted";
     public static final String MESSAGE = "message";
+    public static final String POST_SHARE = "post-share";
 }

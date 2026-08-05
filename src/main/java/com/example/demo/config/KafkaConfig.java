@@ -84,6 +84,11 @@ public class KafkaConfig {
     NewTopic friendAcceptedTopic() {
         return TopicBuilder.name(KafkaTopics.FRIEND_ACCEPTED).partitions(1).replicas(1).build();
     }
+
+    @Bean
+    NewTopic postShareTopic(){
+        return TopicBuilder.name(KafkaTopics.POST_SHARE).partitions(1).replicas(1).build();
+    }
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Object> kafkaListenerContainerFactory() {
 

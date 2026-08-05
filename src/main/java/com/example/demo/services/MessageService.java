@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.events.MessageEvent;
+import com.example.demo.events.PostShareEvent;
 import com.example.demo.kafka.KafkaProducerService;
 import com.example.demo.kafka.KafkaTopics;
 import com.example.demo.model.Message;
@@ -242,9 +243,9 @@ public class MessageService {
 
                 Message res= repository.save(message);
                 try{
-                        System.out.println("Publishing Message..");
-                        ks.publish(KafkaTopics.MESSAGE, new MessageEvent(senderId, receiverId, messageId,Instant.now()));
-                        System.out.println("Message Published!!!!");
+                        System.out.println("Publishing Post Share..");
+                        ks.publish(KafkaTopics.POST_SHARE, new PostShareEvent(senderId, receiverId, messageId,Instant.now()));
+                        System.out.println("Post Share Published!!!!");
                 }
                 catch(Exception e){
                         e.printStackTrace();
