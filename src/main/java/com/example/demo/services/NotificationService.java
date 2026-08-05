@@ -1,5 +1,9 @@
 package com.example.demo.services;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.events.CommentEvent;
@@ -12,6 +16,7 @@ import com.example.demo.events.PostShareEvent;
 import com.example.demo.model.Notification;
 import com.example.demo.repository.NotificationRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -96,5 +101,51 @@ public class NotificationService {
         notificationRepo.save(notification);
         System.out.println("Done Saving post notification in DB");
     }
-    
+
+    public Page<Notification> getNotifications(Long userId, Pageable pageable){
+        return notificationRepo.findByReceiverIdOrderByCreatedAtDesc(userId, pageable);
+    }
+
+    public long getUnreadCount(Long userId){
+        return notificationRepo.countByReceiverIdAndReadFalse(userId);
+    }
+
+    @Transactional
+    public void markAsRead(Long notificationId, Long userId){
+        Notification notification = notificationRepo.findById(notificationId)
+        .orElseThrow(() -> new RuntimeException("Notification not found"));
+        if (!notification.getReceiverId().equals(userId))
+            throw new RuntimeException("Unauthorized");
+
+        if (!notification.isRead()) {
+            notification.setRead(true);
+        }
+    }
+    @Transactional
+    public void markAllAsRead(Long userId) {
+
+        List<Notification> notifications =
+                notificationRepo.findByReceiverIdAndReadFalse(userId);
+
+        notifications.forEach(n -> n.setRead(true));
+    }
+
+    @Transactional
+    public void deleteNotification(Long notificationId, Long userId) {
+
+        Notification notification =
+                notificationRepo.findById(notificationId)
+                        .orElseThrow(() -> new RuntimeException("Notification not found"));
+
+        if (!notification.getReceiverId().equals(userId))
+            throw new RuntimeException("Unauthorized");
+
+        notificationRepo.delete(notification);
+    }
+
+    @Transactional
+    public void deleteAllNotifications(Long userId) {
+
+        notificationRepo.deleteByReceiverId(userId);
+    }
 }
