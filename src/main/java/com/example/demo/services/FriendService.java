@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.FriendsChatDTO;
 import com.example.demo.dto.UserSummaryDTO;
+import com.example.demo.events.FriendAcceptedEvent;
+import com.example.demo.events.FriendRequestEvent;
+import com.example.demo.kafka.KafkaProducerService;
+import com.example.demo.kafka.KafkaTopics;
 import com.example.demo.model.Friend;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
@@ -26,12 +31,14 @@ import com.example.demo.repository.UserRepository;
 public class FriendService {
     private final FriendRepository friendRepo;
     private final UserRepository userRepo;
+    private final KafkaProducerService producer;
 
     @Autowired
     private UserProblemRepository userProblemRepository;
-    public FriendService(FriendRepository friendRepo, UserRepository userRepo){
+    public FriendService(FriendRepository friendRepo, UserRepository userRepo, KafkaProducerService ks){
         this.friendRepo=friendRepo;
         this.userRepo=userRepo;
+        this.producer=ks;
     }
 
     public Friend sendRequest(Long userId, Long friendId){
@@ -54,7 +61,17 @@ public class FriendService {
         f.setFriend(friend);
         f.setStatus(FriendStatus.PENDING);
 
-        return friendRepo.save(f);
+        Friend res = friendRepo.save(f);
+        try {
+            System.out.println("Publishing Friend Req...");
+            producer.publish(KafkaTopics.FRIEND_REQUEST, new FriendRequestEvent(userId, friendId, Instant.now()));
+            System.out.println("Published Friend Request!!!");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return res;
+
     }
 
     public Friend acceptRequest(Long requestId){
@@ -66,7 +83,16 @@ public class FriendService {
         f.setStatus(FriendStatus.ACCEPTED);
         p.setStatus(FriendStatus.ACCEPTED);
         friendRepo.save(p);
-        return friendRepo.save(f);
+        Friend res= friendRepo.save(f);
+        try {
+            System.out.println("Publishing Friend Accep...");
+            producer.publish(KafkaTopics.FRIEND_ACCEPTED, new FriendAcceptedEvent(f.getFriend().getId(), f.getUser().getId(),Instant.now()));
+            System.out.println("Published Friend Acceptence");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return res;
     }
 
     public Friend blockUser(Long userId, Long targetUserId) {
