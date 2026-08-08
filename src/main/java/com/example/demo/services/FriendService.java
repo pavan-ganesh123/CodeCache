@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.BlockingFriendDTO;
 import com.example.demo.dto.FriendsChatDTO;
 import com.example.demo.dto.UserSummaryDTO;
 import com.example.demo.events.FriendAcceptedEvent;
@@ -94,8 +95,8 @@ public class FriendService {
         }
         return res;
     }
-
-    public Friend blockUser(Long userId, Long targetUserId) {
+    @Transactional
+    public BlockingFriendDTO blockUser(Long userId, Long targetUserId) {
 
         if (userId.equals(targetUserId)) {
             throw new RuntimeException("Cannot block yourself");
@@ -119,13 +120,19 @@ public class FriendService {
             relation.setUser(user);
             relation.setFriend(target);
         }
-// System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().getUserName() + "Blocked");
+
         relation.setStatus(FriendStatus.BLOCKED);
 
-        return friendRepo.save(relation);
+        // Was: return friendRepo.save(relation);  — that's a Friend, not a
+        // BlockingFriendDTO, so it wouldn't have compiled against the
+        // declared return type. Mapping here, still inside @Transactional,
+        // is what actually resolves the lazy user/friend proxies safely.
+        Friend saved = friendRepo.save(relation);
+        return BlockingFriendDTO.from(saved);
     }
 
-    public Friend unblockUser(Long userId, Long targetUserId) {
+    @Transactional
+    public BlockingFriendDTO unblockUser(Long userId, Long targetUserId) {
 
         Friend relation = friendRepo.findRelation(
                 userId,
@@ -134,15 +141,15 @@ public class FriendService {
             .orElseThrow(() ->
                 new RuntimeException("Relation not found")
             );
-        
-        // System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().getUserName());
+
         if (relation.getStatus() != FriendStatus.BLOCKED) {
             throw new RuntimeException("User is not blocked");
         }
 
         relation.setStatus(FriendStatus.ACCEPTED);
 
-        return friendRepo.save(relation);
+        Friend saved = friendRepo.save(relation);
+        return BlockingFriendDTO.from(saved);
     }
 
     public List<Long> getFriendIds(Long userId) {
@@ -160,9 +167,14 @@ public class FriendService {
         }
         return new ArrayList<>(ids);
     }
-    public List<Friend> getBlockedUsers(Long userId){
-        return friendRepo.findByUserIdAndStatus(userId, FriendStatus.BLOCKED);
+    @Transactional(readOnly = true)
+    public List<BlockingFriendDTO> getBlockedUsers(Long userId) {
+        return friendRepo.findByUserIdAndStatus(userId, FriendStatus.BLOCKED)
+            .stream()
+            .map(BlockingFriendDTO::from)
+            .toList();
     }
+
     public List<Friend> getPendingFriends(Long userId){
         return friendRepo.findByFriendIdAndStatus(userId, FriendStatus.PENDING);
     }

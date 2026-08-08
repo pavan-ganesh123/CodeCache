@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dto.BlockingFriendDTO;
 import com.example.demo.dto.FriendsChatDTO;
 import com.example.demo.model.Friend;
 import com.example.demo.services.FriendService;
@@ -28,12 +29,12 @@ public class FriendResolver {
     }
 
     @MutationMapping
-    public Friend blockUser(@Argument Long userId, @Argument Long targetUserId) {
+    public BlockingFriendDTO blockUser(@Argument Long userId, @Argument Long targetUserId) {
         return friendService.blockUser(userId, targetUserId);
     }
 
     @MutationMapping
-    public Friend unblockUser(@Argument Long userId, @Argument Long targetUserId){
+    public BlockingFriendDTO unblockUser(@Argument Long userId, @Argument Long targetUserId){
         return friendService.unblockUser(userId, targetUserId);
     }
     @QueryMapping
@@ -46,7 +47,7 @@ public class FriendResolver {
     }
 
     @QueryMapping
-    public List<Friend> getBlockedFriends(@Argument Long userId) {
+    public List<BlockingFriendDTO> getBlockedFriends(@Argument Long userId) {
         return friendService.getBlockedUsers(userId);
     }
 

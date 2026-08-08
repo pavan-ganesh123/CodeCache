@@ -42,6 +42,18 @@ type UserSummary {
     userName: String!
     profilePicture: String
 }
+type BlockingUserDTO {
+    id: ID
+    userName: String
+    email: String
+}
+
+type BlockingFriendDTO {
+    id: ID
+    status: FriendStatus
+    user: BlockingUserDTO
+    friend: BlockingUserDTO
+}
 
 type FriendsChatDTO {
     id: ID!
@@ -98,8 +110,8 @@ extend type Mutation {
 
     acceptFriendRequest(requestId: ID!): Friend
 
-    blockUser(userId: ID!, targetUserId: ID!): Friend
-    unblockUser(userId: ID!, targetUserId: ID!): Friend
+    blockUser(userId: ID!, targetUserId: ID!): BlockingFriendDTO
+    unblockUser(userId: ID!, targetUserId: ID!): BlockingFriendDTO
 }
 
 extend type Query {
@@ -107,6 +119,6 @@ extend type Query {
     getFriends(userId: ID!): [Friend]
     getAllUsers: [User]
     getAllFriends(userId: ID!): [FriendsChatDTO]
-    getBlockedFriends(userId: ID!): [Friend]
+    getBlockedFriends(userId: ID!): [BlockingFriendDTO]
     getPendingFriends(userId: ID!): [Friend]
 }

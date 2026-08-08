@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.ProfileResponse;
+import com.example.demo.dto.PublicProfileResponse;
 import com.example.demo.model.User;
 import com.example.demo.model.UserStats;
 import com.example.demo.repository.UserRepository;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -71,6 +73,35 @@ public class UserController {
                         user.getEmail(),
                         user.getProfilePicture()
                 );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/u/{username}")
+    public ResponseEntity<PublicProfileResponse> getPublicProfile(@PathVariable String username) {
+
+        User user = userRepo.findByUserName(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        PublicProfileResponse response = new PublicProfileResponse(
+                user.getId(),
+                user.getUserName(),
+                user.getProfilePicture()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/{userId}")
+    public ResponseEntity<PublicProfileResponse> getPublicProfileById(@PathVariable Long userId) {
+
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        PublicProfileResponse response = new PublicProfileResponse(
+                user.getId(),
+                user.getUserName(),
+                user.getProfilePicture()
+        );
 
         return ResponseEntity.ok(response);
     }
@@ -184,5 +215,19 @@ public class UserController {
         return ResponseEntity.ok(problemservice.getYearlySubmissions(userId));
     }
     
-    
+    @GetMapping("/{userId}/countFriends")
+    public ResponseEntity<Long> getFriendNumberForUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(problemservice.countFriends(userId));
+    }
+
+    @GetMapping("/{userId}/stats")
+    public ResponseEntity<UserStats> getUserStatsForUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(uservice.getUserStats(userId));
+    }
+
+    @GetMapping("/{userId}/yearly-submissions")
+    public ResponseEntity<Map<String, Integer>> getYearlySubmissionsForUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(problemservice.getYearlySubmissions(userId));
+    }
+
 }
