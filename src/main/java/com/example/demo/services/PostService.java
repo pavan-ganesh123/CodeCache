@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.FeedPostDTO;
@@ -50,6 +53,25 @@ public class PostService {
 
     @Autowired
     private UserProblemRepository upRepo;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    // Post detail's likesCount/commentsCount change on every like and
+    // every comment — evict rather than lean on the 30s TTL alone.
+    private void evictPostDetailCache(Long postId) {
+        Cache postDetail = cacheManager.getCache("postDetail");
+        if (postDetail != null) postDetail.evict(postId);
+    }
+
+    // Without this, a freshly created post doesn't show up on the
+    // user's own "My Posts" page until the 10-minute myPosts TTL
+    // expires — the single most noticeable staleness bug of the bunch.
+    private void evictMyPostsCache(Long userId) {
+        Cache myPosts = cacheManager.getCache("myPosts");
+        if (myPosts != null) myPosts.evict(userId);
+    }
+
     public Post createProblemPost(
             Long userId,
             String username,
@@ -69,7 +91,16 @@ public class PostService {
         post.setCreatedAt(LocalDateTime.now());
         post.setVisibility(visibility);
 
-        return postRepository.save(post);
+        Post saved = postRepository.save(post);
+
+        evictMyPostsCache(userId);
+
+        // Note: if you ever add caching to FeedService.getFeed, this is
+        // also where you'd need to evict every friend's feed cache —
+        // a new post changes what they'd see. Not needed today since
+        // getFeed is currently uncached.
+
+        return saved;
     }
 
     @Transactional
@@ -96,12 +127,15 @@ public class PostService {
 
         postRepository.incrementLikesCount(postId);
         postLikeRepository.save(like);
+
+        evictPostDetailCache(postId);
+
         Post likedPost = postRepository.getReferenceById(postId);
         try {
             System.out.println("Publishing...");
 
             producer.publish(
-                KafkaTopics.POST_LIKE,  
+                KafkaTopics.POST_ACTIVITY,  
                 new PostLikeEvent(postId, likedPost.getUserId(), userId, Instant.now())
             );
 
@@ -125,6 +159,7 @@ public class PostService {
         if (likeOpt.isPresent()) {
             postLikeRepository.delete(likeOpt.get());
             postRepository.decrementLikesCount(postId);
+            evictPostDetailCache(postId);
         }
     }
 
@@ -146,11 +181,14 @@ public class PostService {
 
         // Increment comments count on the post
         postRepository.incrementCommentsCount(postId);
+
+        evictPostDetailCache(postId);
+
         Post commentedPost=postRepository.getReferenceById(postId);
         try {
             System.out.println("Publishing Comment...");
 
-            producer.publish(KafkaTopics.COMMENT, new CommentEvent(postId, commentedPost.getUserId(),userId, text, Instant.now()));
+            producer.publish(KafkaTopics.POST_ACTIVITY, new CommentEvent(postId, commentedPost.getUserId(),userId, text, Instant.now()));
             System.out.println("Comment Published!!!");
         }
         catch(Exception e){
@@ -167,22 +205,13 @@ public class PostService {
     }
 
     
+    @Cacheable(value = "postDetail", key = "#postId")
     @Transactional(readOnly = true)
     public PostDetailDTO getPost(Long postId) {
         Post post = postRepository
                 .findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
-
+    
         return PostDetailDTO.from(post);
-    }
-
-    public List<Post> getFeed(Long userId) {
-
-        List<Long> userIds = friendService.getFriendIds(userId);
-
-        // include my own posts
-        userIds.add(userId);
-
-        return postRepository.findByUserIdInOrderByCreatedAtDesc(userIds);
     }
 }

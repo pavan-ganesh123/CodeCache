@@ -244,7 +244,7 @@ public class MessageService {
                 Message res= repository.save(message);
                 try{
                         System.out.println("Publishing Post Share..");
-                        ks.publish(KafkaTopics.POST_SHARE, new PostShareEvent(senderId, receiverId, messageId,Instant.now()));
+                        ks.publish(KafkaTopics.POST_ACTIVITY, new PostShareEvent(senderId, receiverId, messageId,Instant.now()));
                         System.out.println("Post Share Published!!!!");
                 }
                 catch(Exception e){
