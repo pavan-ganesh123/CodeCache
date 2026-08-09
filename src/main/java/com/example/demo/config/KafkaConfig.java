@@ -1,6 +1,10 @@
 package com.example.demo.config;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,10 +86,23 @@ public class KafkaConfig {
             truststoreType
         );
 
+        // truststoreResource.getFile() only resolves when the classpath is
+        // exploded onto disk (local IDE / mvn spring-boot:run). Inside a
+        // packaged executable jar (Render), this resource lives as a zip
+        // entry inside BOOT-INF/classes with no real filesystem path — so
+        // instead we stream its bytes out to an actual temp file and point
+        // Kafka at that, which works identically either way.
         try {
+            File truststoreFile = File.createTempFile("kafka-truststore", ".p12");
+            truststoreFile.deleteOnExit();
+
+            try (InputStream in = truststoreResource.getInputStream()) {
+                Files.copy(in, truststoreFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+
             props.put(
                 "ssl.truststore.location",
-                truststoreResource.getFile().getAbsolutePath()
+                truststoreFile.getAbsolutePath()
             );
         } catch (IOException e) {
             throw new RuntimeException(
