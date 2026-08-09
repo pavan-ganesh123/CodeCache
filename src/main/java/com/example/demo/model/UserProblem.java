@@ -31,6 +31,11 @@ public class UserProblem {
     @JoinColumn(name = "problem_id", nullable = false)
     private Problem problem;
 
+    // This user's own sequential count of problems logged on this
+    // problem's platform — their 1st LeetCode problem is 1, 2nd is 2,
+    // etc., independently per platform. Computed in ProblemService.
+    private Integer questionId;
+
     @Column(columnDefinition = "TEXT")
     private String solutionCode;
     
@@ -52,6 +57,14 @@ public class UserProblem {
     // Getters and Setters
     public Long getId() {
         return id;
+    }
+
+    public Integer getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
     }
 
     public String getIntuition() {

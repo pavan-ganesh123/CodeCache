@@ -17,4 +17,5 @@ public interface PostImageRepository extends JpaRepository<PostImage, Long> {
     List<PostImage> findByPostIdAndStatus(Long postId, String status);
 
     Optional<PostImage> findFirstByPostIdAndIsPrimaryTrue(Long postId);
+    List<PostImage> findByPostIdInAndIsPrimaryTrue(List<Long> postIds);
 }

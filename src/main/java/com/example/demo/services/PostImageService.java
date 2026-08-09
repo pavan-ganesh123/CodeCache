@@ -9,6 +9,8 @@ import com.example.demo.repository.PostRepository;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,22 @@ public class PostImageService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private CacheManager cacheManager;
+
+    // A post's images feed both myPosts (FeedPostDTO.imageUrl, the
+    // primary image) and postDetail (PostDetailDTO.imageUrls, the
+    // published list). Any image mutation could affect either one, so
+    // both get evicted rather than trying to track precisely which
+    // field each specific method call actually changes.
+    private void evictPostCaches(Long ownerUserId, Long postId) {
+        Cache myPosts = cacheManager.getCache("myPosts");
+        if (myPosts != null) myPosts.evict(ownerUserId);
+
+        Cache postDetail = cacheManager.getCache("postDetail");
+        if (postDetail != null) postDetail.evict(postId);
+    }
+
     public PostImage seedImage(Long postId, String imageUrl, Long adminUserId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
@@ -34,7 +52,15 @@ public class PostImageService {
         img.setIsPrimary(true);
         img.setStatus("PUBLISHED");
 
-        return postImageRepo.save(img);
+        PostImage saved = postImageRepo.save(img);
+
+        // Evict under the post's actual owner, not adminUserId — the
+        // cache key for myPosts is whoever's feed/post-list this image
+        // shows up under, which is post.getUserId(), not the admin who
+        // seeded it.
+        evictPostCaches(post.getUserId(), postId);
+
+        return saved;
     }
 
     public PostImageDTO uploadImage(Long postId, String imageUrl, Long userId, boolean requireModeration) {
@@ -52,6 +78,9 @@ public class PostImageService {
         img.setIsPrimary(false);
         img.setStatus(requireModeration ? "PENDING" : "PUBLISHED");
         PostImage saved = postImageRepo.save(img);
+
+        evictPostCaches(userId, postId);
+
         return toDto(saved,post);
     }
     private PostImageDTO toDto(PostImage img, Post post) {
@@ -67,6 +96,9 @@ public class PostImageService {
         dto.setPostQuestionTitle(post.getQuestionTitle());
         dto.setPostUserName(post.getUserName());
         return dto;
+    }
+    public List<PostImage> getPrimaryImages(List<Long> postIds) {
+        return postImageRepo.findByPostIdInAndIsPrimaryTrue(postIds);
     }
 
     public void setPrimaryImage(Long postId, Long imageId) {
@@ -85,6 +117,10 @@ public class PostImageService {
 
         img.setIsPrimary(true);
         postImageRepo.save(img);
+
+        // No userId parameter here — pull the owner off the image's
+        // post instead, same as seedImage does.
+        evictPostCaches(img.getPost().getUserId(), postId);
     }
 
     public List<PostImage> getPublishedImages(Long postId) {
@@ -116,6 +152,8 @@ public class PostImageService {
         img.setStatus(requireModeration ? "PENDING" : "PUBLISHED");
 
         PostImage saved = postImageRepo.save(img);
+
+        evictPostCaches(userId, postId);
 
         return toDto(saved, post); // pass the fully-loaded post explicitly, don't rely on saved.getPost()
     }

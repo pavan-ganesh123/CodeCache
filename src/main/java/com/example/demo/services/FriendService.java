@@ -4,15 +4,20 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.BlockingFriendDTO;
 import com.example.demo.dto.FriendsChatDTO;
 import com.example.demo.dto.UserSummaryDTO;
 import com.example.demo.events.FriendAcceptedEvent;
@@ -32,6 +37,10 @@ public class FriendService {
     private final FriendRepository friendRepo;
     private final UserRepository userRepo;
     private final KafkaProducerService producer;
+
+     
+    @Autowired
+    private CacheManager cacheManager;
 
     @Autowired
     private UserProblemRepository userProblemRepository;
@@ -64,7 +73,7 @@ public class FriendService {
         Friend res = friendRepo.save(f);
         try {
             System.out.println("Publishing Friend Req...");
-            producer.publish(KafkaTopics.FRIEND_REQUEST, new FriendRequestEvent(userId, friendId, Instant.now()));
+            producer.publish(KafkaTopics.FRIEND_ACTIVITY, new FriendRequestEvent(userId, friendId, Instant.now()));
             System.out.println("Published Friend Request!!!");
         }
         catch(Exception e){
@@ -74,8 +83,13 @@ public class FriendService {
 
     }
 
+    // Was missing @Transactional — two separate save() calls need to
+    // commit together (mutual friendship = two rows). Without this, a
+    // failure between the two saves could leave one side ACCEPTED and
+    // the other side untouched.
+    @Transactional
     public Friend acceptRequest(Long requestId){
-        Friend f =friendRepo.findById(requestId).orElseThrow();
+        Friend f = friendRepo.findById(requestId).orElseThrow();
         // Friends are 2 mutual
         Friend p = new Friend();
         p.setUser(f.getFriend());
@@ -83,10 +97,16 @@ public class FriendService {
         f.setStatus(FriendStatus.ACCEPTED);
         p.setStatus(FriendStatus.ACCEPTED);
         friendRepo.save(p);
-        Friend res= friendRepo.save(f);
+        Friend res = friendRepo.save(f);
+    
+        // Both sides just became friends — evict both, not just the
+        // person who clicked Accept.
+        evictFriendCaches(f.getUser().getId());
+        evictFriendCaches(f.getFriend().getId());
+    
         try {
             System.out.println("Publishing Friend Accep...");
-            producer.publish(KafkaTopics.FRIEND_ACCEPTED, new FriendAcceptedEvent(f.getFriend().getId(), f.getUser().getId(),Instant.now()));
+            producer.publish(KafkaTopics.FRIEND_ACTIVITY, new FriendAcceptedEvent(f.getFriend().getId(), f.getUser().getId(), Instant.now()));
             System.out.println("Published Friend Acceptence");
         }
         catch(Exception e){
@@ -94,39 +114,45 @@ public class FriendService {
         }
         return res;
     }
-
-    public Friend blockUser(Long userId, Long targetUserId) {
-
+    @Transactional
+    public BlockingFriendDTO blockUser(Long userId, Long targetUserId) {
+    
         if (userId.equals(targetUserId)) {
             throw new RuntimeException("Cannot block yourself");
         }
-
+    
         Optional<Friend> existing =
             friendRepo.findRelation(
                 userId,
                 targetUserId
             );
-
+    
         Friend relation;
-
+    
         if (existing.isPresent()) {
             relation = existing.get();
         } else {
             User user = userRepo.findById(userId).orElseThrow();
             User target = userRepo.findById(targetUserId).orElseThrow();
-
+    
             relation = new Friend();
             relation.setUser(user);
             relation.setFriend(target);
         }
-// System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().getUserName() + "Blocked");
+    
         relation.setStatus(FriendStatus.BLOCKED);
-
-        return friendRepo.save(relation);
+    
+        Friend saved = friendRepo.save(relation);
+    
+        evictFriendCaches(userId);
+        evictFriendCaches(targetUserId);
+    
+        return BlockingFriendDTO.from(saved);
     }
-
-    public Friend unblockUser(Long userId, Long targetUserId) {
-
+    
+    @Transactional
+    public BlockingFriendDTO unblockUser(Long userId, Long targetUserId) {
+    
         Friend relation = friendRepo.findRelation(
                 userId,
                 targetUserId
@@ -134,17 +160,25 @@ public class FriendService {
             .orElseThrow(() ->
                 new RuntimeException("Relation not found")
             );
-        
-        // System.out.println(relation.getUser().getUserName()+ "--"+ relation.getFriend().getUserName());
+    
         if (relation.getStatus() != FriendStatus.BLOCKED) {
             throw new RuntimeException("User is not blocked");
         }
-
+    
         relation.setStatus(FriendStatus.ACCEPTED);
-
-        return friendRepo.save(relation);
+    
+        Friend saved = friendRepo.save(relation);
+    
+        evictFriendCaches(userId);
+        evictFriendCaches(targetUserId);
+    
+        return BlockingFriendDTO.from(saved);
     }
 
+    // Added @Cacheable — RedisCacheConfig already defines a "friendIds"
+    // cache and evictFriendCaches() below already evicts it, but
+    // nothing was actually populating it until now.
+    @Cacheable(value = "friendIds", key = "#userId")
     public List<Long> getFriendIds(Long userId) {
         Set<Long> ids = new HashSet<>();
         
@@ -160,9 +194,14 @@ public class FriendService {
         }
         return new ArrayList<>(ids);
     }
-    public List<Friend> getBlockedUsers(Long userId){
-        return friendRepo.findByUserIdAndStatus(userId, FriendStatus.BLOCKED);
+    @Transactional(readOnly = true)
+    public List<BlockingFriendDTO> getBlockedUsers(Long userId) {
+        return friendRepo.findByUserIdAndStatus(userId, FriendStatus.BLOCKED)
+            .stream()
+            .map(BlockingFriendDTO::from)
+            .toList();
     }
+
     public List<Friend> getPendingFriends(Long userId){
         return friendRepo.findByFriendIdAndStatus(userId, FriendStatus.PENDING);
     }
@@ -195,7 +234,13 @@ public class FriendService {
         FriendsChatDTO fDTO  = new FriendsChatDTO();
         fDTO.setId(f.getId());
         fDTO.setStatus(f.getStatus());
-        if(f.getUser().getId() == userId){
+        // Was: f.getUser().getId() == userId — comparing boxed Longs
+        // with == compares references, not values. Java only caches
+        // Long autoboxing for -128..127, so any real database id above
+        // that made this false almost every time, silently sending
+        // execution down the wrong branch below (and therefore
+        // attaching the wrong person's profileImage).
+        if(Objects.equals(f.getUser().getId(), userId)){
             UserSummaryDTO userDto = new UserSummaryDTO();
             userDto.setId(f.getUser().getId());
             userDto.setUserName(f.getUser().getUserName());
@@ -226,5 +271,16 @@ public class FriendService {
             fDTO.setProfileImage(f.getUser().getProfilePicture());
         }
         return fDTO;
+    }
+
+    private void evictFriendCaches(Long userId) {
+        Cache friendIds = cacheManager.getCache("friendIds");
+        if (friendIds != null) friendIds.evict(userId);
+    
+        Cache friendCount = cacheManager.getCache("friendCount");
+        if (friendCount != null) friendCount.evict(userId);
+    
+        Cache feed = cacheManager.getCache("feed");
+        if (feed != null) feed.evict(userId);
     }
 }

@@ -1,0 +1,2402 @@
+[
+    {
+        "name": "Weird Algorithm",
+        "topic": "Introductory Problems",
+        "id": 1068,
+        "acceptance": 0.9567
+    },
+    {
+        "name": "Missing Number",
+        "topic": "Introductory Problems",
+        "id": 1083,
+        "acceptance": 0.9561
+    },
+    {
+        "name": "Repetitions",
+        "topic": "Introductory Problems",
+        "id": 1069,
+        "acceptance": 0.9631
+    },
+    {
+        "name": "Increasing Array",
+        "topic": "Introductory Problems",
+        "id": 1094,
+        "acceptance": 0.9672
+    },
+    {
+        "name": "Permutations",
+        "topic": "Introductory Problems",
+        "id": 1070,
+        "acceptance": 0.9716
+    },
+    {
+        "name": "Number Spiral",
+        "topic": "Introductory Problems",
+        "id": 1071,
+        "acceptance": 0.9208
+    },
+    {
+        "name": "Two Knights",
+        "topic": "Introductory Problems",
+        "id": 1072,
+        "acceptance": 0.9709
+    },
+    {
+        "name": "Two Sets",
+        "topic": "Introductory Problems",
+        "id": 1092,
+        "acceptance": 0.9333
+    },
+    {
+        "name": "Bit Strings",
+        "topic": "Introductory Problems",
+        "id": 1617,
+        "acceptance": 0.9493
+    },
+    {
+        "name": "Trailing Zeros",
+        "topic": "Introductory Problems",
+        "id": 1618,
+        "acceptance": 0.9418
+    },
+    {
+        "name": "Coin Piles",
+        "topic": "Introductory Problems",
+        "id": 1754,
+        "acceptance": 0.9176
+    },
+    {
+        "name": "Palindrome Reorder",
+        "topic": "Introductory Problems",
+        "id": 1755,
+        "acceptance": 0.9494
+    },
+    {
+        "name": "Gray Code",
+        "topic": "Introductory Problems",
+        "id": 2205,
+        "acceptance": 0.8953
+    },
+    {
+        "name": "Tower of Hanoi",
+        "topic": "Introductory Problems",
+        "id": 2165,
+        "acceptance": 0.9629
+    },
+    {
+        "name": "Creating Strings",
+        "topic": "Introductory Problems",
+        "id": 1622,
+        "acceptance": 0.976
+    },
+    {
+        "name": "Apple Division",
+        "topic": "Introductory Problems",
+        "id": 1623,
+        "acceptance": 0.89
+    },
+    {
+        "name": "Chessboard and Queens",
+        "topic": "Introductory Problems",
+        "id": 1624,
+        "acceptance": 0.9833
+    },
+    {
+        "name": "Raab Game I",
+        "topic": "Introductory Problems",
+        "id": 3399,
+        "acceptance": 0.8854
+    },
+    {
+        "name": "Mex Grid Construction",
+        "topic": "Introductory Problems",
+        "id": 3419,
+        "acceptance": 0.9518
+    },
+    {
+        "name": "Knight Moves Grid",
+        "topic": "Introductory Problems",
+        "id": 3217,
+        "acceptance": 0.9781
+    },
+    {
+        "name": "Grid Coloring I",
+        "topic": "Introductory Problems",
+        "id": 3311,
+        "acceptance": 0.9657
+    },
+    {
+        "name": "Digit Queries",
+        "topic": "Introductory Problems",
+        "id": 2431,
+        "acceptance": 0.8691
+    },
+    {
+        "name": "String Reorder",
+        "topic": "Introductory Problems",
+        "id": 1743,
+        "acceptance": 0.8717
+    },
+    {
+        "name": "Grid Path Description",
+        "topic": "Introductory Problems",
+        "id": 1625,
+        "acceptance": 0.778
+    },
+    {
+        "name": "Distinct Numbers",
+        "topic": "Sorting and Searching",
+        "id": 1621,
+        "acceptance": 0.9281
+    },
+    {
+        "name": "Apartments",
+        "topic": "Sorting and Searching",
+        "id": 1084,
+        "acceptance": 0.907
+    },
+    {
+        "name": "Ferris Wheel",
+        "topic": "Sorting and Searching",
+        "id": 1090,
+        "acceptance": 0.932
+    },
+    {
+        "name": "Concert Tickets",
+        "topic": "Sorting and Searching",
+        "id": 1091,
+        "acceptance": 0.8649
+    },
+    {
+        "name": "Restaurant Customers",
+        "topic": "Sorting and Searching",
+        "id": 1619,
+        "acceptance": 0.9298
+    },
+    {
+        "name": "Movie Festival",
+        "topic": "Sorting and Searching",
+        "id": 1629,
+        "acceptance": 0.947
+    },
+    {
+        "name": "Sum of Two Values",
+        "topic": "Sorting and Searching",
+        "id": 1640,
+        "acceptance": 0.8982
+    },
+    {
+        "name": "Maximum Subarray Sum",
+        "topic": "Sorting and Searching",
+        "id": 1643,
+        "acceptance": 0.9595
+    },
+    {
+        "name": "Stick Lengths",
+        "topic": "Sorting and Searching",
+        "id": 1074,
+        "acceptance": 0.9583
+    },
+    {
+        "name": "Missing Coin Sum",
+        "topic": "Sorting and Searching",
+        "id": 2183,
+        "acceptance": 0.9662
+    },
+    {
+        "name": "Collecting Numbers",
+        "topic": "Sorting and Searching",
+        "id": 2216,
+        "acceptance": 0.9374
+    },
+    {
+        "name": "Collecting Numbers II",
+        "topic": "Sorting and Searching",
+        "id": 2217,
+        "acceptance": 0.7964
+    },
+    {
+        "name": "Playlist",
+        "topic": "Sorting and Searching",
+        "id": 1141,
+        "acceptance": 0.8808
+    },
+    {
+        "name": "Towers",
+        "topic": "Sorting and Searching",
+        "id": 1073,
+        "acceptance": 0.9362
+    },
+    {
+        "name": "Traffic Lights",
+        "topic": "Sorting and Searching",
+        "id": 1163,
+        "acceptance": 0.8979
+    },
+    {
+        "name": "Distinct Values Subarrays",
+        "topic": "Sorting and Searching",
+        "id": 3420,
+        "acceptance": 0.881
+    },
+    {
+        "name": "Distinct Values Subsequences",
+        "topic": "Sorting and Searching",
+        "id": 3421,
+        "acceptance": 0.9131
+    },
+    {
+        "name": "Josephus Problem I",
+        "topic": "Sorting and Searching",
+        "id": 2162,
+        "acceptance": 0.913
+    },
+    {
+        "name": "Josephus Problem II",
+        "topic": "Sorting and Searching",
+        "id": 2163,
+        "acceptance": 0.73
+    },
+    {
+        "name": "Nested Ranges Check",
+        "topic": "Sorting and Searching",
+        "id": 2168,
+        "acceptance": 0.8799
+    },
+    {
+        "name": "Nested Ranges Count",
+        "topic": "Sorting and Searching",
+        "id": 2169,
+        "acceptance": 0.8526
+    },
+    {
+        "name": "Room Allocation",
+        "topic": "Sorting and Searching",
+        "id": 1164,
+        "acceptance": 0.8763
+    },
+    {
+        "name": "Factory Machines",
+        "topic": "Sorting and Searching",
+        "id": 1620,
+        "acceptance": 0.9235
+    },
+    {
+        "name": "Tasks and Deadlines",
+        "topic": "Sorting and Searching",
+        "id": 1630,
+        "acceptance": 0.9804
+    },
+    {
+        "name": "Reading Books",
+        "topic": "Sorting and Searching",
+        "id": 1631,
+        "acceptance": 0.9361
+    },
+    {
+        "name": "Sum of Three Values",
+        "topic": "Sorting and Searching",
+        "id": 1641,
+        "acceptance": 0.9079
+    },
+    {
+        "name": "Sum of Four Values",
+        "topic": "Sorting and Searching",
+        "id": 1642,
+        "acceptance": 0.9043
+    },
+    {
+        "name": "Nearest Smaller Values",
+        "topic": "Sorting and Searching",
+        "id": 1645,
+        "acceptance": 0.9683
+    },
+    {
+        "name": "Subarray Sums I",
+        "topic": "Sorting and Searching",
+        "id": 1660,
+        "acceptance": 0.9411
+    },
+    {
+        "name": "Subarray Sums II",
+        "topic": "Sorting and Searching",
+        "id": 1661,
+        "acceptance": 0.8505
+    },
+    {
+        "name": "Subarray Divisibility",
+        "topic": "Sorting and Searching",
+        "id": 1662,
+        "acceptance": 0.9228
+    },
+    {
+        "name": "Distinct Values Subarrays II",
+        "topic": "Sorting and Searching",
+        "id": 2428,
+        "acceptance": 0.917
+    },
+    {
+        "name": "Array Division",
+        "topic": "Sorting and Searching",
+        "id": 1085,
+        "acceptance": 0.9527
+    },
+    {
+        "name": "Movie Festival II",
+        "topic": "Sorting and Searching",
+        "id": 1632,
+        "acceptance": 0.8354
+    },
+    {
+        "name": "Maximum Subarray Sum II",
+        "topic": "Sorting and Searching",
+        "id": 1644,
+        "acceptance": 0.8451
+    },
+    {
+        "name": "Dice Combinations",
+        "topic": "Dynamic Programming",
+        "id": 1633,
+        "acceptance": 0.947
+    },
+    {
+        "name": "Minimizing Coins",
+        "topic": "Dynamic Programming",
+        "id": 1634,
+        "acceptance": 0.9335
+    },
+    {
+        "name": "Coin Combinations I",
+        "topic": "Dynamic Programming",
+        "id": 1635,
+        "acceptance": 0.927
+    },
+    {
+        "name": "Coin Combinations II",
+        "topic": "Dynamic Programming",
+        "id": 1636,
+        "acceptance": 0.8885
+    },
+    {
+        "name": "Removing Digits",
+        "topic": "Dynamic Programming",
+        "id": 1637,
+        "acceptance": 0.9808
+    },
+    {
+        "name": "Grid Paths I",
+        "topic": "Dynamic Programming",
+        "id": 1638,
+        "acceptance": 0.9737
+    },
+    {
+        "name": "Book Shop",
+        "topic": "Dynamic Programming",
+        "id": 1158,
+        "acceptance": 0.9134
+    },
+    {
+        "name": "Array Description",
+        "topic": "Dynamic Programming",
+        "id": 1746,
+        "acceptance": 0.9049
+    },
+    {
+        "name": "Counting Towers",
+        "topic": "Dynamic Programming",
+        "id": 2413,
+        "acceptance": 0.9457
+    },
+    {
+        "name": "Edit Distance",
+        "topic": "Dynamic Programming",
+        "id": 1639,
+        "acceptance": 0.9495
+    },
+    {
+        "name": "Longest Common Subsequence",
+        "topic": "Dynamic Programming",
+        "id": 3403,
+        "acceptance": 0.9666
+    },
+    {
+        "name": "Rectangle Cutting",
+        "topic": "Dynamic Programming",
+        "id": 1744,
+        "acceptance": 0.9186
+    },
+    {
+        "name": "Minimal Grid Path",
+        "topic": "Dynamic Programming",
+        "id": 3359,
+        "acceptance": 0.5845
+    },
+    {
+        "name": "Money Sums",
+        "topic": "Dynamic Programming",
+        "id": 1745,
+        "acceptance": 0.9651
+    },
+    {
+        "name": "Removal Game",
+        "topic": "Dynamic Programming",
+        "id": 1097,
+        "acceptance": 0.765
+    },
+    {
+        "name": "Two Sets II",
+        "topic": "Dynamic Programming",
+        "id": 1093,
+        "acceptance": 0.9325
+    },
+    {
+        "name": "Mountain Range",
+        "topic": "Dynamic Programming",
+        "id": 3314,
+        "acceptance": 0.5733
+    },
+    {
+        "name": "Increasing Subsequence",
+        "topic": "Dynamic Programming",
+        "id": 1145,
+        "acceptance": 0.8934
+    },
+    {
+        "name": "Projects",
+        "topic": "Dynamic Programming",
+        "id": 1140,
+        "acceptance": 0.8993
+    },
+    {
+        "name": "Elevator Rides",
+        "topic": "Dynamic Programming",
+        "id": 1653,
+        "acceptance": 0.803
+    },
+    {
+        "name": "Counting Tilings",
+        "topic": "Dynamic Programming",
+        "id": 2181,
+        "acceptance": 0.9229
+    },
+    {
+        "name": "Counting Numbers",
+        "topic": "Dynamic Programming",
+        "id": 2220,
+        "acceptance": 0.898
+    },
+    {
+        "name": "Increasing Subsequence II",
+        "topic": "Dynamic Programming",
+        "id": 1748,
+        "acceptance": 0.8593
+    },
+    {
+        "name": "Counting Rooms",
+        "topic": "Graph Algorithms",
+        "id": 1192,
+        "acceptance": 0.954
+    },
+    {
+        "name": "Labyrinth",
+        "topic": "Graph Algorithms",
+        "id": 1193,
+        "acceptance": 0.8451
+    },
+    {
+        "name": "Building Roads",
+        "topic": "Graph Algorithms",
+        "id": 1666,
+        "acceptance": 0.9666
+    },
+    {
+        "name": "Message Route",
+        "topic": "Graph Algorithms",
+        "id": 1667,
+        "acceptance": 0.9636
+    },
+    {
+        "name": "Building Teams",
+        "topic": "Graph Algorithms",
+        "id": 1668,
+        "acceptance": 0.9517
+    },
+    {
+        "name": "Round Trip",
+        "topic": "Graph Algorithms",
+        "id": 1669,
+        "acceptance": 0.9221
+    },
+    {
+        "name": "Monsters",
+        "topic": "Graph Algorithms",
+        "id": 1194,
+        "acceptance": 0.8596
+    },
+    {
+        "name": "Shortest Routes I",
+        "topic": "Graph Algorithms",
+        "id": 1671,
+        "acceptance": 0.9131
+    },
+    {
+        "name": "Shortest Routes II",
+        "topic": "Graph Algorithms",
+        "id": 1672,
+        "acceptance": 0.8971
+    },
+    {
+        "name": "High Score",
+        "topic": "Graph Algorithms",
+        "id": 1673,
+        "acceptance": 0.73
+    },
+    {
+        "name": "Flight Discount",
+        "topic": "Graph Algorithms",
+        "id": 1195,
+        "acceptance": 0.8639
+    },
+    {
+        "name": "Cycle Finding",
+        "topic": "Graph Algorithms",
+        "id": 1197,
+        "acceptance": 0.8281
+    },
+    {
+        "name": "Flight Routes",
+        "topic": "Graph Algorithms",
+        "id": 1196,
+        "acceptance": 0.902
+    },
+    {
+        "name": "Round Trip II",
+        "topic": "Graph Algorithms",
+        "id": 1678,
+        "acceptance": 0.896
+    },
+    {
+        "name": "Course Schedule",
+        "topic": "Graph Algorithms",
+        "id": 1679,
+        "acceptance": 0.9507
+    },
+    {
+        "name": "Longest Flight Route",
+        "topic": "Graph Algorithms",
+        "id": 1680,
+        "acceptance": 0.822
+    },
+    {
+        "name": "Game Routes",
+        "topic": "Graph Algorithms",
+        "id": 1681,
+        "acceptance": 0.939
+    },
+    {
+        "name": "Investigation",
+        "topic": "Graph Algorithms",
+        "id": 1202,
+        "acceptance": 0.9341
+    },
+    {
+        "name": "Planets Queries I",
+        "topic": "Graph Algorithms",
+        "id": 1750,
+        "acceptance": 0.861
+    },
+    {
+        "name": "Planets Queries II",
+        "topic": "Graph Algorithms",
+        "id": 1160,
+        "acceptance": 0.7984
+    },
+    {
+        "name": "Planets Cycles",
+        "topic": "Graph Algorithms",
+        "id": 1751,
+        "acceptance": 0.9009
+    },
+    {
+        "name": "Road Reparation",
+        "topic": "Graph Algorithms",
+        "id": 1675,
+        "acceptance": 0.9613
+    },
+    {
+        "name": "Road Construction",
+        "topic": "Graph Algorithms",
+        "id": 1676,
+        "acceptance": 0.9699
+    },
+    {
+        "name": "Flight Routes Check",
+        "topic": "Graph Algorithms",
+        "id": 1682,
+        "acceptance": 0.9273
+    },
+    {
+        "name": "Planets and Kingdoms",
+        "topic": "Graph Algorithms",
+        "id": 1683,
+        "acceptance": 0.9584
+    },
+    {
+        "name": "Giant Pizza",
+        "topic": "Graph Algorithms",
+        "id": 1684,
+        "acceptance": 0.9146
+    },
+    {
+        "name": "Coin Collector",
+        "topic": "Graph Algorithms",
+        "id": 1686,
+        "acceptance": 0.9099
+    },
+    {
+        "name": "Mail Delivery",
+        "topic": "Graph Algorithms",
+        "id": 1691,
+        "acceptance": 0.9179
+    },
+    {
+        "name": "De Bruijn Sequence",
+        "topic": "Graph Algorithms",
+        "id": 1692,
+        "acceptance": 0.9559
+    },
+    {
+        "name": "Teleporters Path",
+        "topic": "Graph Algorithms",
+        "id": 1693,
+        "acceptance": 0.8834
+    },
+    {
+        "name": "Hamiltonian Flights",
+        "topic": "Graph Algorithms",
+        "id": 1690,
+        "acceptance": 0.8827
+    },
+    {
+        "name": "Knight's Tour",
+        "topic": "Graph Algorithms",
+        "id": 1689,
+        "acceptance": 0.8327
+    },
+    {
+        "name": "Download Speed",
+        "topic": "Graph Algorithms",
+        "id": 1694,
+        "acceptance": 0.7611
+    },
+    {
+        "name": "Police Chase",
+        "topic": "Graph Algorithms",
+        "id": 1695,
+        "acceptance": 0.8974
+    },
+    {
+        "name": "School Dance",
+        "topic": "Graph Algorithms",
+        "id": 1696,
+        "acceptance": 0.9479
+    },
+    {
+        "name": "Distinct Routes",
+        "topic": "Graph Algorithms",
+        "id": 1711,
+        "acceptance": 0.7743
+    },
+    {
+        "name": "Static Range Sum Queries",
+        "topic": "Range Queries",
+        "id": 1646,
+        "acceptance": 0.9577
+    },
+    {
+        "name": "Static Range Minimum Queries",
+        "topic": "Range Queries",
+        "id": 1647,
+        "acceptance": 0.9347
+    },
+    {
+        "name": "Dynamic Range Sum Queries",
+        "topic": "Range Queries",
+        "id": 1648,
+        "acceptance": 0.9588
+    },
+    {
+        "name": "Dynamic Range Minimum Queries",
+        "topic": "Range Queries",
+        "id": 1649,
+        "acceptance": 0.9771
+    },
+    {
+        "name": "Range Xor Queries",
+        "topic": "Range Queries",
+        "id": 1650,
+        "acceptance": 0.9869
+    },
+    {
+        "name": "Range Update Queries",
+        "topic": "Range Queries",
+        "id": 1651,
+        "acceptance": 0.9354
+    },
+    {
+        "name": "Forest Queries",
+        "topic": "Range Queries",
+        "id": 1652,
+        "acceptance": 0.9661
+    },
+    {
+        "name": "Hotel Queries",
+        "topic": "Range Queries",
+        "id": 1143,
+        "acceptance": 0.946
+    },
+    {
+        "name": "List Removals",
+        "topic": "Range Queries",
+        "id": 1749,
+        "acceptance": 0.9537
+    },
+    {
+        "name": "Salary Queries",
+        "topic": "Range Queries",
+        "id": 1144,
+        "acceptance": 0.803
+    },
+    {
+        "name": "Prefix Sum Queries",
+        "topic": "Range Queries",
+        "id": 2166,
+        "acceptance": 0.9291
+    },
+    {
+        "name": "Pizzeria Queries",
+        "topic": "Range Queries",
+        "id": 2206,
+        "acceptance": 0.9657
+    },
+    {
+        "name": "Visible Buildings Queries",
+        "topic": "Range Queries",
+        "id": 3304,
+        "acceptance": 0.9192
+    },
+    {
+        "name": "Range Interval Queries",
+        "topic": "Range Queries",
+        "id": 3163,
+        "acceptance": 0.746
+    },
+    {
+        "name": "Subarray Sum Queries",
+        "topic": "Range Queries",
+        "id": 1190,
+        "acceptance": 0.9257
+    },
+    {
+        "name": "Subarray Sum Queries II",
+        "topic": "Range Queries",
+        "id": 3226,
+        "acceptance": 0.9688
+    },
+    {
+        "name": "Distinct Values Queries",
+        "topic": "Range Queries",
+        "id": 1734,
+        "acceptance": 0.8218
+    },
+    {
+        "name": "Distinct Values Queries II",
+        "topic": "Range Queries",
+        "id": 3356,
+        "acceptance": 0.8801
+    },
+    {
+        "name": "Increasing Array Queries",
+        "topic": "Range Queries",
+        "id": 2416,
+        "acceptance": 0.8764
+    },
+    {
+        "name": "Movie Festival Queries",
+        "topic": "Range Queries",
+        "id": 1664,
+        "acceptance": 0.9065
+    },
+    {
+        "name": "Forest Queries II",
+        "topic": "Range Queries",
+        "id": 1739,
+        "acceptance": 0.9332
+    },
+    {
+        "name": "Range Updates and Sums",
+        "topic": "Range Queries",
+        "id": 1735,
+        "acceptance": 0.8509
+    },
+    {
+        "name": "Polynomial Queries",
+        "topic": "Range Queries",
+        "id": 1736,
+        "acceptance": 0.8531
+    },
+    {
+        "name": "Range Queries and Copies",
+        "topic": "Range Queries",
+        "id": 1737,
+        "acceptance": 0.9372
+    },
+    {
+        "name": "Missing Coin Sum Queries",
+        "topic": "Range Queries",
+        "id": 2184,
+        "acceptance": 0.7149
+    },
+    {
+        "name": "Subordinates",
+        "topic": "Tree Algorithms",
+        "id": 1674,
+        "acceptance": 0.9354
+    },
+    {
+        "name": "Tree Matching",
+        "topic": "Tree Algorithms",
+        "id": 1130,
+        "acceptance": 0.8658
+    },
+    {
+        "name": "Tree Diameter",
+        "topic": "Tree Algorithms",
+        "id": 1131,
+        "acceptance": 0.9456
+    },
+    {
+        "name": "Tree Distances I",
+        "topic": "Tree Algorithms",
+        "id": 1132,
+        "acceptance": 0.9331
+    },
+    {
+        "name": "Tree Distances II",
+        "topic": "Tree Algorithms",
+        "id": 1133,
+        "acceptance": 0.957
+    },
+    {
+        "name": "Company Queries I",
+        "topic": "Tree Algorithms",
+        "id": 1687,
+        "acceptance": 0.9515
+    },
+    {
+        "name": "Company Queries II",
+        "topic": "Tree Algorithms",
+        "id": 1688,
+        "acceptance": 0.9513
+    },
+    {
+        "name": "Distance Queries",
+        "topic": "Tree Algorithms",
+        "id": 1135,
+        "acceptance": 0.9346
+    },
+    {
+        "name": "Counting Paths",
+        "topic": "Tree Algorithms",
+        "id": 1136,
+        "acceptance": 0.9466
+    },
+    {
+        "name": "Subtree Queries",
+        "topic": "Tree Algorithms",
+        "id": 1137,
+        "acceptance": 0.941
+    },
+    {
+        "name": "Path Queries",
+        "topic": "Tree Algorithms",
+        "id": 1138,
+        "acceptance": 0.9468
+    },
+    {
+        "name": "Path Queries II",
+        "topic": "Tree Algorithms",
+        "id": 2134,
+        "acceptance": 0.6772
+    },
+    {
+        "name": "Distinct Colors",
+        "topic": "Tree Algorithms",
+        "id": 1139,
+        "acceptance": 0.912
+    },
+    {
+        "name": "Finding a Centroid",
+        "topic": "Tree Algorithms",
+        "id": 2079,
+        "acceptance": 0.9613
+    },
+    {
+        "name": "Fixed-Length Paths I",
+        "topic": "Tree Algorithms",
+        "id": 2080,
+        "acceptance": 0.7909
+    },
+    {
+        "name": "Fixed-Length Paths II",
+        "topic": "Tree Algorithms",
+        "id": 2081,
+        "acceptance": 0.5652
+    },
+    {
+        "name": "Josephus Queries",
+        "topic": "Mathematics",
+        "id": 2164,
+        "acceptance": 0.7984
+    },
+    {
+        "name": "Exponentiation",
+        "topic": "Mathematics",
+        "id": 1095,
+        "acceptance": 0.939
+    },
+    {
+        "name": "Exponentiation II",
+        "topic": "Mathematics",
+        "id": 1712,
+        "acceptance": 0.8404
+    },
+    {
+        "name": "Counting Divisors",
+        "topic": "Mathematics",
+        "id": 1713,
+        "acceptance": 0.8884
+    },
+    {
+        "name": "Common Divisors",
+        "topic": "Mathematics",
+        "id": 1081,
+        "acceptance": 0.8656
+    },
+    {
+        "name": "Sum of Divisors",
+        "topic": "Mathematics",
+        "id": 1082,
+        "acceptance": 0.678
+    },
+    {
+        "name": "Divisor Analysis",
+        "topic": "Mathematics",
+        "id": 2182,
+        "acceptance": 0.7536
+    },
+    {
+        "name": "Prime Multiples",
+        "topic": "Mathematics",
+        "id": 2185,
+        "acceptance": 0.8626
+    },
+    {
+        "name": "Counting Coprime Pairs",
+        "topic": "Mathematics",
+        "id": 2417,
+        "acceptance": 0.8654
+    },
+    {
+        "name": "Next Prime",
+        "topic": "Mathematics",
+        "id": 3396,
+        "acceptance": 0.8737
+    },
+    {
+        "name": "Binomial Coefficients",
+        "topic": "Mathematics",
+        "id": 1079,
+        "acceptance": 0.9043
+    },
+    {
+        "name": "Creating Strings II",
+        "topic": "Mathematics",
+        "id": 1715,
+        "acceptance": 0.9496
+    },
+    {
+        "name": "Distributing Apples",
+        "topic": "Mathematics",
+        "id": 1716,
+        "acceptance": 0.932
+    },
+    {
+        "name": "Christmas Party",
+        "topic": "Mathematics",
+        "id": 1717,
+        "acceptance": 0.9364
+    },
+    {
+        "name": "Permutation Order",
+        "topic": "Mathematics",
+        "id": 3397,
+        "acceptance": 0.9729
+    },
+    {
+        "name": "Permutation Rounds",
+        "topic": "Mathematics",
+        "id": 3398,
+        "acceptance": 0.9017
+    },
+    {
+        "name": "Bracket Sequences I",
+        "topic": "Mathematics",
+        "id": 2064,
+        "acceptance": 0.9202
+    },
+    {
+        "name": "Bracket Sequences II",
+        "topic": "Mathematics",
+        "id": 2187,
+        "acceptance": 0.8765
+    },
+    {
+        "name": "Counting Necklaces",
+        "topic": "Mathematics",
+        "id": 2209,
+        "acceptance": 0.9254
+    },
+    {
+        "name": "Counting Grids",
+        "topic": "Mathematics",
+        "id": 2210,
+        "acceptance": 0.9411
+    },
+    {
+        "name": "Fibonacci Numbers",
+        "topic": "Mathematics",
+        "id": 1722,
+        "acceptance": 0.8026
+    },
+    {
+        "name": "Throwing Dice",
+        "topic": "Mathematics",
+        "id": 1096,
+        "acceptance": 0.9221
+    },
+    {
+        "name": "Graph Paths I",
+        "topic": "Mathematics",
+        "id": 1723,
+        "acceptance": 0.937
+    },
+    {
+        "name": "Graph Paths II",
+        "topic": "Mathematics",
+        "id": 1724,
+        "acceptance": 0.9557
+    },
+    {
+        "name": "System of Linear Equations",
+        "topic": "Mathematics",
+        "id": 3154,
+        "acceptance": 0.9156
+    },
+    {
+        "name": "Sum of Four Squares",
+        "topic": "Mathematics",
+        "id": 3355,
+        "acceptance": 0.8592
+    },
+    {
+        "name": "Triangle Number Sums",
+        "topic": "Mathematics",
+        "id": 3406,
+        "acceptance": 0.8272
+    },
+    {
+        "name": "Dice Probability",
+        "topic": "Mathematics",
+        "id": 1725,
+        "acceptance": 0.9305
+    },
+    {
+        "name": "Moving Robots",
+        "topic": "Mathematics",
+        "id": 1726,
+        "acceptance": 0.9477
+    },
+    {
+        "name": "Candy Lottery",
+        "topic": "Mathematics",
+        "id": 1727,
+        "acceptance": 0.5225
+    },
+    {
+        "name": "Inversion Probability",
+        "topic": "Mathematics",
+        "id": 1728,
+        "acceptance": 0.2054
+    },
+    {
+        "name": "Stick Game",
+        "topic": "Mathematics",
+        "id": 1729,
+        "acceptance": 0.9772
+    },
+    {
+        "name": "Nim Game I",
+        "topic": "Mathematics",
+        "id": 1730,
+        "acceptance": 0.9647
+    },
+    {
+        "name": "Nim Game II",
+        "topic": "Mathematics",
+        "id": 1098,
+        "acceptance": 0.962
+    },
+    {
+        "name": "Stair Game",
+        "topic": "Mathematics",
+        "id": 1099,
+        "acceptance": 0.9216
+    },
+    {
+        "name": "Grundy's Game",
+        "topic": "Mathematics",
+        "id": 2207,
+        "acceptance": 0.7639
+    },
+    {
+        "name": "Another Game",
+        "topic": "Mathematics",
+        "id": 2208,
+        "acceptance": 0.9295
+    },
+    {
+        "name": "Word Combinations",
+        "topic": "String Algorithms",
+        "id": 1731,
+        "acceptance": 0.7022
+    },
+    {
+        "name": "String Matching",
+        "topic": "String Algorithms",
+        "id": 1753,
+        "acceptance": 0.7553
+    },
+    {
+        "name": "Finding Borders",
+        "topic": "String Algorithms",
+        "id": 1732,
+        "acceptance": 0.9179
+    },
+    {
+        "name": "Finding Periods",
+        "topic": "String Algorithms",
+        "id": 1733,
+        "acceptance": 0.8862
+    },
+    {
+        "name": "Minimal Rotation",
+        "topic": "String Algorithms",
+        "id": 1110,
+        "acceptance": 0.6763
+    },
+    {
+        "name": "Longest Palindrome",
+        "topic": "String Algorithms",
+        "id": 1111,
+        "acceptance": 0.767
+    },
+    {
+        "name": "All Palindromes",
+        "topic": "String Algorithms",
+        "id": 3138,
+        "acceptance": 0.8901
+    },
+    {
+        "name": "Required Substring",
+        "topic": "String Algorithms",
+        "id": 1112,
+        "acceptance": 0.6711
+    },
+    {
+        "name": "Palindrome Queries",
+        "topic": "String Algorithms",
+        "id": 2420,
+        "acceptance": 0.8639
+    },
+    {
+        "name": "Finding Patterns",
+        "topic": "String Algorithms",
+        "id": 2102,
+        "acceptance": 0.7209
+    },
+    {
+        "name": "Counting Patterns",
+        "topic": "String Algorithms",
+        "id": 2103,
+        "acceptance": 0.8165
+    },
+    {
+        "name": "Pattern Positions",
+        "topic": "String Algorithms",
+        "id": 2104,
+        "acceptance": 0.8293
+    },
+    {
+        "name": "Distinct Substrings",
+        "topic": "String Algorithms",
+        "id": 2105,
+        "acceptance": 0.8436
+    },
+    {
+        "name": "Distinct Subsequences",
+        "topic": "String Algorithms",
+        "id": 1149,
+        "acceptance": 0.9429
+    },
+    {
+        "name": "Repeating Substring",
+        "topic": "String Algorithms",
+        "id": 2106,
+        "acceptance": 0.8691
+    },
+    {
+        "name": "String Functions",
+        "topic": "String Algorithms",
+        "id": 2107,
+        "acceptance": 0.9537
+    },
+    {
+        "name": "Inverse Suffix Array",
+        "topic": "String Algorithms",
+        "id": 3225,
+        "acceptance": 0.8701
+    },
+    {
+        "name": "String Transform",
+        "topic": "String Algorithms",
+        "id": 1113,
+        "acceptance": 0.8377
+    },
+    {
+        "name": "Substring Order I",
+        "topic": "String Algorithms",
+        "id": 2108,
+        "acceptance": 0.9039
+    },
+    {
+        "name": "Substring Order II",
+        "topic": "String Algorithms",
+        "id": 2109,
+        "acceptance": 0.7747
+    },
+    {
+        "name": "Substring Distribution",
+        "topic": "String Algorithms",
+        "id": 2110,
+        "acceptance": 0.925
+    },
+    {
+        "name": "Point Location Test",
+        "topic": "Geometry",
+        "id": 2189,
+        "acceptance": 0.8998
+    },
+    {
+        "name": "Line Segment Intersection",
+        "topic": "Geometry",
+        "id": 2190,
+        "acceptance": 0.802
+    },
+    {
+        "name": "Polygon Area",
+        "topic": "Geometry",
+        "id": 2191,
+        "acceptance": 0.9474
+    },
+    {
+        "name": "Point in Polygon",
+        "topic": "Geometry",
+        "id": 2192,
+        "acceptance": 0.7915
+    },
+    {
+        "name": "Polygon Lattice Points",
+        "topic": "Geometry",
+        "id": 2193,
+        "acceptance": 0.9316
+    },
+    {
+        "name": "Minimum Euclidean Distance",
+        "topic": "Geometry",
+        "id": 2194,
+        "acceptance": 0.7104
+    },
+    {
+        "name": "Convex Hull",
+        "topic": "Geometry",
+        "id": 2195,
+        "acceptance": 0.8414
+    },
+    {
+        "name": "Maximum Manhattan Distances",
+        "topic": "Geometry",
+        "id": 3410,
+        "acceptance": 0.9619
+    },
+    {
+        "name": "All Manhattan Distances",
+        "topic": "Geometry",
+        "id": 3411,
+        "acceptance": 0.9079
+    },
+    {
+        "name": "Intersection Points",
+        "topic": "Geometry",
+        "id": 1740,
+        "acceptance": 0.9276
+    },
+    {
+        "name": "Line Segments Trace I",
+        "topic": "Geometry",
+        "id": 3427,
+        "acceptance": 0.9671
+    },
+    {
+        "name": "Line Segments Trace II",
+        "topic": "Geometry",
+        "id": 3428,
+        "acceptance": 0.9471
+    },
+    {
+        "name": "Lines and Queries I",
+        "topic": "Geometry",
+        "id": 3429,
+        "acceptance": 0.9517
+    },
+    {
+        "name": "Lines and Queries II",
+        "topic": "Geometry",
+        "id": 3430,
+        "acceptance": 0.9524
+    },
+    {
+        "name": "Area of Rectangles",
+        "topic": "Geometry",
+        "id": 1741,
+        "acceptance": 0.8954
+    },
+    {
+        "name": "Robot Path",
+        "topic": "Geometry",
+        "id": 1742,
+        "acceptance": 0.5374
+    },
+    {
+        "name": "Meet in the Middle",
+        "topic": "Advanced Techniques",
+        "id": 1628,
+        "acceptance": 0.7312
+    },
+    {
+        "name": "Hamming Distance",
+        "topic": "Advanced Techniques",
+        "id": 2136,
+        "acceptance": 0.9144
+    },
+    {
+        "name": "Corner Subgrid Check",
+        "topic": "Advanced Techniques",
+        "id": 3360,
+        "acceptance": 0.3884
+    },
+    {
+        "name": "Corner Subgrid Count",
+        "topic": "Advanced Techniques",
+        "id": 2137,
+        "acceptance": 0.8855
+    },
+    {
+        "name": "Reachable Nodes",
+        "topic": "Advanced Techniques",
+        "id": 2138,
+        "acceptance": 0.931
+    },
+    {
+        "name": "Reachability Queries",
+        "topic": "Advanced Techniques",
+        "id": 2143,
+        "acceptance": 0.8526
+    },
+    {
+        "name": "Cut and Paste",
+        "topic": "Advanced Techniques",
+        "id": 2072,
+        "acceptance": 0.9045
+    },
+    {
+        "name": "Substring Reversals",
+        "topic": "Advanced Techniques",
+        "id": 2073,
+        "acceptance": 0.9227
+    },
+    {
+        "name": "Reversals and Sums",
+        "topic": "Advanced Techniques",
+        "id": 2074,
+        "acceptance": 0.934
+    },
+    {
+        "name": "Necessary Roads",
+        "topic": "Advanced Techniques",
+        "id": 2076,
+        "acceptance": 0.9743
+    },
+    {
+        "name": "Necessary Cities",
+        "topic": "Advanced Techniques",
+        "id": 2077,
+        "acceptance": 0.9565
+    },
+    {
+        "name": "Eulerian Subgraphs",
+        "topic": "Advanced Techniques",
+        "id": 2078,
+        "acceptance": 0.9491
+    },
+    {
+        "name": "Monster Game I",
+        "topic": "Advanced Techniques",
+        "id": 2084,
+        "acceptance": 0.9017
+    },
+    {
+        "name": "Monster Game II",
+        "topic": "Advanced Techniques",
+        "id": 2085,
+        "acceptance": 0.9356
+    },
+    {
+        "name": "Subarray Squares",
+        "topic": "Advanced Techniques",
+        "id": 2086,
+        "acceptance": 0.8585
+    },
+    {
+        "name": "Houses and Schools",
+        "topic": "Advanced Techniques",
+        "id": 2087,
+        "acceptance": 0.843
+    },
+    {
+        "name": "Knuth Division",
+        "topic": "Advanced Techniques",
+        "id": 2088,
+        "acceptance": 0.89
+    },
+    {
+        "name": "Apples and Bananas",
+        "topic": "Advanced Techniques",
+        "id": 2111,
+        "acceptance": 0.9223
+    },
+    {
+        "name": "One Bit Positions",
+        "topic": "Advanced Techniques",
+        "id": 2112,
+        "acceptance": 0.9168
+    },
+    {
+        "name": "Signal Processing",
+        "topic": "Advanced Techniques",
+        "id": 2113,
+        "acceptance": 0.9344
+    },
+    {
+        "name": "New Roads Queries",
+        "topic": "Advanced Techniques",
+        "id": 2101,
+        "acceptance": 0.829
+    },
+    {
+        "name": "Dynamic Connectivity",
+        "topic": "Advanced Techniques",
+        "id": 2133,
+        "acceptance": 0.8893
+    },
+    {
+        "name": "Parcel Delivery",
+        "topic": "Advanced Techniques",
+        "id": 2121,
+        "acceptance": 0.9108
+    },
+    {
+        "name": "Task Assignment",
+        "topic": "Advanced Techniques",
+        "id": 2129,
+        "acceptance": 0.9277
+    },
+    {
+        "name": "Distinct Routes II",
+        "topic": "Advanced Techniques",
+        "id": 2130,
+        "acceptance": 0.8811
+    },
+    {
+        "name": "Sliding Window Sum",
+        "topic": "Sliding Window Problems",
+        "id": 3220,
+        "acceptance": 0.9675
+    },
+    {
+        "name": "Sliding Window Minimum",
+        "topic": "Sliding Window Problems",
+        "id": 3221,
+        "acceptance": 0.8761
+    },
+    {
+        "name": "Sliding Window Xor",
+        "topic": "Sliding Window Problems",
+        "id": 3426,
+        "acceptance": 0.9861
+    },
+    {
+        "name": "Sliding Window Or",
+        "topic": "Sliding Window Problems",
+        "id": 3405,
+        "acceptance": 0.5972
+    },
+    {
+        "name": "Sliding Window Distinct Values",
+        "topic": "Sliding Window Problems",
+        "id": 3222,
+        "acceptance": 0.8402
+    },
+    {
+        "name": "Sliding Window Mode",
+        "topic": "Sliding Window Problems",
+        "id": 3224,
+        "acceptance": 0.9437
+    },
+    {
+        "name": "Sliding Window Mex",
+        "topic": "Sliding Window Problems",
+        "id": 3219,
+        "acceptance": 0.9503
+    },
+    {
+        "name": "Sliding Window Median",
+        "topic": "Sliding Window Problems",
+        "id": 1076,
+        "acceptance": 0.8787
+    },
+    {
+        "name": "Sliding Window Cost",
+        "topic": "Sliding Window Problems",
+        "id": 1077,
+        "acceptance": 0.8694
+    },
+    {
+        "name": "Sliding Window Inversions",
+        "topic": "Sliding Window Problems",
+        "id": 3223,
+        "acceptance": 0.9436
+    },
+    {
+        "name": "Sliding Window Advertisement",
+        "topic": "Sliding Window Problems",
+        "id": 3227,
+        "acceptance": 0.6339
+    },
+    {
+        "name": "Hidden Integer",
+        "topic": "Interactive Problems",
+        "id": 3112,
+        "acceptance": 0.96
+    },
+    {
+        "name": "Hidden Permutation",
+        "topic": "Interactive Problems",
+        "id": 3139,
+        "acceptance": 0.862
+    },
+    {
+        "name": "K-th Highest Score",
+        "topic": "Interactive Problems",
+        "id": 3305,
+        "acceptance": 0.827
+    },
+    {
+        "name": "Permuted Binary Strings",
+        "topic": "Interactive Problems",
+        "id": 3228,
+        "acceptance": 0.9752
+    },
+    {
+        "name": "Colored Chairs",
+        "topic": "Interactive Problems",
+        "id": 3273,
+        "acceptance": 0.9435
+    },
+    {
+        "name": "Inversion Sorting",
+        "topic": "Interactive Problems",
+        "id": 3140,
+        "acceptance": 0.8918
+    },
+    {
+        "name": "Counting Bits",
+        "topic": "Bitwise Operations",
+        "id": 1146,
+        "acceptance": 0.7765
+    },
+    {
+        "name": "Maximum Xor Subarray",
+        "topic": "Bitwise Operations",
+        "id": 1655,
+        "acceptance": 0.8748
+    },
+    {
+        "name": "Maximum Xor Subset",
+        "topic": "Bitwise Operations",
+        "id": 3191,
+        "acceptance": 0.9136
+    },
+    {
+        "name": "Number of Subset Xors",
+        "topic": "Bitwise Operations",
+        "id": 3211,
+        "acceptance": 0.9795
+    },
+    {
+        "name": "K Subset Xors",
+        "topic": "Bitwise Operations",
+        "id": 3192,
+        "acceptance": 0.8509
+    },
+    {
+        "name": "All Subarray Xors",
+        "topic": "Bitwise Operations",
+        "id": 3233,
+        "acceptance": 0.6274
+    },
+    {
+        "name": "Xor Pyramid Peak",
+        "topic": "Bitwise Operations",
+        "id": 2419,
+        "acceptance": 0.829
+    },
+    {
+        "name": "Xor Pyramid Diagonal",
+        "topic": "Bitwise Operations",
+        "id": 3194,
+        "acceptance": 0.8916
+    },
+    {
+        "name": "Xor Pyramid Row",
+        "topic": "Bitwise Operations",
+        "id": 3195,
+        "acceptance": 0.8511
+    },
+    {
+        "name": "SOS Bit Problem",
+        "topic": "Bitwise Operations",
+        "id": 1654,
+        "acceptance": 0.9421
+    },
+    {
+        "name": "And Subset Count",
+        "topic": "Bitwise Operations",
+        "id": 3141,
+        "acceptance": 0.9588
+    },
+    {
+        "name": "Inverse Inversions",
+        "topic": "Construction Problems",
+        "id": 2214,
+        "acceptance": 0.9371
+    },
+    {
+        "name": "Monotone Subsequences",
+        "topic": "Construction Problems",
+        "id": 2215,
+        "acceptance": 0.8469
+    },
+    {
+        "name": "Third Permutation",
+        "topic": "Construction Problems",
+        "id": 3422,
+        "acceptance": 0.81
+    },
+    {
+        "name": "Permutation Prime Sums",
+        "topic": "Construction Problems",
+        "id": 3423,
+        "acceptance": 0.9272
+    },
+    {
+        "name": "Chess Tournament",
+        "topic": "Construction Problems",
+        "id": 1697,
+        "acceptance": 0.8665
+    },
+    {
+        "name": "Distinct Sums Grid",
+        "topic": "Construction Problems",
+        "id": 3424,
+        "acceptance": 0.6744
+    },
+    {
+        "name": "Filling Trominos",
+        "topic": "Construction Problems",
+        "id": 2423,
+        "acceptance": 0.5793
+    },
+    {
+        "name": "Grid Path Construction",
+        "topic": "Construction Problems",
+        "id": 2418,
+        "acceptance": 0.3229
+    },
+    {
+        "name": "Nearest Shops",
+        "topic": "Advanced Graph Problems",
+        "id": 3303,
+        "acceptance": 0.7732
+    },
+    {
+        "name": "Pr\u00fcfer Code",
+        "topic": "Advanced Graph Problems",
+        "id": 1134,
+        "acceptance": 0.9302
+    },
+    {
+        "name": "Tree Traversals",
+        "topic": "Advanced Graph Problems",
+        "id": 1702,
+        "acceptance": 0.9103
+    },
+    {
+        "name": "Course Schedule II",
+        "topic": "Advanced Graph Problems",
+        "id": 1757,
+        "acceptance": 0.7056
+    },
+    {
+        "name": "Acyclic Graph Edges",
+        "topic": "Advanced Graph Problems",
+        "id": 1756,
+        "acceptance": 0.9451
+    },
+    {
+        "name": "Strongly Connected Edges",
+        "topic": "Advanced Graph Problems",
+        "id": 2177,
+        "acceptance": 0.853
+    },
+    {
+        "name": "Even Outdegree Edges",
+        "topic": "Advanced Graph Problems",
+        "id": 2179,
+        "acceptance": 0.8596
+    },
+    {
+        "name": "Graph Girth",
+        "topic": "Advanced Graph Problems",
+        "id": 1707,
+        "acceptance": 0.8835
+    },
+    {
+        "name": "Fixed Length Walk Queries",
+        "topic": "Advanced Graph Problems",
+        "id": 3357,
+        "acceptance": 0.8982
+    },
+    {
+        "name": "Transfer Speeds Sum",
+        "topic": "Advanced Graph Problems",
+        "id": 3111,
+        "acceptance": 0.9692
+    },
+    {
+        "name": "MST Edge Check",
+        "topic": "Advanced Graph Problems",
+        "id": 3407,
+        "acceptance": 0.9177
+    },
+    {
+        "name": "MST Edge Set Check",
+        "topic": "Advanced Graph Problems",
+        "id": 3408,
+        "acceptance": 0.8868
+    },
+    {
+        "name": "MST Edge Cost",
+        "topic": "Advanced Graph Problems",
+        "id": 3409,
+        "acceptance": 0.9549
+    },
+    {
+        "name": "Network Breakdown",
+        "topic": "Advanced Graph Problems",
+        "id": 1677,
+        "acceptance": 0.9184
+    },
+    {
+        "name": "Tree Coin Collecting I",
+        "topic": "Advanced Graph Problems",
+        "id": 3114,
+        "acceptance": 0.9222
+    },
+    {
+        "name": "Tree Coin Collecting II",
+        "topic": "Advanced Graph Problems",
+        "id": 3149,
+        "acceptance": 0.8707
+    },
+    {
+        "name": "Tree Isomorphism I",
+        "topic": "Advanced Graph Problems",
+        "id": 1700,
+        "acceptance": 0.8435
+    },
+    {
+        "name": "Tree Isomorphism II",
+        "topic": "Advanced Graph Problems",
+        "id": 1701,
+        "acceptance": 0.869
+    },
+    {
+        "name": "Flight Route Requests",
+        "topic": "Advanced Graph Problems",
+        "id": 1699,
+        "acceptance": 0.809
+    },
+    {
+        "name": "Critical Cities",
+        "topic": "Advanced Graph Problems",
+        "id": 1703,
+        "acceptance": 0.6577
+    },
+    {
+        "name": "Visiting Cities",
+        "topic": "Advanced Graph Problems",
+        "id": 1203,
+        "acceptance": 0.7599
+    },
+    {
+        "name": "Graph Coloring",
+        "topic": "Advanced Graph Problems",
+        "id": 3308,
+        "acceptance": 0.8538
+    },
+    {
+        "name": "Bus Companies",
+        "topic": "Advanced Graph Problems",
+        "id": 3158,
+        "acceptance": 0.9678
+    },
+    {
+        "name": "Split into Two Paths",
+        "topic": "Advanced Graph Problems",
+        "id": 3358,
+        "acceptance": 0.5707
+    },
+    {
+        "name": "Network Renovation",
+        "topic": "Advanced Graph Problems",
+        "id": 1704,
+        "acceptance": 0.757
+    },
+    {
+        "name": "Forbidden Cities",
+        "topic": "Advanced Graph Problems",
+        "id": 1705,
+        "acceptance": 0.7668
+    },
+    {
+        "name": "Creating Offices",
+        "topic": "Advanced Graph Problems",
+        "id": 1752,
+        "acceptance": 0.7666
+    },
+    {
+        "name": "New Flight Routes",
+        "topic": "Advanced Graph Problems",
+        "id": 1685,
+        "acceptance": 0.3777
+    },
+    {
+        "name": "Filled Subgrid Count I",
+        "topic": "Counting Problems",
+        "id": 3413,
+        "acceptance": 0.8914
+    },
+    {
+        "name": "Filled Subgrid Count II",
+        "topic": "Counting Problems",
+        "id": 3414,
+        "acceptance": 0.8107
+    },
+    {
+        "name": "All Letter Subgrid Count I",
+        "topic": "Counting Problems",
+        "id": 3415,
+        "acceptance": 0.6842
+    },
+    {
+        "name": "All Letter Subgrid Count II",
+        "topic": "Counting Problems",
+        "id": 3416,
+        "acceptance": 0.7761
+    },
+    {
+        "name": "Border Subgrid Count I",
+        "topic": "Counting Problems",
+        "id": 3417,
+        "acceptance": 0.5729
+    },
+    {
+        "name": "Border Subgrid Count II",
+        "topic": "Counting Problems",
+        "id": 3418,
+        "acceptance": 0.8652
+    },
+    {
+        "name": "Raab Game II",
+        "topic": "Counting Problems",
+        "id": 3400,
+        "acceptance": 0.8681
+    },
+    {
+        "name": "Empty String",
+        "topic": "Counting Problems",
+        "id": 1080,
+        "acceptance": 0.8258
+    },
+    {
+        "name": "Permutation Inversions",
+        "topic": "Counting Problems",
+        "id": 2229,
+        "acceptance": 0.9061
+    },
+    {
+        "name": "Counting Bishops",
+        "topic": "Counting Problems",
+        "id": 2176,
+        "acceptance": 0.8983
+    },
+    {
+        "name": "Counting Sequences",
+        "topic": "Counting Problems",
+        "id": 2228,
+        "acceptance": 0.9285
+    },
+    {
+        "name": "Grid Paths II",
+        "topic": "Counting Problems",
+        "id": 1078,
+        "acceptance": 0.7979
+    },
+    {
+        "name": "Counting Permutations",
+        "topic": "Counting Problems",
+        "id": 1075,
+        "acceptance": 0.8865
+    },
+    {
+        "name": "Grid Completion",
+        "topic": "Counting Problems",
+        "id": 2429,
+        "acceptance": 0.7883
+    },
+    {
+        "name": "Counting Reorders",
+        "topic": "Counting Problems",
+        "id": 2421,
+        "acceptance": 0.7136
+    },
+    {
+        "name": "Tournament Graph Distribution",
+        "topic": "Counting Problems",
+        "id": 3232,
+        "acceptance": 0.9254
+    },
+    {
+        "name": "Collecting Numbers Distribution",
+        "topic": "Counting Problems",
+        "id": 3157,
+        "acceptance": 0.9429
+    },
+    {
+        "name": "Functional Graph Distribution",
+        "topic": "Counting Problems",
+        "id": 2415,
+        "acceptance": 0.8125
+    },
+    {
+        "name": "Shortest Subsequence",
+        "topic": "Additional Problems I",
+        "id": 1087,
+        "acceptance": 0.7619
+    },
+    {
+        "name": "Distinct Values Sum",
+        "topic": "Additional Problems I",
+        "id": 3150,
+        "acceptance": 0.9697
+    },
+    {
+        "name": "Distinct Values Splits",
+        "topic": "Additional Problems I",
+        "id": 3190,
+        "acceptance": 0.9362
+    },
+    {
+        "name": "Swap Game",
+        "topic": "Additional Problems I",
+        "id": 1670,
+        "acceptance": 0.7791
+    },
+    {
+        "name": "Beautiful Permutation II",
+        "topic": "Additional Problems I",
+        "id": 3175,
+        "acceptance": 0.6593
+    },
+    {
+        "name": "Multiplication Table",
+        "topic": "Additional Problems I",
+        "id": 2422,
+        "acceptance": 0.8991
+    },
+    {
+        "name": "Bubble Sort Rounds I",
+        "topic": "Additional Problems I",
+        "id": 3151,
+        "acceptance": 0.8798
+    },
+    {
+        "name": "Bubble Sort Rounds II",
+        "topic": "Additional Problems I",
+        "id": 3152,
+        "acceptance": 0.8956
+    },
+    {
+        "name": "Nearest Campsites I",
+        "topic": "Additional Problems I",
+        "id": 3306,
+        "acceptance": 0.8577
+    },
+    {
+        "name": "Nearest Campsites II",
+        "topic": "Additional Problems I",
+        "id": 3307,
+        "acceptance": 0.9318
+    },
+    {
+        "name": "Advertisement",
+        "topic": "Additional Problems I",
+        "id": 1142,
+        "acceptance": 0.9446
+    },
+    {
+        "name": "Special Substrings",
+        "topic": "Additional Problems I",
+        "id": 2186,
+        "acceptance": 0.9108
+    },
+    {
+        "name": "Counting LCM Arrays",
+        "topic": "Additional Problems I",
+        "id": 3169,
+        "acceptance": 0.914
+    },
+    {
+        "name": "Square Subsets",
+        "topic": "Additional Problems I",
+        "id": 3193,
+        "acceptance": 0.8989
+    },
+    {
+        "name": "Subarray Sum Constraints",
+        "topic": "Additional Problems I",
+        "id": 3294,
+        "acceptance": 0.9327
+    },
+    {
+        "name": "Water Containers Moves",
+        "topic": "Additional Problems I",
+        "id": 3213,
+        "acceptance": 0.9439
+    },
+    {
+        "name": "Water Containers Queries",
+        "topic": "Additional Problems I",
+        "id": 3214,
+        "acceptance": 0.9476
+    },
+    {
+        "name": "Stack Weights",
+        "topic": "Additional Problems I",
+        "id": 2425,
+        "acceptance": 0.8344
+    },
+    {
+        "name": "Maximum Average Subarrays",
+        "topic": "Additional Problems I",
+        "id": 3301,
+        "acceptance": 0.9028
+    },
+    {
+        "name": "Subsets with Fixed Average",
+        "topic": "Additional Problems I",
+        "id": 3302,
+        "acceptance": 0.9151
+    },
+    {
+        "name": "Two Array Average",
+        "topic": "Additional Problems I",
+        "id": 3361,
+        "acceptance": 0.8906
+    },
+    {
+        "name": "Pyramid Array",
+        "topic": "Additional Problems I",
+        "id": 1747,
+        "acceptance": 0.8303
+    },
+    {
+        "name": "Permutation Subsequence",
+        "topic": "Additional Problems I",
+        "id": 3404,
+        "acceptance": 0.9659
+    },
+    {
+        "name": "Bit Inversions",
+        "topic": "Additional Problems I",
+        "id": 1188,
+        "acceptance": 0.8861
+    },
+    {
+        "name": "Writing Numbers",
+        "topic": "Additional Problems I",
+        "id": 1086,
+        "acceptance": 0.9242
+    },
+    {
+        "name": "Letter Pair Move Game",
+        "topic": "Additional Problems I",
+        "id": 2427,
+        "acceptance": 0.7124
+    },
+    {
+        "name": "Maximum Building I",
+        "topic": "Additional Problems I",
+        "id": 1147,
+        "acceptance": 0.9584
+    },
+    {
+        "name": "Sorting Methods",
+        "topic": "Additional Problems I",
+        "id": 1162,
+        "acceptance": 0.9356
+    },
+    {
+        "name": "Cyclic Array",
+        "topic": "Additional Problems I",
+        "id": 1191,
+        "acceptance": 0.8819
+    },
+    {
+        "name": "List of Sums",
+        "topic": "Additional Problems I",
+        "id": 2414,
+        "acceptance": 0.7693
+    },
+    {
+        "name": "Bouncing Ball Steps",
+        "topic": "Additional Problems II",
+        "id": 3215,
+        "acceptance": 0.9037
+    },
+    {
+        "name": "Bouncing Ball Cycle",
+        "topic": "Additional Problems II",
+        "id": 3216,
+        "acceptance": 0.7097
+    },
+    {
+        "name": "Knight Moves Queries",
+        "topic": "Additional Problems II",
+        "id": 3218,
+        "acceptance": 0.8303
+    },
+    {
+        "name": "K Subset Sums I",
+        "topic": "Additional Problems II",
+        "id": 3108,
+        "acceptance": 0.7786
+    },
+    {
+        "name": "K Subset Sums II",
+        "topic": "Additional Problems II",
+        "id": 3109,
+        "acceptance": 0.7917
+    },
+    {
+        "name": "Increasing Array II",
+        "topic": "Additional Problems II",
+        "id": 2132,
+        "acceptance": 0.876
+    },
+    {
+        "name": "Food Division",
+        "topic": "Additional Problems II",
+        "id": 1189,
+        "acceptance": 0.8338
+    },
+    {
+        "name": "Swap Round Sorting",
+        "topic": "Additional Problems II",
+        "id": 1698,
+        "acceptance": 0.8037
+    },
+    {
+        "name": "Binary Subsequences",
+        "topic": "Additional Problems II",
+        "id": 2430,
+        "acceptance": 0.6892
+    },
+    {
+        "name": "School Excursion",
+        "topic": "Additional Problems II",
+        "id": 1706,
+        "acceptance": 0.9449
+    },
+    {
+        "name": "Coin Grid",
+        "topic": "Additional Problems II",
+        "id": 1709,
+        "acceptance": 0.856
+    },
+    {
+        "name": "Grid Coloring II",
+        "topic": "Additional Problems II",
+        "id": 3312,
+        "acceptance": 0.7662
+    },
+    {
+        "name": "Programmers and Artists",
+        "topic": "Additional Problems II",
+        "id": 2426,
+        "acceptance": 0.7145
+    },
+    {
+        "name": "Removing Digits II",
+        "topic": "Additional Problems II",
+        "id": 2174,
+        "acceptance": 0.4597
+    },
+    {
+        "name": "Coin Arrangement",
+        "topic": "Additional Problems II",
+        "id": 2180,
+        "acceptance": 0.7495
+    },
+    {
+        "name": "Replace with Difference",
+        "topic": "Additional Problems II",
+        "id": 3159,
+        "acceptance": 0.84
+    },
+    {
+        "name": "Grid Puzzle I",
+        "topic": "Additional Problems II",
+        "id": 2432,
+        "acceptance": 0.9115
+    },
+    {
+        "name": "Grid Puzzle II",
+        "topic": "Additional Problems II",
+        "id": 2131,
+        "acceptance": 0.9116
+    },
+    {
+        "name": "Bit Substrings",
+        "topic": "Additional Problems II",
+        "id": 2115,
+        "acceptance": 0.8246
+    },
+    {
+        "name": "Reversal Sorting",
+        "topic": "Additional Problems II",
+        "id": 2075,
+        "acceptance": 0.8271
+    },
+    {
+        "name": "Book Shop II",
+        "topic": "Additional Problems II",
+        "id": 1159,
+        "acceptance": 0.8793
+    },
+    {
+        "name": "GCD Subsets",
+        "topic": "Additional Problems II",
+        "id": 3161,
+        "acceptance": 0.9703
+    },
+    {
+        "name": "Minimum Cost Pairs",
+        "topic": "Additional Problems II",
+        "id": 3402,
+        "acceptance": 0.7783
+    },
+    {
+        "name": "Same Sum Subsets",
+        "topic": "Additional Problems II",
+        "id": 3425,
+        "acceptance": 0.5133
+    },
+    {
+        "name": "Mex Grid Queries",
+        "topic": "Additional Problems II",
+        "id": 1157,
+        "acceptance": 0.8547
+    },
+    {
+        "name": "Maximum Building II",
+        "topic": "Additional Problems II",
+        "id": 1148,
+        "acceptance": 0.8107
+    },
+    {
+        "name": "Stick Divisions",
+        "topic": "Additional Problems II",
+        "id": 1161,
+        "acceptance": 0.8557
+    },
+    {
+        "name": "Stick Difference",
+        "topic": "Additional Problems II",
+        "id": 3401,
+        "acceptance": 0.2715
+    },
+    {
+        "name": "Coding Company",
+        "topic": "Additional Problems II",
+        "id": 1665,
+        "acceptance": 0.7655
+    },
+    {
+        "name": "Two Stacks Sorting",
+        "topic": "Additional Problems II",
+        "id": 2402,
+        "acceptance": 0.3146
+    }
+]
