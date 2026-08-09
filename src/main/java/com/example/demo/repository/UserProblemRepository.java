@@ -19,6 +19,8 @@ public interface UserProblemRepository extends JpaRepository<UserProblem, Long> 
     // Check if user solved a problem
     boolean existsByUserIdAndProblemId(Long userId, Long problemId);
     
+    long countByUser_IdAndProblem_PlatformName(Long userId, String platformName);
+    
     // Delete a problem resolution
     void deleteByUserIdAndProblemId(Long userId, Long problemId);
     
@@ -101,5 +103,4 @@ public interface UserProblemRepository extends JpaRepository<UserProblem, Long> 
         @Param("platform") String platform,
         @Param("difficulty") String difficulty
     );
-
 }

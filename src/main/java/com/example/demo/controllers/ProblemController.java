@@ -156,6 +156,8 @@ public class ProblemController {
 
             String link = (String) payload.get("link");
 
+            String difficulty = (String) payload.get("difficulty");
+            String code = (String) payload.get("code");
             String intuition =
                     (String) payload.get("intuition");
 
@@ -164,7 +166,7 @@ public class ProblemController {
 
             String spaceComplexity =
                     (String) payload.get("spaceComplexity");
-
+            
             Integer timeTaken =
                     payload.get("timeTaken") != null
                             ? Integer.valueOf(payload.get("timeTaken").toString())
@@ -179,6 +181,8 @@ public class ProblemController {
                     problemservice.markProblemAsSolved(
                             userId,
                             link,
+                            difficulty,
+                            code,
                             intuition,
                             timeComplexity,
                             spaceComplexity,

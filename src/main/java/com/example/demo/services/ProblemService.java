@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.dto.AIAnalysis;
 import com.example.demo.dto.ProblemMetadata;
 import com.example.demo.dto.UserProblemDTO;
+import com.example.demo.model.CsesTaskNames;
+import com.example.demo.model.Platform;
 import com.example.demo.model.Problem;
 import com.example.demo.model.User;
 import com.example.demo.model.UserProblem;
@@ -197,54 +199,61 @@ public class ProblemService {
     public UserProblem markProblemAsSolved(
             Long userId,
             String link,
+            String difficulty,
+            String code,
             String intuition,
             String timeComplexity,
             String spaceComplexity,
             Integer timeTaken,
             PostVisibility visibility) {
 
-        // 1. Call Python backend
-        ProblemMetadata metadata = pythonService.fetchProblemDetails(link);
+        // 1. Derive platform + question name from the link — no more Python.
+        ProblemLinkParser.ParsedLink parsed = ProblemLinkParser.parse(link);
+        Platform platform = parsed.platform();
+        String questionName = platform == Platform.CSES
+            ? CsesTaskNames.nameFor(parsed.questionSlug())
+            : parsed.questionSlug();
+
         if (isBlank(intuition)
         || isBlank(timeComplexity)
         || isBlank(spaceComplexity)) {
 
-    AIAnalysis analysis =
-            aiService.analyzeCode(
-                    metadata.getSolutionCode()
-            );
+            AIAnalysis analysis = aiService.analyzeCode(code);
 
-    if (isBlank(intuition)) {
-        intuition = analysis.getIntuition();
-    }
+            if (isBlank(intuition)) {
+                intuition = analysis.getIntuition();
+            }
 
-    if (isBlank(timeComplexity)) {
-        timeComplexity = analysis.getTimeComplexity();
-    }
+            if (isBlank(timeComplexity)) {
+                timeComplexity = analysis.getTimeComplexity();
+            }
 
-    if (isBlank(spaceComplexity)) {
-        spaceComplexity = analysis.getSpaceComplexity();
-    }
-}
+            if (isBlank(spaceComplexity)) {
+                spaceComplexity = analysis.getSpaceComplexity();
+            }
+        }
+
         Problem p = new Problem();
-        p.setQuestionName(metadata.getQuestionName());
-        p.setQuestionId(metadata.getQuestionId());
-        p.setDifficulty(metadata.getDifficulty());
-        p.setCode(metadata.getSolutionCode());
+        p.setQuestionName(questionName);
+        p.setDifficulty(difficulty);
+        p.setCode(code);
         p.setIntuition(intuition);
         p.setTimeComplexity(timeComplexity);
         p.setSpaceComplexity(spaceComplexity);
-        p.setPlatformName(metadata.getPlatformName());
+        p.setPlatformName(platform.name());
         p.setLink(link);
 
         Problem problem =
                 createProblem(
                         userId,
                         p,
-                        visibility); 
+                        visibility);
         Long problemId = problem.getId();
-        // Adding Topics
-        ptService.addTopics(problemId, metadata.getTopics());
+
+        // Topics previously came from Python metadata — no source for these
+        // right now, so this step is dropped until there's a replacement.
+        // ptService.addTopics(problemId, metadata.getTopics());
+
         // 3. Check if already solved
         if (uprepo.existsByUserIdAndProblemId(userId, problemId)) {
             throw new RuntimeException("Problem already solved by this user");
@@ -254,13 +263,18 @@ public class ProblemService {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // This user's own Nth problem logged on this platform.
+        long solvedOnPlatform =
+                uprepo.countByUser_IdAndProblem_PlatformName(userId, platform.name());
+
         // 5. Create UserProblem
         UserProblem userProblem = new UserProblem();
 
         userProblem.setUser(user);
         userProblem.setProblem(problem);
+        userProblem.setQuestionId((int) solvedOnPlatform + 1);
 
-        userProblem.setSolutionCode(metadata.getSolutionCode());
+        userProblem.setSolutionCode(code);
         userProblem.setIntuition(intuition);
         userProblem.setTimeComplexity(timeComplexity);
         userProblem.setSpaceComplexity(spaceComplexity);
@@ -274,12 +288,6 @@ public class ProblemService {
 
         // 8. Track daily points
         trackSubmission(userId, 1);
-
-        // 9. Update user_problem counters
-        // userProblemStatsService.update(...)
-
-        // 10. Update user_stats
-        // userStatsService.update(...)
 
         return saved;
     }
