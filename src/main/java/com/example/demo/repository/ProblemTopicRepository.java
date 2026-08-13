@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.model.ProblemTopic;
 
-public interface ProblemTopicRepository extends JpaRepository<ProblemTopic,Long>{
-    List<ProblemTopic> findByProblem_Id(Long problemId);
+public interface ProblemTopicRepository extends JpaRepository<ProblemTopic, Long> {
+    List<ProblemTopic> findByUserProblem_Id(Long userProblemId);
+    List<ProblemTopic> findByUserProblem_IdIn(List<Long> userProblemIds);
     List<ProblemTopic> findByTopic_Id(Long topicId);
 
-    boolean existsByProblem_IdAndTopic_Id(Long problemId, Long topicId);
+    boolean existsByUserProblem_IdAndTopic_Id(Long userProblemId, Long topicId);
 }

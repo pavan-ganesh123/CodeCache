@@ -19,6 +19,7 @@ import com.example.demo.model.enums.PostVisibility;
 import com.example.demo.model.enums.SubmissionStatus;
 import com.example.demo.repository.FriendRepository;
 import com.example.demo.repository.ProblemRepository;
+import com.example.demo.repository.ProblemTopicRepository;
 import com.example.demo.repository.UserProblemRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.UserStatsRepository;
@@ -64,6 +65,9 @@ public class ProblemService {
 
     @Autowired
     private AIService aiService;
+    
+    @Autowired
+    private ProblemTopicRepository problemTopicRepo;
     
     public Problem save(Problem p){
         return repo.save(p);
@@ -196,101 +200,70 @@ public class ProblemService {
 
 
     @Transactional
-    public UserProblem markProblemAsSolved(
-            Long userId,
-            String link,
-            String difficulty,
-            String code,
-            String intuition,
-            String timeComplexity,
-            String spaceComplexity,
-            Integer timeTaken,
-            PostVisibility visibility) {
+public UserProblem markProblemAsSolved(
+        Long userId, String link, String difficulty, String code,
+        String intuition, String timeComplexity, String spaceComplexity,
+        Integer timeTaken, PostVisibility visibility, List<String> topics) {
 
-        // 1. Derive platform + question name from the link — no more Python.
-        ProblemLinkParser.ParsedLink parsed = ProblemLinkParser.parse(link);
-        Platform platform = parsed.platform();
-        String questionName = platform == Platform.CSES
-            ? CsesTaskNames.nameFor(parsed.questionSlug())
-            : parsed.questionSlug();
+    ProblemLinkParser.ParsedLink parsed = ProblemLinkParser.parse(link);
+    Platform platform = parsed.platform();
+    String questionName = platform == Platform.CSES
+        ? CsesTaskNames.nameFor(parsed.questionSlug())
+        : parsed.questionSlug();
 
-        if (isBlank(intuition)
-        || isBlank(timeComplexity)
-        || isBlank(spaceComplexity)) {
-
-            AIAnalysis analysis = aiService.analyzeCode(code);
-
-            if (isBlank(intuition)) {
-                intuition = analysis.getIntuition();
-            }
-
-            if (isBlank(timeComplexity)) {
-                timeComplexity = analysis.getTimeComplexity();
-            }
-
-            if (isBlank(spaceComplexity)) {
-                spaceComplexity = analysis.getSpaceComplexity();
-            }
-        }
-
-        Problem p = new Problem();
-        p.setQuestionName(questionName);
-        p.setDifficulty(difficulty);
-        p.setCode(code);
-        p.setIntuition(intuition);
-        p.setTimeComplexity(timeComplexity);
-        p.setSpaceComplexity(spaceComplexity);
-        p.setPlatformName(platform.name());
-        p.setLink(link);
-
-        Problem problem =
-                createProblem(
-                        userId,
-                        p,
-                        visibility);
-        Long problemId = problem.getId();
-
-        // Topics previously came from Python metadata — no source for these
-        // right now, so this step is dropped until there's a replacement.
-        // ptService.addTopics(problemId, metadata.getTopics());
-
-        // 3. Check if already solved
-        if (uprepo.existsByUserIdAndProblemId(userId, problemId)) {
-            throw new RuntimeException("Problem already solved by this user");
-        }
-
-        // 4. Fetch user
-        User user = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // This user's own Nth problem logged on this platform.
-        long solvedOnPlatform =
-                uprepo.countByUser_IdAndProblem_PlatformName(userId, platform.name());
-
-        // 5. Create UserProblem
-        UserProblem userProblem = new UserProblem();
-
-        userProblem.setUser(user);
-        userProblem.setProblem(problem);
-        userProblem.setQuestionId((int) solvedOnPlatform + 1);
-
-        userProblem.setSolutionCode(code);
-        userProblem.setIntuition(intuition);
-        userProblem.setTimeComplexity(timeComplexity);
-        userProblem.setSpaceComplexity(spaceComplexity);
-
-        userProblem.setSolvedAt(LocalDateTime.now());
-        userProblem.setCreatedAt(LocalDateTime.now());
-        userProblem.setUpdatedAt(LocalDateTime.now());
-
-        // 6. Save UserProblem
-        UserProblem saved = uprepo.save(userProblem);
-
-        // 8. Track daily points
-        trackSubmission(userId, 1);
-
-        return saved;
+    if (isBlank(intuition) || isBlank(timeComplexity) || isBlank(spaceComplexity)) {
+        AIAnalysis analysis = aiService.analyzeCode(code);
+        if (isBlank(intuition)) intuition = analysis.getIntuition();
+        if (isBlank(timeComplexity)) timeComplexity = analysis.getTimeComplexity();
+        if (isBlank(spaceComplexity)) spaceComplexity = analysis.getSpaceComplexity();
     }
+
+    Problem p = new Problem();
+    p.setQuestionName(questionName);
+    p.setDifficulty(difficulty);
+    p.setCode(code);
+    p.setIntuition(intuition);
+    p.setTimeComplexity(timeComplexity);
+    p.setSpaceComplexity(spaceComplexity);
+    p.setPlatformName(platform.name());
+    p.setLink(link);
+
+    Problem problem = createProblem(userId, p, visibility);
+    Long problemId = problem.getId();
+
+    if (uprepo.existsByUserIdAndProblemId(userId, problemId)) {
+        throw new RuntimeException("Problem already solved by this user");
+    }
+
+    User user = userRepo.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    long solvedOnPlatform = uprepo.countByUser_IdAndProblem_PlatformName(userId, platform.name());
+
+    UserProblem userProblem = new UserProblem();
+    userProblem.setUser(user);
+    userProblem.setProblem(problem);
+    userProblem.setQuestionId((int) solvedOnPlatform + 1);
+    userProblem.setSolutionCode(code);
+    userProblem.setIntuition(intuition);
+    userProblem.setTimeComplexity(timeComplexity);
+    userProblem.setSpaceComplexity(spaceComplexity);
+    userProblem.setSolvedAt(LocalDateTime.now());
+    userProblem.setCreatedAt(LocalDateTime.now());
+    userProblem.setUpdatedAt(LocalDateTime.now());
+
+    UserProblem saved = uprepo.save(userProblem);
+
+    // Topics are personal — tied to this user's UserProblem, not the
+    // shared Problem row, since Problem is deduped globally by name.
+    if (topics != null && !topics.isEmpty()) {
+        ptService.addTopics(saved.getId(), topics);
+    }
+
+    trackSubmission(userId, 1);
+    return saved;
+}
+
     public void trackSubmission(Long userId, int questionCnt){
         LocalDate today = LocalDate.now();
 
@@ -382,18 +355,54 @@ public class ProblemService {
         String normalizedName = questionName.trim();
         return repo.existsByQuestionNameIgnoreCase(normalizedName);
     }
-
     public List<UserProblemDTO> getMyProblems(
-        Long userId,
-        String platform,
-        String difficulty
-    ) {
-        return uprepo.findUserProblems(userId, platform, difficulty)
-                .stream()
-                .map(this::toDTO)
-                .toList();
+        Long userId, String platform, String difficulty, List<String> topics
+) {
+    boolean hasTopics = topics != null && !topics.isEmpty();
+    List<String> topicsParam = hasTopics ? topics : List.of();
+
+    List<UserProblem> userProblems =
+            uprepo.findUserProblems(userId, platform, difficulty, hasTopics, topicsParam);
+
+    List<Long> userProblemIds = userProblems.stream()
+            .map(UserProblem::getId)
+            .toList();
+
+    Map<Long, List<String>> topicsByUserProblemId = problemTopicRepo.findByUserProblem_IdIn(userProblemIds).stream()
+            .collect(Collectors.groupingBy(
+                    pt -> pt.getUserProblem().getId(),
+                    Collectors.mapping(pt -> pt.getTopic().getName(), Collectors.toList())
+            ));
+
+    return userProblems.stream()
+            .map(up -> toDTO(up, topicsByUserProblemId.getOrDefault(up.getId(), List.of())))
+            .toList();
+}
+
+public List<String> getMyTopics(Long userId, String platform) {
+    List<UserProblem> userProblems =
+            uprepo.findUserProblems(userId, platform, null, false, List.of());
+
+    List<Long> userProblemIds = userProblems.stream()
+            .map(UserProblem::getId)
+            .toList();
+
+    if (userProblemIds.isEmpty()) {
+        return List.of();
     }
+
+    return problemTopicRepo.findByUserProblem_IdIn(userProblemIds).stream()
+            .map(pt -> pt.getTopic().getName())
+            .distinct()
+            .sorted(String.CASE_INSENSITIVE_ORDER)
+            .toList();
+}
+
     public UserProblemDTO toDTO(UserProblem up) {
+        return toDTO(up, List.of());
+    }
+
+    public UserProblemDTO toDTO(UserProblem up, List<String> topics) {
 
         UserProblemDTO dto = new UserProblemDTO();
 
@@ -411,6 +420,8 @@ public class ProblemService {
         dto.setSpaceComplexity(up.getSpaceComplexity());
         dto.setSolvedAt(up.getSolvedAt());
 
+        dto.setTopics(topics);
+
         return dto;
-    }
+    };
 }

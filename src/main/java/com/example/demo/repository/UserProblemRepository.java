@@ -90,17 +90,22 @@ public interface UserProblemRepository extends JpaRepository<UserProblem, Long> 
         @Param("endDate") LocalDateTime endDate
     );
 
-    @Query("""
-        SELECT up
-        FROM UserProblem up
-        JOIN FETCH up.problem p
-        WHERE up.user.id = :userId
-        AND (:platform IS NULL OR p.platformName = :platform)
-        AND (:difficulty IS NULL OR p.difficulty = :difficulty)
-        """)
-    List<UserProblem> findUserProblems(
+@Query("""
+    SELECT DISTINCT up FROM UserProblem up
+    JOIN FETCH up.problem p
+    WHERE up.user.id = :userId
+    AND (:platform IS NULL OR p.platformName = :platform)
+    AND (:difficulty IS NULL OR p.difficulty = :difficulty)
+    AND (:hasTopics = false OR EXISTS (
+        SELECT 1 FROM ProblemTopic pt
+        WHERE pt.userProblem = up AND pt.topic.name IN :topics
+    ))
+    ORDER BY up.solvedAt DESC
+""")
+List<UserProblem> findUserProblems(
         @Param("userId") Long userId,
         @Param("platform") String platform,
-        @Param("difficulty") String difficulty
-    );
+        @Param("difficulty") String difficulty,
+        @Param("hasTopics") boolean hasTopics,
+        @Param("topics") List<String> topics);
 }
