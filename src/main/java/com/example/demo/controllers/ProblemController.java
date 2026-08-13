@@ -125,12 +125,11 @@ public class ProblemController {
     @GetMapping("/my/problems")
     public List<UserProblemDTO> getMyProblems(
             @RequestParam(required = false) String platform,
-            @RequestParam(required = false) String difficulty
+            @RequestParam(required = false) String difficulty,
+            @RequestParam(required = false) List<String> topics
     ) {
-
         Long userId = securityUtil.getCurrentUserId();
-
-        return problemservice.getMyProblems(userId, platform, difficulty);
+        return problemservice.getMyProblems(userId, platform, difficulty, topics);
     }
 
     @GetMapping("/my/solved/count")
@@ -153,47 +152,42 @@ public class ProblemController {
         }
 
         try {
-
             String link = (String) payload.get("link");
-
             String difficulty = (String) payload.get("difficulty");
             String code = (String) payload.get("code");
-            String intuition =
-                    (String) payload.get("intuition");
+            String intuition = (String) payload.get("intuition");
+            String timeComplexity = (String) payload.get("timeComplexity");
+            String spaceComplexity = (String) payload.get("spaceComplexity");
 
-            String timeComplexity =
-                    (String) payload.get("timeComplexity");
-
-            String spaceComplexity =
-                    (String) payload.get("spaceComplexity");
-            
             Integer timeTaken =
                     payload.get("timeTaken") != null
                             ? Integer.valueOf(payload.get("timeTaken").toString())
                             : null;
 
             PostVisibility visibility =
-                    PostVisibility.valueOf(
-                            payload.get("visibility").toString()
-                    );
+                    PostVisibility.valueOf(payload.get("visibility").toString());
+
+            @SuppressWarnings("unchecked")
+            List<String> topics =
+                    payload.get("topics") != null
+                            ? ((List<?>) payload.get("topics")).stream()
+                                    .map(String::valueOf)
+                                    .map(String::trim)
+                                    .filter(t -> !t.isEmpty())
+                                    .distinct()
+                                    .toList()
+                            : List.of();
 
             UserProblem userProblem =
                     problemservice.markProblemAsSolved(
-                            userId,
-                            link,
-                            difficulty,
-                            code,
-                            intuition,
-                            timeComplexity,
-                            spaceComplexity,
-                            timeTaken,
-                            visibility);
+                            userId, link, difficulty, code, intuition,
+                            timeComplexity, spaceComplexity, timeTaken,
+                            visibility, topics);
 
             return ResponseEntity.ok(userProblem);
 
         } catch (RuntimeException e) {
             e.printStackTrace();
-
             return ResponseEntity.badRequest().build();
         }
     }
@@ -229,5 +223,10 @@ public class ProblemController {
     @GetMapping("/everyone/solved")
     public List<Problem> getEveryoneSolvedProblems() {
         return problemservice.getEveryoneSolvedProblems();
+    }
+    @GetMapping("/my/topics")
+    public List<String> getMyTopics(@RequestParam(required = false) String platform) {
+        Long userId = securityUtil.getCurrentUserId();
+        return problemservice.getMyTopics(userId, platform);
     }
 }

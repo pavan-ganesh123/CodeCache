@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UserProblemDTO {
 
@@ -19,8 +20,17 @@ public class UserProblemDTO {
     private String timeComplexity;
     private String spaceComplexity;
     private LocalDateTime solvedAt;
-
+    private List<String> topics;
+    
     public UserProblemDTO() {
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<String> topics) {
+        this.topics = topics;
     }
 
     public Long getId() {

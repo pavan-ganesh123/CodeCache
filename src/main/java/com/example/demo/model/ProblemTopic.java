@@ -11,22 +11,22 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(
-    name ="problem_topic",
+    name = "problem_topic",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"problem_id","topic_id"})
+        @UniqueConstraint(columnNames = {"user_problem_id", "topic_id"})
     }
 )
 public class ProblemTopic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "problem_id")
-    private Problem problem;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name ="topic_id")
+    @JoinColumn(name = "user_problem_id")
+    private UserProblem userProblem;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "topic_id")
     private Topic topic;
 
     public long getId() {
@@ -37,12 +37,12 @@ public class ProblemTopic {
         this.id = id;
     }
 
-    public Problem getProblem() {
-        return problem;
+    public UserProblem getUserProblem() {
+        return userProblem;
     }
 
-    public void setProblem(Problem problem) {
-        this.problem = problem;
+    public void setUserProblem(UserProblem userProblem) {
+        this.userProblem = userProblem;
     }
 
     public Topic getTopic() {
@@ -52,6 +52,4 @@ public class ProblemTopic {
     public void setTopic(Topic topic) {
         this.topic = topic;
     }
-
-    
 }
