@@ -75,7 +75,7 @@ public class PostImageService {
         img.setImageUrl(imageUrl);
         img.setUploadedBy(userId);
         img.setCaption(null);
-        img.setIsPrimary(false);
+        img.setIsPrimary(true);
         img.setStatus(requireModeration ? "PENDING" : "PUBLISHED");
         PostImage saved = postImageRepo.save(img);
 
