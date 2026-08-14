@@ -43,7 +43,7 @@ public class PostImageController {
         Long userId = securityUtil.getCurrentUserId();
         try {
             String imageUrl = uploadService.uploadImage(file);
-            return imageService.uploadImage(postId, imageUrl, userId, true); 
+            return imageService.uploadImage(postId, imageUrl, userId, false); 
         } catch (IOException e) {
             throw new RuntimeException("Image upload failed: " + e.getMessage(), e);
         }
