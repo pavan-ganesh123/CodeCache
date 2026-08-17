@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CommentController {
     @GetMapping("/comment")
     public String comment(@RequestParam String msg) {
-        System.out.println("Testing Protected Main");
+        System.out.println("SHould get approved by CODEOWNERS for merging into main");
         return new String(msg);
     }
     
