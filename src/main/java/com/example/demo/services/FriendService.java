@@ -22,7 +22,7 @@ import com.example.demo.dto.FriendsChatDTO;
 import com.example.demo.dto.UserSummaryDTO;
 import com.example.demo.events.FriendAcceptedEvent;
 import com.example.demo.events.FriendRequestEvent;
-import com.example.demo.kafka.KafkaProducerService;
+import com.example.demo.kafka.EventPublisher;
 import com.example.demo.kafka.KafkaTopics;
 import com.example.demo.model.Friend;
 import com.example.demo.model.Problem;
@@ -36,7 +36,7 @@ import com.example.demo.repository.UserRepository;
 public class FriendService {
     private final FriendRepository friendRepo;
     private final UserRepository userRepo;
-    private final KafkaProducerService producer;
+    private final EventPublisher producer;
 
      
     @Autowired
@@ -44,7 +44,7 @@ public class FriendService {
 
     @Autowired
     private UserProblemRepository userProblemRepository;
-    public FriendService(FriendRepository friendRepo, UserRepository userRepo, KafkaProducerService ks){
+    public FriendService(FriendRepository friendRepo, UserRepository userRepo, EventPublisher ks){
         this.friendRepo=friendRepo;
         this.userRepo=userRepo;
         this.producer=ks;

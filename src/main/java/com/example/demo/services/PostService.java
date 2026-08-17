@@ -15,7 +15,7 @@ import com.example.demo.dto.FeedPostDTO;
 import com.example.demo.dto.PostDetailDTO;
 import com.example.demo.events.PostLikeEvent;
 import com.example.demo.events.CommentEvent;
-import com.example.demo.kafka.KafkaProducerService;
+import com.example.demo.kafka.EventPublisher;
 import com.example.demo.kafka.KafkaTopics;
 import com.example.demo.model.Post;
 import com.example.demo.model.PostComment;
@@ -36,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final KafkaProducerService producer;
+    private final EventPublisher producer;
 
     @Autowired
     private PostLikeRepository postLikeRepository;

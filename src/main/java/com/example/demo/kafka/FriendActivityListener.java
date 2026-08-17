@@ -1,5 +1,6 @@
 package com.example.demo.kafka;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(
+    name = "kafka.enabled",
+    havingValue = "true",
+    matchIfMissing = false
+)
 @KafkaListener(topics = KafkaTopics.FRIEND_ACTIVITY, groupId = "notification-group")
 public class FriendActivityListener {
 

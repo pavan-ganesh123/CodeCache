@@ -2,7 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.events.MessageEvent;
 import com.example.demo.events.PostShareEvent;
-import com.example.demo.kafka.KafkaProducerService;
+import com.example.demo.kafka.EventPublisher;
 import com.example.demo.kafka.KafkaTopics;
 import com.example.demo.model.Message;
 import com.example.demo.model.Post;
@@ -22,10 +22,10 @@ import java.util.List;
 public class MessageService {
 
     private final MessageRepository repository;
-    private final KafkaProducerService ks;
+    private final EventPublisher ks;
     @Autowired
     private PostRepository postRepository;
-    public MessageService(MessageRepository repository, KafkaProducerService ks) {
+    public MessageService(MessageRepository repository, EventPublisher ks) {
         this.repository = repository;
         this.ks=ks;
     }
